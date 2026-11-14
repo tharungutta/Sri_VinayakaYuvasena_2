@@ -64,6 +64,7 @@ function addContribution_(b){
   return getData_();
 }
 function getOrCreateFolder_(parent,name){
+  if(name===undefined){name=parent;parent=DriveApp.getRootFolder();} // root call: getOrCreateFolder_('Folder name')
   const it=parent.getFoldersByName(name);return it.hasNext()?it.next():parent.createFolder(name);
 }
 
