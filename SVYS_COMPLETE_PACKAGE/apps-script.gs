@@ -67,8 +67,27 @@ function getOrCreateFolder_(parent,name){
   const it=parent.getFoldersByName(name);return it.hasNext()?it.next():parent.createFolder(name);
 }
 
+function firebaseApiKey_(){
+  return PropertiesService.getScriptProperties().getProperty('FIREBASE_WEB_API_KEY')||'AIzaSyBd6kCvSAtdJBJajM2MX01Ux6fiLJGivII';
+}
+// Run this once from the Apps Script editor (select it, click Run, then View > Logs / Execution log)
+// to find out why login activity is not being saved.
+function diagnoseLoginLogging(){
+  setupSheets();
+  const sh=SpreadsheetApp.getActive().getSheetByName('Login Activity');
+  Logger.log('1) Login Activity sheet: '+(sh?'found':'MISSING'));
+  try{sh.appendRow(['TEST','','','','','diagnose']);sh.deleteRow(sh.getLastRow());Logger.log('2) Writing to the sheet: OK');}
+  catch(e){Logger.log('2) Writing to the sheet FAILED: '+e.message);}
+  try{
+    const r=UrlFetchApp.fetch('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key='+encodeURIComponent(firebaseApiKey_()),{method:'post',contentType:'application/json',payload:JSON.stringify({idToken:'diagnostic'}),muteHttpExceptions:true});
+    const code=r.getResponseCode(),txt=r.getContentText().slice(0,300);
+    Logger.log('3) Firebase check -> HTTP '+code+' '+txt);
+    if(code===400)Logger.log('   GOOD: key and API work (400 INVALID_ID_TOKEN is expected for a fake token).');
+    else if(code===403)Logger.log('   PROBLEM: key is blocked. Either the Identity Toolkit API is disabled, or the API key has website/HTTP-referrer restrictions that block Apps Script. In Google Cloud Console > APIs & Services > Credentials, set this key to no application restriction (keep API restriction to Identity Toolkit API).');
+  }catch(e){Logger.log('3) UrlFetchApp FAILED (usually missing authorization — run this function and click Review permissions > Allow): '+e.message);}
+}
 function logLogin_(b){
-  const apiKey=PropertiesService.getScriptProperties().getProperty('FIREBASE_WEB_API_KEY')||'AIzaSyBd6kCvSAtdJBJajM2MX01Ux6fiLJGivII';
+  const apiKey=firebaseApiKey_();
   if(!b.idToken)throw new Error('Missing Firebase login token.');
   const response=UrlFetchApp.fetch('https://identitytoolkit.googleapis.com/v1/accounts:lookup?key='+encodeURIComponent(apiKey),{method:'post',contentType:'application/json',payload:JSON.stringify({idToken:b.idToken}),muteHttpExceptions:true});
   const result=JSON.parse(response.getContentText()||'{}');
