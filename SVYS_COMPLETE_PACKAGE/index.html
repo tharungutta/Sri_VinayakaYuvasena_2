@@ -2033,7 +2033,8 @@ function copyPendingGroupSummary() {
 /* Option 7: PWA Service Worker & Install Prompt */
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').then(reg => {
+    navigator.serviceWorker.register('sw.js', { scope: '/' }).then(reg => {
+      reg.update();
       console.info('SVYS ServiceWorker ready');
     }).catch(err => {
       console.warn('SVYS ServiceWorker note:', err);

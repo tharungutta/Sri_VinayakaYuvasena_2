@@ -1,17 +1,17 @@
-const CACHE_NAME = 'svys-cache-v1';
+const CACHE_NAME = 'svys-cache-v2';
 const STATIC_ASSETS = [
-  './',
-  './index.html',
-  './styles.css',
-  './auth.css',
-  './dashboard.js',
-  './auth.js',
-  './config.js',
-  './live-data.js',
-  './manifest.json',
-  './assets/logo.png',
-  './assets/upi-qr.png',
-  './assets/qrcode.min.js'
+  '/',
+  '/index.html',
+  '/styles.css',
+  '/auth.css',
+  '/dashboard.js',
+  '/auth.js',
+  '/config.js',
+  '/live-data.js',
+  '/manifest.json',
+  '/assets/logo.png',
+  '/assets/upi-qr.png',
+  '/assets/qrcode.min.js'
 ];
 
 self.addEventListener('install', event => {
@@ -47,6 +47,28 @@ self.addEventListener('fetch', event => {
     return;
   }
 
+  // Handle navigation requests (when user opens the PWA from home screen or browser navigation)
+  if (req.mode === 'navigate') {
+    event.respondWith(
+      fetch(req)
+        .then(networkRes => {
+          // If server returns a valid page (status 200-299), cache and return it
+          if (networkRes && networkRes.ok) {
+            const resClone = networkRes.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put(req, resClone));
+            return networkRes;
+          }
+          // If server returns 404, 500 or redirect issue, fall back to cached index.html immediately!
+          return caches.match('/').then(cached => cached || caches.match('/index.html') || networkRes);
+        })
+        .catch(() => {
+          // Offline fallback
+          return caches.match('/').then(cached => cached || caches.match('/index.html'));
+        })
+    );
+    return;
+  }
+
   // Network-first for local assets with fallback to cache
   event.respondWith(
     fetch(req)
@@ -57,6 +79,6 @@ self.addEventListener('fetch', event => {
         }
         return networkRes;
       })
-      .catch(() => caches.match(req).then(cached => cached || caches.match('./index.html')))
+      .catch(() => caches.match(req))
   );
 });
