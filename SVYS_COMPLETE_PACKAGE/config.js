@@ -1,6 +1,7 @@
 window.SVYS_CONFIG = {
   // UPI payment configurations (used for QR code scan & 1-click mobile UPI payments)
   UPI_ID: "9390266268@upi",
+  UPI_PHONE: "9390266268",
   UPI_NAME: "THAMMINENI REVANTH",
   ADMIN_WHATSAPP: "9392618109",
 

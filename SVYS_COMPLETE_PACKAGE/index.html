@@ -34,6 +34,7 @@
 <button class="nav-item active" id="navMonths" onclick="goSlide(0)"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg><span data-i18n="navMonths">Monthly Collection</span></button>
 <button class="nav-item" id="navMembers" onclick="goSlide(1)"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5a6 6 0 0 1 3.5 5.5"/></svg><span data-i18n="navMembers">Members</span></button>
 <button class="nav-item" id="navExpenses" onclick="goSlide(2)"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 6v12M15 9.5H9.5a2.5 2.5 0 0 0 0 5h5a2.5 2.5 0 0 1 0 5H8"/></svg><span data-i18n="navExpenses">Festival Expenses</span></button>
+<button class="nav-item" onclick="showMemberGreetingPopup()"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"/></svg><span data-i18n="myStatus">My Status</span></button>
 </nav>
 <div class="side-foot">
 <button class="nav-item" onclick="openUpiModal()"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg><span data-i18n="navPay">Pay via UPI</span></button>
@@ -53,8 +54,8 @@
 </div>
 <button class="lang-btn" id="langToggleBtn" onclick="toggleLanguage()" title="Change Language / భాషను మార్చుకోండి"><span style="font-size:15px">🌐</span> <span id="langBtnText">తెలుగు</span></button>
 <button class="pwa-install-btn" id="pwaInstallBtn" onclick="installPwa()" style="display:none" title="Install App on Phone"><span style="font-size:14px">📲</span> <span class="lbl" data-i18n="installApp">Install App</span></button>
-<button class="btn soft" onclick="showMemberGreetingPopup()" title="View your payment status"><span style="font-size:14px">🔔</span> <span class="lbl" data-i18n="myStatus">My Status</span></button>
-<button class="btn gold" onclick="openUpiModal()"><svg viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg><span class="lbl" data-i18n="payQr">Pay via UPI</span></button>
+<button class="btn soft topbar-desktop-only" onclick="showMemberGreetingPopup()" title="View your payment status"><span style="font-size:14px">🔔</span> <span class="lbl" data-i18n="myStatus">My Status</span></button>
+<button class="btn gold topbar-desktop-only" onclick="openUpiModal()"><svg viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg><span class="lbl" data-i18n="payQr">Pay via UPI</span></button>
 <div id="topAdminBtnWrap" style="display:inline-flex;align-items:center;gap:6px">
   <button class="btn soft" onclick="handleAdminBtnClick()"><svg viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><span class="lbl" data-i18n="admin">Admin</span></button>
 </div>
@@ -301,19 +302,49 @@
   <div class="upi-payee-info">
     <div class="upi-payee-text">
       <small style="font-size:10px;text-transform:uppercase;letter-spacing:0.8px;font-weight:800;color:var(--muted)" data-i18n="payeeNameLabel">Official Payee</small>
-      <strong id="upiPayeeNameDisplay">THAMMINENI REVANTH</strong>
-      <div style="margin-top:4px;display:flex;align-items:center;gap:6px">
-        <code id="upiIdDisplay">9390266268@upi</code>
-        <button type="button" class="btn soft" style="padding:3px 8px;font-size:11px" onclick="copyUpiId()" title="Copy UPI ID">📋 <span data-i18n="copyUpi">Copy</span></button>
+      <div style="display:flex;align-items:center;flex-wrap:wrap">
+        <strong id="upiPayeeNameDisplay">THAMMINENI REVANTH</strong>
+        <span class="upi-verified-badge">✓ BhimUPI Verified</span>
       </div>
-    </div>
-    <div style="text-align:right">
-      <span class="badge-coming-soon" style="background:#e6f7ff;color:#0050b3;border-color:#91d5ff">⚡ Instant UPI</span>
+      <div class="upi-details-row">
+        <span class="upi-chip">📱 <span id="upiPhoneDisplay">9390266268</span></span>
+        <button type="button" class="btn soft btn-copy-compact" onclick="copyMobileNumber()" title="Copy Mobile Number">📋 <span data-i18n="copyMobile">Copy Mobile</span></button>
+        <span class="upi-chip">⚡ <span id="upiIdDisplay">9390266268@upi</span></span>
+        <button type="button" class="btn soft btn-copy-compact" onclick="copyUpiId()" title="Copy UPI ID">📋 <span data-i18n="copyUpi">Copy UPI</span></button>
+      </div>
     </div>
   </div>
 
+  <!-- Recommended & Safe Notice regarding NPCI UPI Risk Policy -->
+  <div class="upi-safety-notice">
+    <span class="shield-icon">🛡️</span>
+    <div>
+      <b data-i18n="qrSafetyNoticeTitle">Recommended: Scan QR Code or Pay to Mobile Number</b>
+      <p data-i18n="qrSafetyNoticeDesc">To avoid NPCI browser payment alerts in PhonePe / Paytm, <b>scan the official QR code below</b> (or save to gallery) or pay directly to mobile number <b>9390266268</b>.</p>
+    </div>
+  </div>
+
+  <!-- Primary QR Code Display (Front & Center) -->
+  <div class="qr-box primary-qr-box">
+    <div class="qr-image-display" id="qrDisplayWrap">
+      <img id="officialUpiQr" src="assets/upi-qr.png" onerror="this.onerror=null;this.src='assets/upi-qr.jpg'" alt="Official SVYS QR Code">
+    </div>
+    <div class="qr-caption" data-i18n="qrScanCaption">🙏 SRI VINAYAKA YUVASENA • Scan to pay from any app</div>
+    
+    <div class="qr-actions-row">
+      <button type="button" class="btn gold btn-save-qr-primary" onclick="saveQrCodeLocal()" title="Save QR code image locally to phone gallery / QR కోడ్‌ను మీ గ్యాలరీలో సేవ్ చేసుకోండి">
+        <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <span data-i18n="saveQrGallery">📥 Save QR to Gallery (Scan from Gallery)</span>
+      </button>
+      <button type="button" class="btn soft" style="width:100%;font-size:12px;font-weight:700" onclick="copyMobileNumber()">
+        📋 <span data-i18n="copyMobileAction">Copy Mobile (9390266268)</span>
+      </button>
+    </div>
+    <small class="qr-gallery-hint" data-i18n="galleryScanHint">💡 In PhonePe / GPay / Paytm: Tap <b>Scan QR → Gallery Photo</b> to pay up to ₹2,000 instantly without any alerts.</small>
+  </div>
+
   <!-- Quick Amount Selection -->
-  <div style="margin-top:10px">
+  <div style="margin-top:12px">
     <label style="font-size:11px;font-weight:800;color:var(--maroon);text-transform:uppercase;letter-spacing:0.8px" data-i18n="selectAmountLabel">Select Contribution Amount (₹):</label>
     <div class="upi-amount-pills" id="upiAmountPills">
       <button type="button" class="amt-pill active" onclick="setUpiAmount(200, this)">₹200 <small>(Oct–Dec)</small></button>
@@ -324,19 +355,19 @@
     </div>
   </div>
 
-  <!-- Direct 1-Click Mobile App Payment Buttons -->
-  <div style="margin-top:16px">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <small style="font-size:11px;text-transform:uppercase;letter-spacing:0.8px;font-weight:800;color:var(--maroon)" data-i18n="payViaApps">⚡ 1-Click Pay with Mobile UPI Apps</small>
+  <!-- Direct 1-Click Mobile App Payment Buttons (Secondary Shortcut) -->
+  <div class="upi-apps-section">
+    <div class="upi-apps-toggle-head">
+      <small style="font-size:11px;text-transform:uppercase;letter-spacing:0.8px;font-weight:800;color:var(--maroon)" data-i18n="payViaApps">⚡ 1-Click Mobile UPI App Links (Optional)</small>
     </div>
     <div class="upi-app-buttons-grid">
-      <a id="btnPayGPay" href="upi://pay?pa=9390266268@upi&pn=THAMMINENI%20REVANTH&am=200&cu=INR&tn=SVYS%20Contribution" class="btn-upi-app btn-gpay">
-        <svg viewBox="0 0 24 24" style="width:20px;height:20px;flex-shrink:0"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.34 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.14-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.34 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></svg>
-        <span>Google Pay</span>
-      </a>
       <a id="btnPayPhonePe" href="upi://pay?pa=9390266268@upi&pn=THAMMINENI%20REVANTH&am=200&cu=INR&tn=SVYS%20Contribution" class="btn-upi-app btn-phonepe">
         <img src="assets/phonepe-icon.png" alt="PhonePe" class="upi-app-icon upi-app-icon-phonepe">
         <span>PhonePe</span>
+      </a>
+      <a id="btnPayGPay" href="upi://pay?pa=9390266268@upi&pn=THAMMINENI%20REVANTH&am=200&cu=INR&tn=SVYS%20Contribution" class="btn-upi-app btn-gpay">
+        <svg viewBox="0 0 24 24" style="width:20px;height:20px;flex-shrink:0"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.34 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.14-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.34 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></svg>
+        <span>Google Pay</span>
       </a>
       <a id="btnPayPaytm" href="upi://pay?pa=9390266268@upi&pn=THAMMINENI%20REVANTH&am=200&cu=INR&tn=SVYS%20Contribution" class="btn-upi-app btn-paytm">
         <img src="assets/paytm-icon.webp" alt="Paytm" class="upi-app-icon upi-app-icon-paytm">
@@ -347,29 +378,15 @@
         <span data-i18n="payAnyUpi">Pay via Any UPI App / BHIM</span>
       </a>
     </div>
-    <div style="font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.4">
-      💡 <b>Mobile users:</b> Tapping opens your UPI app with <b>THAMMINENI REVANTH</b> (<code style="font-size:11px">9390266268@upi</code>) and the selected amount pre-filled automatically.
-    </div>
-  </div>
-
-  <!-- QR Code Display (For Desktop or Scan from 2nd Phone) -->
-  <div class="qr-box">
-    <div class="qr-image-display" id="qrDisplayWrap">
-      <img id="officialUpiQr" src="assets/upi-qr.png" onerror="this.onerror=null;this.src='assets/upi-qr.jpg'" alt="Official SVYS QR Code">
-    </div>
-    <div class="qr-caption" data-i18n="qrScanCaption">🙏 SRI VINAYAKA YUVASENA • Scan to pay from any app</div>
-    <div style="margin-top:10px;display:flex;justify-content:center">
-      <button type="button" class="btn-save-qr" onclick="saveQrCodeLocal()" title="Save QR code image locally to your device / QR కోడ్‌ను మీ డివైస్‌లో సేవ్ చేసుకోండి">
-        <svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        <span data-i18n="saveQrLocal">Save QR to Device</span>
-      </button>
+    <div class="upi-intent-warning" data-i18n="upiAppsWarning">
+      ⚠️ <i>Note: If PhonePe or Paytm shows a "Payment Alert (UPI Risk Policy)", simply dismiss it and use <b>Scan QR</b> or pay to <b>9390266268</b> above.</i>
     </div>
   </div>
 
   <div style="margin-top:14px">
     <label style="font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:800;color:var(--maroon);display:block" data-i18n="howItWorks">How It Works (Mandatory Process):</label>
     <ul class="step-list">
-      <li class="step-item"><span class="step-num">1</span><div data-i18n="step1">Tap your preferred UPI app above or scan the QR code to complete payment.</div></li>
+      <li class="step-item"><span class="step-num">1</span><div data-i18n="step1">Scan the QR code or pay using the copied mobile number 9390266268 / UPI ID.</div></li>
       <li class="step-item"><span class="step-num">2</span><div data-i18n="step2"><b>Save a screenshot of the successful payment receipt</b> showing the transaction ID.</div></li>
       <li class="step-item"><span class="step-num">3</span><div data-i18n="step3">Send the screenshot in the committee WhatsApp group or to Admin.</div></li>
       <li class="step-item"><span class="step-num">4</span><div data-i18n="step4">Admin will verify the screenshot and record it into the website.</div></li>
@@ -1616,10 +1633,17 @@ const I18N = {
     payAnyUpi: "Pay via Any UPI App / BHIM",
     qrScanCaption: "🙏 SRI VINAYAKA YUVASENA • Scan to pay from any app",
     saveQrLocal: "Save QR to Device",
+    copyMobile: "Copy Mobile",
+    copyMobileAction: "Copy Mobile (9390266268)",
+    saveQrGallery: "📥 Save QR to Gallery (Scan from Gallery)",
+    qrSafetyNoticeTitle: "Recommended: Scan QR Code or Pay to Mobile Number",
+    qrSafetyNoticeDesc: "To avoid NPCI browser payment alerts in PhonePe / Paytm, scan the official QR code below (or save to gallery) or pay directly to mobile number 9390266268.",
+    galleryScanHint: "💡 In PhonePe / GPay / Paytm: Tap Scan QR → Gallery Photo to pay up to ₹2,000 instantly without any alerts.",
+    upiAppsWarning: "⚠️ Note: If PhonePe or Paytm shows a \"Payment Alert (UPI Risk Policy)\", simply dismiss it and use Scan QR or pay to 9390266268 above.",
     offerFlowers: "Offer Flowers",
     ringBell: "Ring Bell",
     howItWorks: "How It Works (Mandatory Process):",
-    step1: "Tap your preferred UPI app above or scan the QR code to complete payment.",
+    step1: "Scan the QR code or pay using the copied mobile number 9390266268 / UPI ID.",
     step2: "Save a screenshot of the successful payment receipt showing the transaction ID.",
     step3: "Send the screenshot in the committee WhatsApp group or to Admin.",
     step4: "Admin will verify the screenshot and record it into the website.",
@@ -1678,10 +1702,17 @@ const I18N = {
     payAnyUpi: "ఏదైనా UPI యాప్ / BHIM ద్వారా చెల్లించండి",
     qrScanCaption: "🙏 శ్రీ వినాయక యువసేన • ఏదైనా యాప్ ద్వారా స్కాన్ చేయండి",
     saveQrLocal: "QR కోడ్‌ను సేవ్ చేసుకోండి",
+    copyMobile: "మొబైల్ కాపీ",
+    copyMobileAction: "మొబైల్ నంబర్ కాపీ (9390266268)",
+    saveQrGallery: "📥 గ్యాలరీలో QR సేవ్ చేసుకోండి",
+    qrSafetyNoticeTitle: "సిఫార్సు చేయబడిన విధానం: QR కోడ్ లేదా మొబైల్ నంబర్",
+    qrSafetyNoticeDesc: "PhonePe / Paytm లో బ్యాంక్ రిస్క్ హెచ్చరికలు రాకుండా, కింద ఉన్న అధికారిక QR కోడ్‌ను స్కాన్ చేయండి (లేదా గ్యాలరీలో సేవ్ చేయండి) లేదా 9390266268 నంబర్‌కు చెల్లించండి.",
+    galleryScanHint: "💡 PhonePe / GPay / Paytm లో: స్కానర్ ఓపెన్ చేసి → గ్యాలరీ ఫోటో ద్వారా ₹2,000 వరకు ఎటువంటి అడ్డంకులు లేకుండా చెల్లించండి.",
+    upiAppsWarning: "⚠️ ఒకవేళ PhonePe లేదా Paytm లో \"Payment Alert\" వస్తే, రద్దు చేసి పై QR కోడ్ స్కాన్ చేయండి లేదా 9390266268 కు చెల్లించండి.",
     offerFlowers: "పూల వర్షం",
     ringBell: "గంట నాదం",
     howItWorks: "చెల్లింపు విధానం (తప్పనిసరి ప్రక్రియ):",
-    step1: "పై UPI యాప్‌పై క్లిక్ చేయండి లేదా మీ ఫోన్‌తో QR కోడ్‌ను స్కాన్ చేసి చెల్లించండి.",
+    step1: "పై QR కోడ్‌ను స్కాన్ చేయండి లేదా కాపీ చేసిన 9390266268 నంబర్‌కు నేరుగా చెల్లించండి.",
     step2: "లావాదేవీ ID కనిపించేలా విజయవంతమైన చెల్లింపు స్క్రీన్‌షాట్‌ను భద్రపరచండి.",
     step3: "ఆ స్క్రీన్‌షాట్‌ను కమిటీ WhatsApp గ్రూప్‌లో లేదా అడ్మిన్‌కు పంపండి.",
     step4: "అడ్మిన్ స్క్రీన్‌షాట్ ధృవీకరించి వెబ్‌సైట్‌లో రికార్డ్ చేస్తారు.",
@@ -1745,6 +1776,10 @@ function updateUpiLinks(amount) {
 
   const idEl = document.getElementById('upiIdDisplay');
   if (idEl) idEl.textContent = upiId;
+
+  const phoneEl = document.getElementById('upiPhoneDisplay');
+  const upiPhone = (CONFIG.UPI_PHONE || '9390266268').trim();
+  if (phoneEl) phoneEl.textContent = upiPhone;
 }
 
 function setUpiAmount(amt, btn) {
@@ -1764,30 +1799,42 @@ function copyUpiId() {
   }
 }
 
-/* Option 3: Festival Live Countdown Timer */
+function copyMobileNumber() {
+  const phone = (CONFIG.UPI_PHONE || '9390266268').trim();
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(phone).then(() => {
+      alert(currentLang === 'te' ? '📋 మొబైల్ నంబర్ కాపీ చేయబడింది: ' + phone : '📋 Copied Mobile Number: ' + phone);
+    }).catch(() => prompt('Copy Mobile Number:', phone));
+  } else {
+    prompt('Copy Mobile Number:', phone);
+  }
+}
+
+/* Option 3: Festival Live Countdown Timer - Mobile Optimized with Cached Element Lookups */
 function startCountdown() {
   const targetStr = CONFIG.FESTIVAL_DATE || "2027-09-04T00:00:00+05:30";
   const targetDate = new Date(targetStr).getTime();
+  const daysEl = document.getElementById('cdDays');
+  const hrsEl = document.getElementById('cdHours');
+  const minsEl = document.getElementById('cdMins');
+  const secsEl = document.getElementById('cdSecs');
 
   function update() {
-    const now = new Date().getTime();
+    const now = Date.now();
     const diff = targetDate - now;
 
     if (diff <= 0) {
-      const daysEl = document.getElementById('cdDays');
       if (daysEl) daysEl.textContent = '000';
+      if (hrsEl) hrsEl.textContent = '00';
+      if (minsEl) minsEl.textContent = '00';
+      if (secsEl) secsEl.textContent = '00';
       return;
     }
 
-    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const s = Math.floor((diff % (1000 * 60)) / 1000);
-
-    const daysEl = document.getElementById('cdDays');
-    const hrsEl = document.getElementById('cdHours');
-    const minsEl = document.getElementById('cdMins');
-    const secsEl = document.getElementById('cdSecs');
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
 
     if (daysEl) daysEl.textContent = String(d).padStart(3, '0');
     if (hrsEl) hrsEl.textContent = String(h).padStart(2, '0');
