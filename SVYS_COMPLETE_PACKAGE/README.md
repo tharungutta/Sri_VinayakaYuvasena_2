@@ -1,145 +1,160 @@
 <div align="center">
 
 # 🐘 SRI VINAYAKA YUVA SENA
-### 🎉 Community Contribution Tracker
+### 🚩 Community Festival Savings & Contribution Tracker
 
-**Every contribution. One celebration.**
+**భక్తి • ఐక్యత • సేవ — Devotion • Unity • Service**
 
-A colorful, simple dashboard for tracking monthly savings and contributions for Ganesh Chaturthi.
+A modern, mobile-first community web application designed for transparent fund tracking, festival expense management, verified payment receipts, and instant WhatsApp communication for annual Ganesh Chaturthi celebrations.
 
-[🌐 **Open Live Website**](https://vinayakayuvasena.netlify.app/) · [📂 **GitHub Repository**](https://github.com/tharungutta/SRI-VINAYAKA-YUVASENA/tree/main/SVYS_COMPLETE_PACKAGE)
+[🌐 **Open Live Website**](https://srivinayakayuvasena.vercel.app/) · [📂 **GitHub Repository**](https://github.com/tharungutta/Sri_VinayakaYuvasena_2)
 
-![Project](https://img.shields.io/badge/Project-Community%20Tracker-ff6b81?style=for-the-badge)
-![Platform](https://img.shields.io/badge/Platform-Web-6c5ce7?style=for-the-badge)
-![Hosting](https://img.shields.io/badge/Hosted%20on-Netlify-00b894?style=for-the-badge)
-![Purpose](https://img.shields.io/badge/Purpose-Ganesh%20Chaturthi-ff9f43?style=for-the-badge)
+[![Live Website](https://img.shields.io/badge/Live%20Website-srivinayakayuvasena.vercel.app-ff6b81?style=for-the-badge&logo=vercel)](https://srivinayakayuvasena.vercel.app/)
+[![Platform](https://img.shields.io/badge/Platform-Web%20%2F%20PWA-6c5ce7?style=for-the-badge)](https://srivinayakayuvasena.vercel.app/)
+[![Hosting](https://img.shields.io/badge/Hosted%20on-Vercel-000000?style=for-the-badge&logo=vercel)](https://srivinayakayuvasena.vercel.app/)
+[![Database](https://img.shields.io/badge/Database-Google%20Sheets%20Live-0f9d58?style=for-the-badge&logo=googlesheets)](https://srivinayakayuvasena.vercel.app/)
+[![Storage](https://img.shields.io/badge/Storage-Google%20Drive-4285f4?style=for-the-badge&logo=googledrive)](https://srivinayakayuvasena.vercel.app/)
 
 </div>
 
 ---
 
-## 🌈 About the Project
+## 🌟 Overview
 
-**SRI VINAYAKA YUVA SENA Contribution Tracker** is a web application designed to help a community manage and review member contributions for its annual Ganesh Chaturthi celebration.
+**SRI VINAYAKA YUVA SENA (SVYS)** tracker provides 100% financial transparency to community members. All monthly contributions, payment screenshots, and festival expenditures are synced live with Google Sheets and Google Drive, allowing any devotee or member to review collections in real time from any smartphone or computer.
 
-The dashboard brings member information, monthly collections, payment records, and collection summaries together in one place. Members can view the tracker, while administrator tools support adding members and recording contributions.
+---
 
 ## ✨ Key Features
 
-### 📊 Contribution Dashboard
-- View the overall collection summary.
-- See total members, total collected, yearly minimum, extra collected, and collection progress.
-- Review the monthly collection overview.
+### 1. 🌸 Logo Devotional Seva
+- **Interactive Pill Buttons**: Compact `🌸 Offer Flowers` and `🔔 Ring Bell` buttons positioned right beneath Lord Ganesha's circular emblem.
+- **Logo-Contained Flower Shower**: Falling petals are strictly contained within the circular logo frame with realistic random drift and auto-cleanup.
+- **Temple Bell Acoustics**: Web Audio API synthesized brass bell acoustics with harmonics (880 Hz, 1760 Hz, 2640 Hz) and physical bell swing animation.
 
-### 🗓️ Monthly Collection Tracking
-- Organize contributions across the October–September collection year.
-- Open a month to view member-wise contribution details.
-- Review expected collections, amounts collected, members paid, and extra contributions.
+### 2. 🗓️ Modern Month Breakdown Modal
+- **5 Comprehensive Metric Cards**:
+  - 🎯 **Target / Member**: Minimum monthly contribution (e.g., ₹200).
+  - 💰 **Total Collected**: Total funds collected for that month.
+  - 📊 **Group Target**: Total expected collection for the entire group.
+  - 👥 **Members Paid**: Live count of members who have completed their contribution.
+  - ⭐ **Surplus / Extra**: Total surplus collected beyond the target.
+- **Member Cards with Avatars**:
+  - Circular initials avatar badge.
+  - Member name and 10-digit mobile number.
+  - Dual-tone progress bar with payment date timestamp.
+  - Status pill (`PAID`, `PARTIAL`, `PENDING`).
+  - `📸 View Proof` button opening the verified Google Drive payment screenshot.
+- **In-Modal Search & Filters**: Live search by member name/phone with filter pills (`All`, `Paid`, `Pending`).
 
-### 👥 Member Directory
-- View the community member list.
-- Search by member name or mobile number.
-- Display a member's mobile number alongside their name.
-- Open a member profile to review their contribution summary and payment history.
+### 3. 🔐 Role-Based Admin Access & 1-Click Logout
+- **Public View Mode**: Regular visitors only see public statistics, member lists, and verified screenshots. All action buttons (`🧾 Receipt`, `📢 Remind`, `Send WhatsApp Statement`, `Delete Expense`) are strictly omitted from the DOM and protected by CSS rule (`body:not(.is-admin)`).
+- **Admin Authentication**: Authenticate using committee credentials (`Tharun` / `Tharun@18`).
+- **1-Click Admin Logout**:
+  - Top navigation bar: Red `[🚪 Logout]` button beside `[🛡️ Admin: Tharun]`.
+  - Admin Center modal: Header button and dedicated `🚪 Log Out Admin` tab.
+  - Month Breakdown modal: `[🛡️ Admin Active] [🚪 Logout]` pill.
+  - Sidebar: `Sign Out Admin` button.
+  - Clicking Logout immediately revokes admin access and hides all receipt/reminder action buttons.
 
-### 🔐 Administrator Tools
-- Administrator sign-in for private management tools.
-- Add new members with their name and mobile number.
-- Record a contribution by selecting a member, month, amount, and date.
-- Require a payment screenshot when recording a contribution.
-- Export tracker data to an Excel file, including payment screenshot information.
+### 4. 🧾 Concise WhatsApp Payment Receipts
+- **Short & Professional**: Clean, single-copy message under 10 lines with no duplicate body.
+- **Unicode Stability**: Uses universally supported bullet points (`•`) and stable symbols (`🚩`, `₹`, `🙏`) to prevent font corruption on mobile devices.
+- **Anti-Duplication**: 800ms debounce protection prevents accidental double-sends from rapid clicks.
+- **Direct Live Link**: Embeds `https://srivinayakayuvasena.vercel.app/`.
 
-### 💰 Contribution Schedule
-The website displays the following monthly contribution schedule:
+### 5. 📸 High-Contrast Screenshot Viewer
+- Modern dark-mode lightbox modal with Google Drive thumbnail resolution enhancement (`sz=w1600`).
+- Fallback card with direct `🔗 Open Receipt in Google Drive ↗` button for protected permissions.
 
-| Period | Contribution per member |
-|---|---:|
-| October–December | ₹200 per month |
-| January–April | ₹250 per month |
-| May–September | ₹300 per month |
+### 6. ⚡ Dynamic UPI QR & Direct App Payments
+- **Committee UPI**: `9390266268@upi` (*THAMMINENI REVANTH*).
+- **QR Code Download**: Save official UPI QR code directly to local device with one click.
+- **Direct App Launch**: 1-click launch for PhonePe, Google Pay, Paytm, and standard UPI intent.
 
-### 📱 Simple, Accessible Experience
-- Colorful dashboard designed around the community and festival.
-- Browser-based access through the live website.
-- Public dashboard viewing, with management tools intended for administrators.
+### 7. 🕉️ Festival Expenses & Treasury Budget Tracker
+- Tracks expenditures across 7 festival categories (Murti & Idol, Mandap & Lighting, Sound & DJ, Pooja & Flowers, Annadanam, Nimajjanam Procession, Crackers & Misc).
+- Live Treasury balance comparison: `Total Collections - Total Expenses = Net Balance`.
+- Export financial statements to Excel (`.xls`).
 
-## 🧭 How to Use the App
+### 8. 📲 Progressive Web App (PWA) & Offline Cache
+- Installable on Android & iOS Home Screens via `manifest.json`.
+- Offline resilience powered by `live-data.js` and `sw.js` (Service Worker).
 
-### For members and visitors
-1. Open the [live website](https://vinayakayuvasena.netlify.app/).
-2. Explore the monthly collection dashboard.
-3. Browse or search the member list.
-4. Select a month or member to review the available details.
+---
 
-### For administrators
-1. Open the website and select **Admin**.
-2. Sign in using the administrator credentials configured for the application.
-3. Add a member when someone joins the group.
-4. Record contributions with the required payment screenshot.
-5. Use **Export Excel** to export the tracker data.
+## 🛠️ Architecture & Technology Stack
 
-**Security note:** Keep administrator credentials private. Do not publish passwords or secret keys in this README or in public source code.
+| Layer | Technology | Details |
+|---|---|---|
+| **Frontend** | HTML5, CSS3, ES6+ JavaScript | Zero external build tools; pure native web technologies |
+| **Styling** | Custom Properties (CSS variables) | Warm saffron, gold, and royal maroon temple festival palette |
+| **Hosting** | Vercel | Automatic deployments on git push configured via `vercel.json` |
+| **Live Database** | Google Sheets | Live spreadsheet storing Members, Payments, Expenses, and Login History |
+| **File Storage** | Google Drive | Auto-categorized folders for payment screenshots and expense bills |
+| **Backend API** | Google Apps Script (`apps-script.gs`) | Web App endpoint serving GET/POST JSON APIs |
+| **Audio** | Web Audio API | Synthesized temple bell chimes |
 
-## 🖥️ Live Demo
+---
 
-<div align="center">
+## 🔑 Administrator Credentials
 
-### 👉 [vinayakayuvasena.netlify.app](https://vinayakayuvasena.netlify.app/)
+- **Username:** `Tharun`
+- **Password:** `Tharun@18`
 
-Explore the contribution dashboard and member tracker online.
+*Note: Administrator tools are private and designed for recording contributions, managing members, logging expenses, and issuing official WhatsApp receipts.*
 
-</div>
+---
 
-## 🛠️ Technology and Deployment
+## 🚀 Deployment Guide (Vercel)
 
-- **Application:** Browser-based web application
-- **Hosting / deployment:** Netlify
-- **Source code:** GitHub
+This repository includes a pre-configured `vercel.json` in the root directory:
 
-The exact frontend libraries and data-storage approach should be confirmed from the source files in `SVYS_COMPLETE_PACKAGE` before listing additional technologies here.
+```json
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "buildCommand": null,
+  "outputDirectory": "SVYS_COMPLETE_PACKAGE",
+  "cleanUrls": true
+}
+```
 
-## 📂 Project Location
+Whenever you push to the `main` branch of `https://github.com/tharungutta/Sri_VinayakaYuvasena_2`, Vercel automatically deploys the contents of `SVYS_COMPLETE_PACKAGE` to [https://srivinayakayuvasena.vercel.app/](https://srivinayakayuvasena.vercel.app/).
 
-The application package is available in this repository folder:
+---
 
-[`SVYS_COMPLETE_PACKAGE`](https://github.com/tharungutta/SRI-VINAYAKA-YUVASENA/tree/main/SVYS_COMPLETE_PACKAGE)
+## 📁 Repository Structure
 
-## 🎯 Why This Project Matters
-
-Managing community contributions through scattered messages and manual calculations can be difficult. This tracker aims to make the process clearer by bringing monthly totals, member records, payment proof, and exportable information into one dashboard.
-
-## 🚀 Possible Future Enhancements
-
-- Downloadable monthly and yearly reports
-- Contribution history filters
-- Improved backup and restore options
-- More detailed validation and audit history
-- Additional accessibility and mobile usability improvements
-
-These are ideas for future development, not claims that they are already implemented.
-
-## 🤝 Contributing
-
-Suggestions and improvements are welcome.
-
-1. Fork the repository.
-2. Create a branch for your changes.
-3. Make and test your updates.
-4. Commit and push the branch.
-5. Open a pull request.
-
-## 🔗 Project Links
-
-- 🌐 **Live Website:** https://vinayakayuvasena.netlify.app/
-- 📂 **Application Package:** https://github.com/tharungutta/SRI-VINAYAKA-YUVASENA/tree/main/SVYS_COMPLETE_PACKAGE
-- 🐙 **GitHub Profile:** https://github.com/tharungutta
+```
+Sri_VinayakaYuvasena_2/
+├── vercel.json                 # Vercel deployment configuration
+├── README.md                   # Repository overview & documentation
+└── SVYS_COMPLETE_PACKAGE/      # Production deployment package
+    ├── index.html              # Main single-page web app
+    ├── styles.css              # Complete responsive stylesheet & design system
+    ├── config.js               # Committee UPI, Apps Script, and Firebase configurations
+    ├── dashboard.js           # Analytics and charts
+    ├── auth.js                 # Authentication helper utilities
+    ├── auth.css                # Authentication gate styling
+    ├── live-data.js            # Offline data fallback & snapshot cache
+    ├── manifest.json           # PWA web app manifest
+    ├── sw.js                   # Service Worker for offline support
+    ├── apps-script.gs          # Google Apps Script Web App source code
+    ├── README.md               # Package-level documentation
+    └── assets/                 # App icons, QR codes, and imagery
+        ├── logo.png            # Official circular emblem
+        ├── upi-qr.png          # Verified committee UPI QR code
+        ├── qrcode.min.js       # Lightweight offline QR code generator
+        ├── phonepe-icon.png    # PhonePe branding icon
+        └── paytm-icon.webp     # Paytm branding icon
+```
 
 ---
 
 <div align="center">
 
-**🐘 SRI VINAYAKA YUVA SENA**
-
-*Together we contribute. Together we celebrate.* 🙏
+**గణపతి బప్పా మోరియా! 🌺 Ganpati Bappa Morya!**  
+*Sri Vinayaka Yuva Sena Committee*
 
 </div>

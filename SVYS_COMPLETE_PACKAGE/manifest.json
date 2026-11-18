@@ -1,0 +1,24 @@
+{
+  "name": "SRI VINAYAKA YUVASENA",
+  "short_name": "SVYS",
+  "description": "SRI VINAYAKA YUVASENA Community Savings & Festival Fund",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#571B23",
+  "theme_color": "#571B23",
+  "icons": [
+    {
+      "src": "assets/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/logo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}

@@ -1,14 +1,19 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>SRI VINAYAKA YUVASENA</title>
 <meta name="description" content="SRI VINAYAKA YUVASENA community savings tracker">
 <meta name="theme-color" content="#571B23">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%90%98%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/png" href="assets/logo.png">
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SVYS">
+<link rel="apple-touch-icon" href="assets/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+<link id="mainStylesheet" rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="auth.css">
 </head>
 <body>
@@ -24,88 +29,2001 @@
 <div class="auth-legal">Never share your password or verification code with anyone.</div></div></section></div>
 <div class="backdrop" id="backdrop"></div>
 <aside class="sidebar" aria-label="Main navigation">
-<div class="brand"><div class="brand-icon">🐘</div><div><b>SRI VINAYAKA<br>YUVASENA</b><small>SAVINGS TRACKER</small></div></div>
-<nav class="side-nav"><div class="side-label">EXPLORE</div>
-<button class="nav-item active" id="navMonths" onclick="goSlide(0)"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>Monthly Collection</button>
-<button class="nav-item" id="navMembers" onclick="goSlide(1)"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5a6 6 0 0 1 3.5 5.5"/></svg>Members</button></nav>
-<div class="side-foot"><button class="nav-item" onclick="openAuth()"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>Admin Center</button><button class="nav-item signout-btn" onclick="svysSignOut()"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4M16 8l4 4-4 4M20 12H9"/></svg>Sign Out</button></div>
+<div class="brand"><div class="brand-icon"><img src="assets/logo.png" alt="Sri Vinayaka Yuvasena Logo" style="width:100%;height:100%;object-fit:cover;border-radius:14px"></div><div><b>SRI VINAYAKA<br>YUVASENA</b><small data-i18n="brandSubtitle">SAVINGS TRACKER</small></div></div>
+<nav class="side-nav"><div class="side-label" data-i18n="explore">EXPLORE</div>
+<button class="nav-item active" id="navMonths" onclick="goSlide(0)"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg><span data-i18n="navMonths">Monthly Collection</span></button>
+<button class="nav-item" id="navMembers" onclick="goSlide(1)"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5a6 6 0 0 1 3.5 5.5"/></svg><span data-i18n="navMembers">Members</span></button>
+<button class="nav-item" id="navExpenses" onclick="goSlide(2)"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 6v12M15 9.5H9.5a2.5 2.5 0 0 0 0 5h5a2.5 2.5 0 0 1 0 5H8"/></svg><span data-i18n="navExpenses">Festival Expenses</span></button>
+</nav>
+<div class="side-foot">
+<button class="nav-item" onclick="openUpiModal()"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg><span data-i18n="navPay">Pay via UPI</span></button>
+<button class="nav-item" id="sideNavAdminBtn" onclick="handleAdminBtnClick()"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><span data-i18n="navAdmin" id="sideNavAdminLabel">Admin Center</span></button>
+<button class="nav-item signout-btn" id="sideAdminLogoutBtn" style="display:none" onclick="adminSignOut()"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4M16 8l4 4-4 4M20 12H9"/></svg><span>Sign Out Admin</span></button>
+</div>
 </aside>
 <div class="main" id="top">
-<header class="topbar"><button class="menu-btn" id="menuBtn" aria-label="Open menu"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><div class="top-title"><small id="greet">Namaste</small><b id="topTitle">Monthly Collection</b></div><button class="btn gold" onclick="openAuth()"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><span class="lbl">Admin</span></button></header>
-<section class="hero"><div class="eyebrow">Ganesh Chaturthi • Community Fund</div><h1>Every contribution.<br>One celebration.</h1><p>Track monthly savings for SRI VINAYAKA YUVASENA in one place. Members can follow progress, while the administrator adds members and contributions as the group grows.</p><div class="hero-actions"><button class="btn gold" onclick="goSlide(0)">View Monthly Collection →</button><button class="btn ghost" onclick="goSlide(1)">Meet the Members</button></div></section>
-<div class="stats"><div class="stat"><label>Total Members</label><strong id="totalMembers">0</strong><em>member list</em></div><div class="stat"><label>Total Collected</label><strong id="totalCollected" class="accent">₹0</strong><em>All recorded payments</em></div><div class="stat"><label>Yearly Minimum</label><strong id="yearTarget">₹0</strong><em>Per current member list</em></div><div class="stat"><label>Extra Collected</label><strong id="extra">₹0</strong><em>Above yearly minimum</em></div><div class="stat"><label>Collection</label><strong id="collectionPct">0%</strong><em id="collectionHint">Against yearly minimum</em></div></div>
-<div class="grid2"><div class="card"><h3>Monthly savings overview</h3><div class="sub">Collected (colour) against expected (outline), October – September</div><div id="chartMonths"></div></div>
-<div class="card"><h3>Collection progress</h3><div class="sub">Share of the yearly minimum collected</div><div class="donut-wrap" id="chartDonut"></div><div class="legend" id="donutLegend"></div></div></div>
-<div class="card" style="margin-top:14px"><h3>Recent payment activity</h3><div class="sub">Latest recorded contributions</div><div class="activity" id="recentActivity"><div class="empty">No payments recorded yet.</div></div></div>
-<hr class="divider"><span class="slider-anchor"></span><span id="dot0" hidden></span><span id="dot1" hidden></span>
+<header class="topbar">
+<button class="menu-btn" id="menuBtn" aria-label="Open menu"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+<div class="top-title"><small id="greet">Namaste</small><b id="topTitle">Monthly Collection</b></div>
+<div class="top-actions">
+<div id="syncBadge" class="sync-badge" onclick="triggerManualSync()" title="Click to refresh live data from Google Sheet / గూగుల్ షీట్ నుండి రీఫ్రెష్ చేయండి">
+  <span class="sync-dot"></span>
+  <span id="syncText">Live</span>
+  <span class="sync-refresh-icon">↻</span>
+</div>
+<button class="lang-btn" id="langToggleBtn" onclick="toggleLanguage()" title="Change Language / భాషను మార్చుకోండి"><span style="font-size:15px">🌐</span> <span id="langBtnText">తెలుగు</span></button>
+<button class="pwa-install-btn" id="pwaInstallBtn" onclick="installPwa()" style="display:none" title="Install App on Phone"><span style="font-size:14px">📲</span> <span class="lbl" data-i18n="installApp">Install App</span></button>
+<button class="btn soft" onclick="showMemberGreetingPopup()" title="View your payment status"><span style="font-size:14px">🔔</span> <span class="lbl" data-i18n="myStatus">My Status</span></button>
+<button class="btn gold" onclick="openUpiModal()"><svg viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg><span class="lbl" data-i18n="payQr">Pay via UPI</span></button>
+<div id="topAdminBtnWrap" style="display:inline-flex;align-items:center;gap:6px">
+  <button class="btn soft" onclick="handleAdminBtnClick()"><svg viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><span class="lbl" data-i18n="admin">Admin</span></button>
+</div>
+</div>
+</header>
+<section class="hero">
+<div class="hero-wrap">
+<div class="hero-left">
+<div class="eyebrow" data-i18n="heroEyebrow">Ganesh Chaturthi • Community Fund</div>
+<h1>SRI VINAYAKA YUVASENA</h1>
+<div class="hero-telugu" data-i18n="heroTelugu">శ్రీ వినాయక యువసేన</div>
+<p data-i18n="heroDesc">Live community contribution tracker for SRI VINAYAKA YUVASENA. Displays all member contributions from the live Google Sheet and festival expenditure budget.</p>
+
+<!-- Option 3: Festival Live Countdown Timer Banner -->
+<div class="festival-countdown-card" id="festivalCountdownCard">
+  <div class="countdown-header">
+    <span class="countdown-badge">✨ <span data-i18n="countdownBadge">UTSAV COUNTDOWN</span></span>
+    <span class="countdown-mantra">|| వక్రతుండ మహాకాయ సూర్యకోటి సమప్రభ ||</span>
+  </div>
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+    <div>
+      <div style="font-size:12.5px;color:#ffd88a;font-weight:700;letter-spacing:0.5px" data-i18n="countdownSubtitle">Next Grand Celebration</div>
+      <h3 style="font-size:20px;color:#fff;margin:2px 0 0;font-weight:800" data-i18n="countdownFestName">Ganesh Chaturthi 2027</h3>
+    </div>
+    <div class="countdown-timer-row">
+      <div class="cd-unit-box"><span class="cd-number" id="cdDays">000</span><span class="cd-label" data-i18n="days">Days</span></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-unit-box"><span class="cd-number" id="cdHours">00</span><span class="cd-label" data-i18n="hours">Hours</span></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-unit-box"><span class="cd-number" id="cdMins">00</span><span class="cd-label" data-i18n="mins">Mins</span></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-unit-box"><span class="cd-number" id="cdSecs">00</span><span class="cd-label" data-i18n="secs">Secs</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="hero-actions" style="margin-top:16px">
+<button class="btn gold" onclick="goSlide(0)" data-i18n="btnMonthly">Monthly Collection →</button>
+<button class="btn ghost" onclick="goSlide(1)" data-i18n="btnMembers">Meet the Members</button>
+<button class="btn ghost" onclick="goSlide(2)" data-i18n="btnExpenses">Festival Expenses</button>
+<button class="btn soft" onclick="openUpiModal()" data-i18n="btnPayQr">⚡ Pay via UPI</button>
+</div>
+</div>
+<div class="hero-right">
+<div class="hero-logo-box">
+<img src="assets/logo.png" alt="Sri Vinayaka Yuvasena Official Logo" id="heroMainLogo">
+<div class="logo-flower-container" id="logoFlowerContainer"></div>
+</div>
+<div class="logo-mini-actions">
+  <button type="button" class="btn-logo-action" onclick="offerFlowerShower()" title="Offer Flower Shower / పూల వర్షం సమర్పించండి">
+    <span>🌸</span> <span data-i18n="offerFlowers">Offer Flowers</span>
+  </button>
+  <button type="button" class="btn-logo-action" onclick="ringTempleBell()" title="Ring Sacred Bell / గంట నాదం చేయండి">
+    <span id="bellIcon" class="bell-icon">🔔</span> <span data-i18n="ringBell">Ring Bell</span>
+  </button>
+</div>
+</div>
+</div>
+</section>
+<div class="stats">
+<div class="stat"><label data-i18n="statMembers">Total Members</label><strong id="totalMembers">0</strong><em data-i18n="statMembersHint">Live Sheet Members</em></div>
+<div class="stat"><label data-i18n="statCollected">Total Collected</label><strong id="totalCollected" class="accent">₹0</strong><em data-i18n="statCollectedHint">Recorded Payments</em></div>
+<div class="stat"><label data-i18n="statTarget">Yearly Minimum</label><strong id="yearTarget">₹0</strong><em data-i18n="statTargetHint">Target for group</em></div>
+<div class="stat"><label data-i18n="statExtra">Extra Collected</label><strong id="extra">₹0</strong><em data-i18n="statExtraHint">Above minimum</em></div>
+<div class="stat"><label data-i18n="statPct">Collection</label><strong id="collectionPct">0%</strong><em id="collectionHint" data-i18n="statPctHint">Against target</em></div>
+</div>
+<div class="grid2"><div class="card"><h3 data-i18n="chartOverviewTitle">Monthly savings overview</h3><div class="sub" data-i18n="chartOverviewSub">Collected (colour) against expected (outline), October – September</div><div id="chartMonths"></div></div>
+<div class="card"><h3 data-i18n="chartProgressTitle">Collection progress</h3><div class="sub" data-i18n="chartProgressSub">Share of the yearly minimum collected</div><div class="donut-wrap" id="chartDonut"></div><div class="legend" id="donutLegend"></div></div></div>
+<div class="card" style="margin-top:14px"><h3 data-i18n="recentTitle">Recent payment activity</h3><div class="sub" data-i18n="recentSub">Latest recorded contributions from Google Sheet</div><div class="activity" id="recentActivity"><div class="empty">Loading payments from live database…</div></div></div>
+<hr class="divider"><span class="slider-anchor"></span><span id="dot0" hidden></span><span id="dot1" hidden></span><span id="dot2" hidden></span>
 <div class="viewport"><div class="slides" id="slides">
-<section class="slide"><div class="section"><div class="section-head"><div><h2>Monthly Collection</h2><p>October–September • click any month for member-wise details</p></div></div><div class="months" id="months"></div></div></section>
-<section class="slide"><div class="section"><div class="section-head"><div><h2>Our Members</h2><p>Search by name or mobile number. Admins can add new members at any time.</p></div><input id="search" class="search" placeholder="Search name or mobile number…" aria-label="Search members"></div><div class="members-wrap"><div><div class="member-grid" id="memberGrid"></div></div><aside class="side-card"><div class="eyebrow">GROUP SNAPSHOT</div><h3>Growing together.</h3><p>When someone joins the group, the admin can add them instantly and the yearly minimum updates automatically.</p><div class="mini-list"><div class="mini"><span>October–December</span><b>₹200 / month</b></div><div class="mini"><span>January–April</span><b>₹250 / month</b></div><div class="mini"><span>May–September</span><b>₹300 / month</b></div></div></aside></div></div></section>
+
+<!-- Slide 0: Monthly Collection -->
+<section class="slide"><div class="section"><div class="section-head"><div><h2>Monthly Collection</h2><p>October–September • click any month to view member records and payment proofs</p></div></div><div class="months" id="months"></div></div></section>
+
+<!-- Slide 1: Members -->
+<section class="slide"><div class="section"><div class="section-head"><div><h2>Our Members</h2><p>Search by name or mobile number. Click any member to see their complete payment history.</p></div><input id="search" class="search" placeholder="Search name or mobile number…" aria-label="Search members"></div><div class="members-wrap"><div><div class="member-grid" id="memberGrid"></div></div><aside class="side-card"><div class="eyebrow">GROUP SNAPSHOT</div><h3>Growing together.</h3><p>Live member list synced directly from Google Sheet. Admin adds new members when someone joins.</p><div class="mini-list"><div class="mini"><span>October–December</span><b>₹200 / month</b></div><div class="mini"><span>January–April</span><b>₹250 / month</b></div><div class="mini"><span>May–September</span><b>₹300 / month</b></div></div></aside></div></div></section>
+
+<!-- Slide 2: Festival Expenses -->
+<section class="slide"><div class="section"><div class="section-head"><div><h2>Festival Expenses & Budget</h2><p>Transparent tracking of all Ganesh Utsav expenditures, vendor payments, and receipts</p></div><button class="btn soft" onclick="exportFinancialReport()">↓ Export Statement</button></div>
+<div class="finance-banner">
+<div class="finance-box"><label>Total Inflow (Collections)</label><strong id="expTotalCollected">₹0</strong><em>From recorded contributions</em></div>
+<div class="finance-box"><label>Total Outflow (Expenses)</label><strong id="totalExpenses" style="color:var(--burg)">₹0</strong><em>Celebration expenditures</em></div>
+<div class="finance-box treasury"><label>Net Treasury Balance</label><strong id="netBalance">₹0</strong><em>Available committee balance</em></div>
+</div>
+<div class="expense-cats" id="expenseCategoryGrid"></div>
+<div class="filter-chips" id="expenseFilterChips"></div>
+<div class="panel"><div class="modal-body" id="expenseRows" style="padding:12px 18px"></div></div>
+</div></section>
+
+
 </div></div>
 <div class="footer">SRI VINAYAKA YUVASENA • Payment screenshot is mandatory • Exported Excel includes each payment's screenshot link</div>
 </div>
 
-<div class="modal" id="detailModal"><div class="modal-card"><div class="modal-head"><div><div class="eyebrow">Month details</div><h2 id="modalTitle" style="margin:4px 0 0">Month</h2></div><button class="close" onclick="closeModal()">✕</button></div><div class="detail-grid"><div class="detail"><small>Minimum / member</small><b id="mMin">₹0</b></div><div class="detail"><small>Collected</small><b id="mCollected" class="accent">₹0</b></div><div class="detail"><small>Expected</small><b id="mExpected">₹0</b></div><div class="detail"><small>Members paid</small><b id="mPaid">0</b></div><div class="detail"><small>Extra</small><b id="mExtra">₹0</b></div></div><div class="modal-body" id="modalRows"></div></div></div>
-<div class="modal" id="screenshotModal"><div class="screenshot-card"><div class="modal-head"><div><div class="eyebrow">Payment proof</div><h2 id="shotTitle" style="margin:4px 0 0">Payment Screenshot</h2></div><button class="close" onclick="closeScreenshot()">✕</button></div><div class="screenshot-image-wrap"><img id="shotImage" class="screenshot-image" alt="Payment screenshot"></div><div class="shot-meta"><span class="shot-chip" id="shotMember">Member</span><span class="shot-chip" id="shotPhone">📱 —</span><span class="shot-chip" id="shotMonth">Month</span><span class="shot-chip" id="shotAmount">₹0</span><span class="shot-chip" id="shotDate">Date</span></div></div></div><div class="modal" id="memberModal"><div class="modal-card"><div class="modal-head"><div><div class="eyebrow">Member profile</div><h2 id="memberTitle" style="margin:4px 0 0">Member</h2></div><button class="close" onclick="closeMember()">✕</button></div><div class="detail-grid"><div class="detail"><small>Total paid</small><b id="pTotal" class="accent">₹0</b></div><div class="detail"><small>Yearly minimum</small><b id="pExpected">₹0</b></div><div class="detail"><small>Extra / balance</small><b id="pExtra">₹0</b></div><div class="detail"><small>Payments</small><b id="pCount">0</b></div><div class="detail"><small>Mobile</small><b id="pPhone">—</b></div></div><div class="modal-body" id="profileRows"></div></div></div>
-<div class="modal" id="authModal"><div class="admin-card"><div class="eyebrow">ADMIN ACCESS</div><h3>🔐 Administrator</h3><p>Use the administrator login to add a contribution, add a new member, or export the current tracker to Excel.</p><label style="font-size:10px;font-weight:900">USERNAME</label><input id="adminUser" class="admin-input" autocomplete="username" placeholder="Username"><label style="font-size:10px;font-weight:900">PASSWORD</label><input id="adminPass" class="admin-input" type="password" autocomplete="current-password" placeholder="Password"><div id="authError" class="auth-error"></div><div class="auth-actions"><button class="btn soft" onclick="closeAuth()">Cancel</button><button class="btn gold" onclick="verifyAdmin()">Continue →</button></div><div class="lock-note">Public visitors can view the dashboard. Admin tools open only after verification.</div></div></div>
-<div class="modal" id="adminModal"><div class="modal-card"><div class="modal-head"><div><div class="eyebrow">Private controls</div><h2 style="margin:4px 0 0">Admin Center</h2></div><button class="close" onclick="closeAdmin()">✕</button></div><div class="admin-tabs"><button class="admin-tab active" onclick="adminTab('contribution',this)">＋ Contribution</button><button class="admin-tab" onclick="adminTab('member',this)">＋ New Member</button><button class="admin-tab" onclick="loadLoginActivity(this)">↗ Login Activity</button><button class="admin-tab" onclick="exportExcel()">↓ Export Excel</button></div>
-<div id="paneContribution" class="admin-pane active"><div class="form-grid"><div class="field"><label>Member</label><select id="conMember"></select></div><div class="field"><label>Month</label><select id="conMonth"></select></div><div class="field"><label>Amount (₹)</label><input id="conAmount" type="number" min="1" placeholder="Example: 300"></div><div class="field"><label>Date</label><input id="conDate" type="date"></div><div class="field" style="grid-column:1/-1"><label>Payment screenshot <b style="color:var(--red)">* mandatory</b></label><input id="conScreenshot" type="file" accept="image/*"></div></div><div style="padding:0 20px 20px;display:flex;justify-content:flex-end;gap:8px"><button class="btn soft" onclick="closeAdmin()">Close</button><button class="btn primary" onclick="saveContribution()">Save Contribution</button></div></div>
-<div id="paneMember" class="admin-pane"><div class="form-grid"><div class="field"><label>Member name</label><input id="newName" placeholder="Full name"></div><div class="field"><label>Mobile number</label><input id="newPhone" type="tel" placeholder="10-digit mobile number"></div></div><div style="padding:0 20px 20px;display:flex;justify-content:flex-end;gap:8px"><button class="btn soft" onclick="closeAdmin()">Close</button><button class="btn primary" onclick="saveMember()">Add Member</button></div></div><div id="paneLoginActivity" class="admin-pane"><div style="padding:20px"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><div><h3 style="margin:0">Login activity</h3><p style="margin:5px 0;color:var(--muted)">Recent successful sign-ins. Passwords are never collected or displayed.</p></div><button class="btn soft" onclick="refreshLoginActivity()">↻ Refresh</button></div><div id="loginActivityStatus" style="padding:12px 0;color:var(--muted)">Open this tab to load login history.</div><div style="overflow:auto"><table style="width:100%;border-collapse:collapse;min-width:520px"><thead><tr><th style="text-align:left;padding:10px;border-bottom:1px solid var(--line)">User</th><th style="text-align:left;padding:10px;border-bottom:1px solid var(--line)">Email</th><th style="text-align:left;padding:10px;border-bottom:1px solid var(--line)">Login time</th><th style="text-align:left;padding:10px;border-bottom:1px solid var(--line)">Method</th></tr></thead><tbody id="loginActivityRows"><tr><td colspan="4" style="padding:12px;color:var(--muted)">No activity loaded.</td></tr></tbody></table></div></div></div></div></div>
+<!-- Modal: Month Details Breakdown -->
+<div class="modal" id="detailModal">
+  <div class="modal-card month-detail-modal-card">
+    <div class="modal-head month-modal-head">
+      <div>
+        <div class="eyebrow" style="display:flex;align-items:center;gap:6px">
+          <span>🚩</span>
+          <span>MONTHLY CONTRIBUTION AUDIT</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;margin-top:4px;flex-wrap:wrap">
+          <h2 id="modalTitle" style="margin:0;font-size:24px;font-weight:900">Month</h2>
+          <span id="mProgressChip" class="month-status-pill">Loading...</span>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div id="monthAdminStatusBadge"></div>
+        <button class="close" onclick="closeModal()" aria-label="Close month details">✕</button>
+      </div>
+    </div>
+
+    <!-- 5 Upgraded Metric Cards -->
+    <div class="month-stats-grid">
+      <div class="month-stat-card">
+        <div class="mstat-icon">🎯</div>
+        <div class="mstat-content">
+          <small>Target / Member</small>
+          <b id="mMin">₹0</b>
+        </div>
+      </div>
+      <div class="month-stat-card highlight">
+        <div class="mstat-icon">💰</div>
+        <div class="mstat-content">
+          <small>Total Collected</small>
+          <b id="mCollected" class="accent">₹0</b>
+        </div>
+      </div>
+      <div class="month-stat-card">
+        <div class="mstat-icon">📊</div>
+        <div class="mstat-content">
+          <small>Group Target</small>
+          <b id="mExpected">₹0</b>
+        </div>
+      </div>
+      <div class="month-stat-card">
+        <div class="mstat-icon">👥</div>
+        <div class="mstat-content">
+          <small>Members Paid</small>
+          <b id="mPaid">0</b>
+        </div>
+      </div>
+      <div class="month-stat-card">
+        <div class="mstat-icon">⭐</div>
+        <div class="mstat-content">
+          <small>Surplus / Extra</small>
+          <b id="mExtra">₹0</b>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter & Search Bar inside Month Modal -->
+    <div class="month-table-toolbar">
+      <div class="month-search-wrap">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" id="monthMemberSearch" placeholder="Search members in this month…" oninput="filterMonthModalRows()">
+      </div>
+      <div class="month-filter-pills" id="monthFilterPills">
+        <button type="button" class="mfilter-pill active" onclick="setMonthFilter('all', this)">All (<span id="mFilterCountAll">0</span>)</button>
+        <button type="button" class="mfilter-pill paid" onclick="setMonthFilter('paid', this)">Paid (<span id="mFilterCountPaid">0</span>)</button>
+        <button type="button" class="mfilter-pill pending" onclick="setMonthFilter('pending', this)">Pending (<span id="mFilterCountPending">0</span>)</button>
+      </div>
+    </div>
+
+    <!-- Member Rows -->
+    <div class="modal-body month-modal-body" id="modalRows"></div>
+  </div>
+</div>
+
+<!-- Modal: Payment Screenshot (Enhanced Lightbox & Inspector) -->
+<div class="modal" id="screenshotModal">
+  <div class="screenshot-card upgraded-screenshot-card">
+    <div class="modal-head">
+      <div>
+        <div class="eyebrow" style="display:flex;align-items:center;gap:6px">
+          <span>🛡️</span>
+          <span>OFFICIAL PAYMENT RECEIPT PROOF</span>
+        </div>
+        <h2 id="shotTitle" style="margin:4px 0 0;font-size:20px;font-weight:900">Payment Screenshot</h2>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <a id="shotExternalLink" href="#" target="_blank" rel="noopener noreferrer" class="btn-shot-action" title="Open original image in Google Drive in new tab">
+          <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          <span>Open Full Image ↗</span>
+        </a>
+        <button class="close" onclick="closeScreenshot()" aria-label="Close screenshot preview">✕</button>
+      </div>
+    </div>
+
+    <!-- High-Definition Image Display Container -->
+    <div class="screenshot-image-wrap upgraded-shot-wrap">
+      <div class="shot-loading-indicator" id="shotLoader">
+        <div class="spinner"></div>
+        <span>Loading verified payment receipt from Google Drive…</span>
+      </div>
+      <img id="shotImage" class="screenshot-image upgraded-shot-img" alt="Payment Screenshot" onload="document.getElementById('shotLoader').style.display='none'" onerror="onShotImageError(this)">
+      <div id="shotFallback" class="shot-fallback-box" style="display:none">
+        <div style="font-size:32px">🧾</div>
+        <h4 style="margin:8px 0 4px;font-size:15px;color:var(--white)">Receipt Stored in Secure Google Drive</h4>
+        <p style="font-size:12px;color:var(--muted);max-width:320px;margin:0 auto 12px">Google Drive thumbnail requires direct access. Click below to view the receipt directly.</p>
+        <a id="shotFallbackLink" href="#" target="_blank" class="btn gold" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;font-size:12px">
+          <span>🔗 Open Receipt in Google Drive ↗</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Structured Transaction Information Strip -->
+    <div class="shot-info-strip">
+      <div class="shot-info-item">
+        <small>MEMBER NAME</small>
+        <strong id="shotMember">Member</strong>
+      </div>
+      <div class="shot-info-item">
+        <small>PHONE NUMBER</small>
+        <strong id="shotPhone">📱 —</strong>
+      </div>
+      <div class="shot-info-item">
+        <small>CONTRIBUTION MONTH</small>
+        <strong id="shotMonth">Month</strong>
+      </div>
+      <div class="shot-info-item highlight">
+        <small>AMOUNT RECORDED</small>
+        <strong id="shotAmount" class="accent">₹0</strong>
+      </div>
+      <div class="shot-info-item">
+        <small>PAYMENT DATE</small>
+        <strong id="shotDate">Date</strong>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Member Profile -->
+<div class="modal" id="memberModal"><div class="modal-card"><div class="modal-head"><div><div class="eyebrow">Member profile</div><h2 id="memberTitle" style="margin:4px 0 0">Member</h2></div><button class="close" onclick="closeMember()">✕</button></div><div class="detail-grid"><div class="detail"><small>Total paid</small><b id="pTotal" class="accent">₹0</b></div><div class="detail"><small>Yearly minimum</small><b id="pExpected">₹0</b></div><div class="detail"><small>Extra / balance</small><b id="pExtra">₹0</b></div><div class="detail"><small>Payments</small><b id="pCount">0</b></div><div class="detail"><small>Mobile</small><b id="pPhone">—</b></div></div><div id="memberModalActions" style="padding:0 22px 14px;display:flex;gap:10px;flex-wrap:wrap"></div><div class="modal-body" id="profileRows"></div></div></div>
+
+
+<!-- Modal: QR Code Payment Modal -->
+<div class="modal" id="upiModal"><div class="upi-card"><div class="modal-head"><div><div class="eyebrow" data-i18n="upiModalEyebrow">OFFICIAL FESTIVAL CONTRIBUTIONS</div><h2 style="margin:4px 0 0" data-i18n="upiModalTitle">UPI Contribution & QR Code</h2></div><button class="close" onclick="closeUpiModal()">✕</button></div>
+<div class="upi-body">
+  <!-- Official Payee Information Banner -->
+  <div class="upi-payee-info">
+    <div class="upi-payee-text">
+      <small style="font-size:10px;text-transform:uppercase;letter-spacing:0.8px;font-weight:800;color:var(--muted)" data-i18n="payeeNameLabel">Official Payee</small>
+      <strong id="upiPayeeNameDisplay">THAMMINENI REVANTH</strong>
+      <div style="margin-top:4px;display:flex;align-items:center;gap:6px">
+        <code id="upiIdDisplay">9390266268@upi</code>
+        <button type="button" class="btn soft" style="padding:3px 8px;font-size:11px" onclick="copyUpiId()" title="Copy UPI ID">📋 <span data-i18n="copyUpi">Copy</span></button>
+      </div>
+    </div>
+    <div style="text-align:right">
+      <span class="badge-coming-soon" style="background:#e6f7ff;color:#0050b3;border-color:#91d5ff">⚡ Instant UPI</span>
+    </div>
+  </div>
+
+  <!-- Quick Amount Selection -->
+  <div style="margin-top:10px">
+    <label style="font-size:11px;font-weight:800;color:var(--maroon);text-transform:uppercase;letter-spacing:0.8px" data-i18n="selectAmountLabel">Select Contribution Amount (₹):</label>
+    <div class="upi-amount-pills" id="upiAmountPills">
+      <button type="button" class="amt-pill active" onclick="setUpiAmount(200, this)">₹200 <small>(Oct–Dec)</small></button>
+      <button type="button" class="amt-pill" onclick="setUpiAmount(250, this)">₹250 <small>(Jan–Apr)</small></button>
+      <button type="button" class="amt-pill" onclick="setUpiAmount(300, this)">₹300 <small>(May–Sep)</small></button>
+      <button type="button" class="amt-pill" onclick="setUpiAmount(500, this)">₹500</button>
+      <button type="button" class="amt-pill" onclick="setUpiAmount(1000, this)">₹1,000</button>
+    </div>
+  </div>
+
+  <!-- Direct 1-Click Mobile App Payment Buttons -->
+  <div style="margin-top:16px">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <small style="font-size:11px;text-transform:uppercase;letter-spacing:0.8px;font-weight:800;color:var(--maroon)" data-i18n="payViaApps">⚡ 1-Click Pay with Mobile UPI Apps</small>
+    </div>
+    <div class="upi-app-buttons-grid">
+      <a id="btnPayGPay" href="upi://pay?pa=9390266268@upi&pn=THAMMINENI%20REVANTH&am=200&cu=INR&tn=SVYS%20Contribution" class="btn-upi-app btn-gpay">
+        <svg viewBox="0 0 24 24" style="width:20px;height:20px;flex-shrink:0"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.34 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.14-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.34 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/></svg>
+        <span>Google Pay</span>
+      </a>
+      <a id="btnPayPhonePe" href="upi://pay?pa=9390266268@upi&pn=THAMMINENI%20REVANTH&am=200&cu=INR&tn=SVYS%20Contribution" class="btn-upi-app btn-phonepe">
+        <img src="assets/phonepe-icon.png" alt="PhonePe" class="upi-app-icon upi-app-icon-phonepe">
+        <span>PhonePe</span>
+      </a>
+      <a id="btnPayPaytm" href="upi://pay?pa=9390266268@upi&pn=THAMMINENI%20REVANTH&am=200&cu=INR&tn=SVYS%20Contribution" class="btn-upi-app btn-paytm">
+        <img src="assets/paytm-icon.webp" alt="Paytm" class="upi-app-icon upi-app-icon-paytm">
+        <span>Paytm</span>
+      </a>
+      <a id="btnPayGeneric" href="upi://pay?pa=9390266268@upi&pn=THAMMINENI%20REVANTH&am=200&cu=INR&tn=SVYS%20Contribution" class="btn-upi-app btn-generic-upi">
+        <span style="font-size:16px">📱</span>
+        <span data-i18n="payAnyUpi">Pay via Any UPI App / BHIM</span>
+      </a>
+    </div>
+    <div style="font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.4">
+      💡 <b>Mobile users:</b> Tapping opens your UPI app with <b>THAMMINENI REVANTH</b> (<code style="font-size:11px">9390266268@upi</code>) and the selected amount pre-filled automatically.
+    </div>
+  </div>
+
+  <!-- QR Code Display (For Desktop or Scan from 2nd Phone) -->
+  <div class="qr-box">
+    <div class="qr-image-display" id="qrDisplayWrap">
+      <img id="officialUpiQr" src="assets/upi-qr.png" onerror="this.onerror=null;this.src='assets/upi-qr.jpg'" alt="Official SVYS QR Code">
+    </div>
+    <div class="qr-caption" data-i18n="qrScanCaption">🙏 SRI VINAYAKA YUVASENA • Scan to pay from any app</div>
+    <div style="margin-top:10px;display:flex;justify-content:center">
+      <button type="button" class="btn-save-qr" onclick="saveQrCodeLocal()" title="Save QR code image locally to your device / QR కోడ్‌ను మీ డివైస్‌లో సేవ్ చేసుకోండి">
+        <svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <span data-i18n="saveQrLocal">Save QR to Device</span>
+      </button>
+    </div>
+  </div>
+
+  <div style="margin-top:14px">
+    <label style="font-size:11px;text-transform:uppercase;letter-spacing:1px;font-weight:800;color:var(--maroon);display:block" data-i18n="howItWorks">How It Works (Mandatory Process):</label>
+    <ul class="step-list">
+      <li class="step-item"><span class="step-num">1</span><div data-i18n="step1">Tap your preferred UPI app above or scan the QR code to complete payment.</div></li>
+      <li class="step-item"><span class="step-num">2</span><div data-i18n="step2"><b>Save a screenshot of the successful payment receipt</b> showing the transaction ID.</div></li>
+      <li class="step-item"><span class="step-num">3</span><div data-i18n="step3">Send the screenshot in the committee WhatsApp group or to Admin.</div></li>
+      <li class="step-item"><span class="step-num">4</span><div data-i18n="step4">Admin will verify the screenshot and record it into the website.</div></li>
+    </ul>
+  </div>
+  <div style="margin-top:18px;display:flex;justify-content:flex-end">
+    <button class="btn soft" onclick="closeUpiModal()" style="width:100%" data-i18n="close">Close</button>
+  </div>
+</div></div></div>
+
+<!-- Floating Transparent Status Pop-up (Bottom-Right Widget) -->
+<div id="memberGreetingModal" class="floating-greet-toast" role="status">
+  <div class="toast-header-row">
+    <div class="toast-ident">
+      <img src="assets/logo.png" alt="SVYS Logo" class="toast-mini-emblem">
+      <div>
+        <span id="greetBadge" class="toast-status-pill pending">NOVEMBER PENDING</span>
+        <h4 id="greetTitle" class="toast-title">Hii Member</h4>
+      </div>
+    </div>
+    <button class="toast-close-x" onclick="closeGreetingModal()" aria-label="Close notification">✕</button>
+  </div>
+  <div id="greetMessage" class="toast-body-text">Checking payment status…</div>
+  <div class="toast-action-row">
+    <button id="greetActionBtn" class="btn gold toast-pay-btn" onclick="openUpiModal();closeGreetingModal()">Pay for November via QR →</button>
+  </div>
+</div>
+
+<!-- Modal: Admin Auth -->
+<div class="modal" id="authModal"><div class="admin-card"><div class="eyebrow">ADMIN ACCESS</div><h3>🔐 Administrator</h3><p>Use administrator login to record a contribution, record an expense, add a member, or export reports.</p><label style="font-size:10px;font-weight:900">USERNAME</label><input id="adminUser" class="admin-input" autocomplete="username" placeholder="Username"><label style="font-size:10px;font-weight:900">PASSWORD</label><input id="adminPass" class="admin-input" type="password" autocomplete="current-password" placeholder="Password"><div id="authError" class="auth-error"></div><div class="auth-actions"><button class="btn soft" onclick="closeAuth()">Cancel</button><button class="btn gold" onclick="verifyAdmin()">Continue →</button></div><div class="lock-note">Public visitors view live data. Only authenticated admins enter or modify records.</div></div></div>
+
+<!-- Modal: Admin Center -->
+<div class="modal" id="adminModal"><div class="modal-card"><div class="modal-head"><div><div class="eyebrow">Private controls</div><h2 style="margin:4px 0 0">Admin Center</h2></div><div style="display:flex;align-items:center;gap:8px"><button type="button" class="btn soft" style="font-size:12px;padding:6px 12px;color:var(--red);border-color:rgba(217,83,79,0.3)" onclick="adminSignOut()">🚪 Log Out Admin</button><button class="close" onclick="closeAdmin()">✕</button></div></div>
+<div class="admin-tabs">
+<button class="admin-tab active" onclick="adminTab('contribution',this)">＋ Contribution</button>
+<button class="admin-tab" onclick="adminTab('expense',this)">＋ Expense</button>
+<button class="admin-tab" onclick="adminTab('member',this)">＋ New Member</button>
+<button class="admin-tab" onclick="adminTab('reminders',this)">📢 WhatsApp Reminders</button>
+<button class="admin-tab" onclick="loadLoginActivity(this)">↗ Login Activity</button>
+<button class="admin-tab" onclick="exportExcel()">↓ Export Collections</button>
+<button class="admin-tab" onclick="exportFinancialReport()">↓ Export Full Statement</button>
+<button type="button" class="admin-tab" style="color:var(--red);font-weight:bold;margin-left:auto" onclick="adminSignOut()">🚪 Log Out Admin</button>
+</div>
+
+<!-- Admin Pane: Contribution -->
+<div id="paneContribution" class="admin-pane active"><div class="form-grid"><div class="field"><label>Member</label><select id="conMember"></select></div><div class="field"><label>Month</label><select id="conMonth"></select></div><div class="field"><label>Amount (₹)</label><input id="conAmount" type="number" min="1" placeholder="Example: 200"></div><div class="field"><label>Date</label><input id="conDate" type="date"></div><div class="field" style="grid-column:1/-1"><label>Payment screenshot <b style="color:var(--red)">* mandatory</b></label><input id="conScreenshot" type="file" accept="image/*"></div></div><div style="padding:0 20px 20px;display:flex;justify-content:flex-end;gap:8px"><button class="btn soft" onclick="closeAdmin()">Close</button><button class="btn primary" onclick="saveContribution()">Save Contribution</button></div></div>
+
+<!-- Admin Pane: Expense -->
+<div id="paneExpense" class="admin-pane"><div class="form-grid">
+<div class="field"><label>Category</label><select id="expCategory"></select></div>
+<div class="field"><label>Amount (₹)</label><input id="expAmount" type="number" min="1" placeholder="Example: 2500"></div>
+<div class="field" style="grid-column:1/-1"><label>Item / Purpose / Description</label><input id="expTitle" placeholder="Example: Advance for 7ft Clay Ganesha Idol"></div>
+<div class="field"><label>Paid To / Vendor</label><input id="expPaidTo" placeholder="Example: Sri Murugan Sculptors"></div>
+<div class="field"><label>Date</label><input id="expDate" type="date"></div>
+<div class="field" style="grid-column:1/-1"><label>Bill / Receipt Photo (Optional)</label><input id="expReceipt" type="file" accept="image/*"></div>
+</div><div style="padding:0 20px 20px;display:flex;justify-content:flex-end;gap:8px"><button class="btn soft" onclick="closeAdmin()">Close</button><button class="btn primary" onclick="saveExpense()">Save Expense</button></div></div>
+
+<!-- Admin Pane: Member -->
+<div id="paneMember" class="admin-pane"><div class="form-grid"><div class="field"><label>Member name</label><input id="newName" placeholder="Full name"></div><div class="field"><label>Mobile number</label><input id="newPhone" type="tel" placeholder="10-digit mobile number"></div></div><div style="padding:0 20px 20px;display:flex;justify-content:flex-end;gap:8px"><button class="btn soft" onclick="closeAdmin()">Close</button><button class="btn primary" onclick="saveMember()">Add Member</button></div></div>
+
+<!-- Admin Pane: WhatsApp Reminders (Option 5) -->
+<div id="paneReminders" class="admin-pane">
+  <div class="reminders-wrap">
+    <div class="reminders-stats-bar">
+      <div>
+        <h3 style="margin:0;color:var(--maroon);font-size:18px">📢 Pending Dues & WhatsApp Reminders</h3>
+        <p style="margin:4px 0 0;color:var(--muted);font-size:12px">Send 1-click personalized WhatsApp reminders with UPI ID & pending details</p>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <button class="btn soft" onclick="copyPendingGroupSummary()" title="Copy entire pending members list for WhatsApp group">
+          📋 Copy Group Summary
+        </button>
+        <button class="btn soft" onclick="renderAdminReminders()">↻ Refresh</button>
+      </div>
+    </div>
+    
+    <div style="display:flex;gap:12px;margin-bottom:14px;align-items:center;flex-wrap:wrap">
+      <div style="font-size:13px;font-weight:700;color:var(--maroon)">Filter:</div>
+      <select id="reminderFilterSelect" onchange="renderAdminReminders()" style="padding:7px 14px;border-radius:10px;border:1px solid var(--line);font-size:13px;background:var(--cream);font-weight:700">
+        <option value="all">🔴 All Unpaid Members (Previous + Current Months)</option>
+        <option value="previous">⚠️ Previous Month (October) Unpaid Members</option>
+        <option value="current">⏳ Current Month (November) Unpaid Members</option>
+        <option value="both">🚨 Both Months Unpaid (Double Due)</option>
+        <option value="paid">🟢 Fully Paid / Up-to-Date</option>
+      </select>
+      <div id="reminderSummaryCount" style="font-size:12.5px;color:var(--muted);margin-left:auto"></div>
+    </div>
+
+    <div class="reminders-list" id="adminRemindersList">
+      <div class="empty">Loading members…</div>
+    </div>
+  </div>
+  <div style="padding:0 20px 20px;display:flex;justify-content:flex-end">
+    <button class="btn soft" onclick="closeAdmin()">Close</button>
+  </div>
+</div>
+
+<!-- Admin Pane: Login Activity -->
+<div id="paneLoginActivity" class="admin-pane"><div style="padding:20px"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><div><h3 style="margin:0">Login activity</h3><p style="margin:5px 0;color:var(--muted)">Recent successful sign-ins. Passwords are never collected or displayed.</p></div><button class="btn soft" onclick="refreshLoginActivity()">↻ Refresh</button></div><div id="loginActivityStatus" style="padding:12px 0;color:var(--muted)">Open this tab to load login history.</div><div style="overflow:auto"><table style="width:100%;border-collapse:collapse;min-width:520px"><thead><tr><th style="text-align:left;padding:10px;border-bottom:1px solid var(--line)">User</th><th style="text-align:left;padding:10px;border-bottom:1px solid var(--line)">Email</th><th style="text-align:left;padding:10px;border-bottom:1px solid var(--line)">Login time</th><th style="text-align:left;padding:10px;border-bottom:1px solid var(--line)">Method</th></tr></thead><tbody id="loginActivityRows"><tr><td colspan="4" style="padding:12px;color:var(--muted)">No activity loaded.</td></tr></tbody></table></div></div></div>
+
+</div></div>
+
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="config.js"></script>
+<script src="live-data.js"></script>
 <script>
 const MONTHS=[['October',200],['November',200],['December',200],['January',250],['February',250],['March',250],['April',250],['May',300],['June',300],['July',300],['August',300],['September',300]];
-const SEED=['BABU PATHAKAMURI','BALA CHANDRA PATHAKAMURI','BHANU CHALLA','BHUVANESH CHALLA','GOWTHAM MADIPATLA','JASHWANTH PATHAKAMURI','NAVVENTH PATHAKAMURI','PAVAN PATHAKAMURI','PRANEETH MADIPATALA','REVANTH THAMMINENI','TEJA GUTTA','THARUN GUTTA','THARUN CHALLA','VISHNU CHALLA','YASHWANTH MANGALA','YOGESH CHALLA'];
-const PHONE_MAP={'BABU PATHAKAMURI':'7013448683','BALA CHANDRA PATHAKAMURI':'9398674933','BHANU CHALLA':'8073595818','BHUVANESH CHALLA':'9392401793','GOWTHAM MADIPATLA':'6363551192','JASHWANTH PATHAKAMURI':'9182041179','NAVVENTH PATHAKAMURI':'8317553135','PAVAN PATHAKAMURI':'9391682414','PRANEETH MADIPATALA':'9346860578','REVANTH THAMMINENI':'9390296628','TEJA GUTTA':'9381396041','THARUN GUTTA':'9392618109','THARUN CHALLA':'9347803064','VISHNU CHALLA':'7483146429','YASHWANTH MANGALA':'7675873379','YOGESH CHALLA':'9676913397'};
+
+const EXPENSE_CATEGORIES = [
+  { name: 'Idol & Murti', icon: '🕉️', cls: 'cat-idol' },
+  { name: 'Mandap & Lighting', icon: '🎪', cls: 'cat-mandap' },
+  { name: 'Sound & DJ', icon: '🥁', cls: 'cat-sound' },
+  { name: 'Daily Pooja & Flowers', icon: '🌺', cls: 'cat-pooja' },
+  { name: 'Annadanam & Prasadam', icon: '🍲', cls: 'cat-food' },
+  { name: 'Nimajjanam & Procession', icon: '🚚', cls: 'cat-immersion' },
+  { name: 'Crackers & Misc', icon: '🎆', cls: 'cat-misc' }
+];
+
 const money=n=>'₹'+Number(n||0).toLocaleString('en-IN');
 const CONFIG=window.SVYS_CONFIG||{};
-let state={members:[],payments:[]};
+
+// Load live data from live-data.js cache immediately
+const initialData=window.SVYS_INITIAL_DATA||{members:[],payments:[]};
+let state={
+  members:initialData.members||[],
+  payments:initialData.payments||[],
+  expenses:JSON.parse(localStorage.getItem('SVYS_EXPENSES')||'[]')
+};
+let currentExpenseFilter='all';
+window.isAdminLoggedIn=false;
+
 function apiUrl(){return String(CONFIG.APPS_SCRIPT_URL||'').trim()}
 function escapeHtml(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
 function expectedYear(){return MONTHS.reduce((s,m)=>s+m[1],0)}
 function memberPayments(m){return state.payments.filter(p=>String(p.memberId)===String(m.id))}
+
+let lastSyncTime = null;
+
+function updateSyncStatus(status) {
+  const badge = document.getElementById('syncBadge');
+  const txt = document.getElementById('syncText');
+  if (!badge || !txt) return;
+
+  if (status === 'syncing') {
+    badge.classList.add('syncing');
+    badge.classList.remove('offline');
+    txt.textContent = currentLang === 'te' ? 'సింక్ అవుతోంది…' : 'Syncing…';
+  } else if (status === 'offline') {
+    badge.classList.remove('syncing');
+    badge.classList.add('offline');
+    txt.textContent = currentLang === 'te' ? 'ఆఫ్‌లైన్ రికార్డులు' : 'Offline / Cached';
+  } else {
+    badge.classList.remove('syncing', 'offline');
+    lastSyncTime = new Date();
+    formatSyncTime();
+  }
+}
+
+function formatSyncTime() {
+  const txt = document.getElementById('syncText');
+  if (!txt) return;
+  if (!lastSyncTime) {
+    txt.textContent = currentLang === 'te' ? 'లైవ్' : 'Live';
+    return;
+  }
+  const diffSec = Math.floor((Date.now() - lastSyncTime.getTime()) / 1000);
+  let timeStr;
+  if (diffSec < 20) {
+    timeStr = currentLang === 'te' ? 'ఇప్పుడే' : 'Just now';
+  } else if (diffSec < 60) {
+    timeStr = `${diffSec}s ${currentLang === 'te' ? 'క్రితం' : 'ago'}`;
+  } else if (diffSec < 3600) {
+    const m = Math.floor(diffSec / 60);
+    timeStr = `${m}m ${currentLang === 'te' ? 'క్రితం' : 'ago'}`;
+  } else {
+    timeStr = lastSyncTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  }
+  txt.textContent = `${currentLang === 'te' ? 'లైవ్' : 'Live'} • ${timeStr}`;
+}
+
+setInterval(formatSyncTime, 30000);
+
+async function triggerManualSync() {
+  updateSyncStatus('syncing');
+  await loadData();
+  if (window.alert) alert(currentLang === 'te' ? 'గూగుల్ షీట్ నుండి లైవ్ డేటా అప్‌డేట్ అయ్యింది! ✓' : 'Live data refreshed from Google Sheet! ✓');
+}
+
 async function loadData(){
-  if(!apiUrl()||apiUrl().includes('PASTE_YOUR')){state={members:SEED.map((name,i)=>({id:i+1,name,phone:PHONE_MAP[name]||''})),payments:[]};render();return}
-  try{const r=await fetch(apiUrl(),{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status);const d=await r.json();if(!d||d.ok===false)throw new Error((d&&d.error)||'Apps Script returned an invalid response.');if(!Array.isArray(d.members)||!Array.isArray(d.payments))throw new Error('Apps Script response is missing members or payments arrays.');state={members:d.members,payments:d.payments};render();console.info('SVYS tracker data loaded:',state.members.length,'members,',state.payments.length,'payments');}
-  catch(e){console.error(e);state={members:SEED.map((name,i)=>({id:i+1,name,phone:PHONE_MAP[name]||''})),payments:[]};render();alert('Live database could not be reached. Check config.js and Apps Script deployment.');}
+  if(!apiUrl()||apiUrl().includes('PASTE_YOUR')){
+    updateSyncStatus('offline');
+    render();
+    return;
+  }
+  try{
+    updateSyncStatus('syncing');
+    const r=await fetch(apiUrl(),{cache:'no-store'});
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    const d=await r.json();
+    if(d&&Array.isArray(d.members)&&Array.isArray(d.payments)){
+      state.members=d.members;
+      state.payments=d.payments;
+      if(Array.isArray(d.expenses))state.expenses=d.expenses;
+      localStorage.setItem('SVYS_EXPENSES',JSON.stringify(state.expenses));
+      render();
+      updateSyncStatus('live');
+      console.info('SVYS tracker data synced from Google Sheet:',state.members.length,'members,',state.payments.length,'payments');
+    } else {
+      updateSyncStatus('live');
+    }
+  }catch(e){
+    console.warn('Live fetch note (using preloaded sheet data):',e.message);
+    updateSyncStatus('offline');
+    render();
+  }
 }
 window.svysLoadTrackerData=loadData;
+
 async function postAction(payload){
   if(!apiUrl()||apiUrl().includes('PASTE_YOUR'))throw new Error('APPS_SCRIPT_URL is not configured in config.js');
   const r=await fetch(apiUrl(),{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});
   const d=await r.json();if(!d.ok)throw new Error(d.error||'Server error');return d;
 }
-function render(){const total=state.payments.reduce((s,p)=>s+Number(p.amount||0),0),target=state.members.length*expectedYear();document.getElementById('totalMembers').textContent=state.members.length;document.getElementById('totalCollected').textContent=money(total);document.getElementById('yearTarget').textContent=money(target);document.getElementById('extra').textContent=money(Math.max(0,total-target));document.getElementById('collectionPct').textContent=(target?Math.min(100,total/target*100):0).toFixed(0)+'%';renderMonths();renderMembers();fillAdminSelects()}
-function renderMonths(){document.getElementById('months').innerHTML=MONTHS.map(([name,min])=>{const rows=state.payments.filter(p=>p.month===name),total=rows.reduce((s,p)=>s+Number(p.amount||0),0),expected=state.members.length*min,paid=new Set(rows.map(p=>p.memberId)).size,pct=expected?Math.min(100,total/expected*100):0;return `<article class="month" onclick="openMonth('${name}')"><div class="month-top"><span class="month-name">${name}</span><span class="pill">Min ${money(min)}</span></div><div class="amount">${money(total)}</div><div class="bar"><i style="width:${pct}%"></i></div><div class="month-foot"><span>${paid}/${state.members.length} paid</span><span>${pct.toFixed(0)}%</span></div></article>`}).join('')}
+
+function render(){
+  const total=state.payments.reduce((s,p)=>s+Number(p.amount||0),0);
+  const target=state.members.length*expectedYear();
+  const totalExp=(state.expenses||[]).reduce((s,e)=>s+Number(e.amount||0),0);
+  const balance=total-totalExp;
+
+  document.getElementById('totalMembers').textContent=state.members.length;
+  document.getElementById('totalCollected').textContent=money(total);
+  document.getElementById('yearTarget').textContent=money(target);
+  document.getElementById('extra').textContent=money(Math.max(0,total-target));
+  document.getElementById('collectionPct').textContent=(target?Math.min(100,total/target*100):0).toFixed(0)+'%';
+  
+  document.getElementById('expTotalCollected').textContent=money(total);
+  document.getElementById('totalExpenses').textContent=money(totalExp);
+  
+  const netEl=document.getElementById('netBalance');
+  if(netEl){
+    netEl.textContent=money(balance);
+    netEl.parentElement.className='finance-box '+(balance>=0?'treasury':'deficit');
+  }
+
+  renderMonths();
+  renderMembers();
+  renderExpenses();
+  fillAdminSelects();
+}
+
+function renderMonths(){
+  document.getElementById('months').innerHTML=MONTHS.map(([name,min])=>{
+    const rows=state.payments.filter(p=>p.month===name),
+          total=rows.reduce((s,p)=>s+Number(p.amount||0),0),
+          expected=state.members.length*min,
+          paid=new Set(rows.map(p=>p.memberId)).size,
+          pct=expected?Math.min(100,total/expected*100):0;
+    return `<article class="month" onclick="openMonth('${name}')">
+      <div class="month-top"><span class="month-name">${name}</span><span class="pill">Min ${money(min)}</span></div>
+      <div class="amount">${money(total)}</div>
+      <div class="bar"><i style="width:${pct}%"></i></div>
+      <div class="month-foot"><span>${paid}/${state.members.length} paid</span><span>${pct.toFixed(0)}%</span></div>
+    </article>`
+  }).join('');
+}
+
 function initials(n){return String(n).split(' ').filter(Boolean).slice(0,2).map(x=>x[0]).join('').toUpperCase()}
-function renderMembers(){const q=(document.getElementById('search').value||'').toLowerCase();const target=expectedYear();const list=state.members.filter(m=>(m.name+' '+m.phone).toLowerCase().includes(q));document.getElementById('memberGrid').innerHTML=list.map(m=>{const ps=memberPayments(m),total=ps.reduce((s,p)=>s+Number(p.amount||0),0),diff=total-target,st=total>=target?'PAID':total?'PARTIAL':'PENDING';return `<article class="member-card" onclick="openMember('${String(m.id).replace(/'/g,"\\'")}')"><div class="avatar">${initials(m.name)}</div><div class="member-main"><b>${escapeHtml(m.name)}</b><div class="phone">📱 ${escapeHtml(m.phone||'')}</div></div><div class="member-money"><b>${money(total)}</b><small>${st} • ${diff>=0?'+'+money(diff):money(diff)}</small></div></article>`}).join('')||'<div class="empty">No member found.</div>'}
-function goSlide(i){document.getElementById('slides').style.transform=`translateX(-${i*50}%)`;document.getElementById('navMonths').classList.toggle('active',i===0);document.getElementById('navMembers').classList.toggle('active',i===1);document.getElementById('dot0').classList.toggle('active',i===0);document.getElementById('dot1').classList.toggle('active',i===1)}
-function openMonth(name){const min=MONTHS.find(x=>x[0]===name)[1],rows=state.members.map(m=>{const ps=state.payments.filter(p=>p.month===name&&String(p.memberId)===String(m.id)),amount=ps.reduce((s,p)=>s+Number(p.amount||0),0),latestPayment=ps.slice().sort((a,b)=>String(b.date).localeCompare(String(a.date)))[0],latest=latestPayment?.date||'—';return{m,amount,latest,latestPayment}}),collected=rows.reduce((s,r)=>s+r.amount,0),expected=state.members.length*min;document.getElementById('modalTitle').textContent=name;document.getElementById('mMin').textContent=money(min);document.getElementById('mCollected').textContent=money(collected);document.getElementById('mExpected').textContent=money(expected);document.getElementById('mPaid').textContent=rows.filter(r=>r.amount>=min).length;document.getElementById('mExtra').textContent=money(Math.max(0,collected-expected));document.getElementById('modalRows').innerHTML=rows.map(r=>{const pct=Math.min(100,r.amount/min*100),st=r.amount>=min?'PAID':r.amount?'PARTIAL':'PENDING';const shot=r.latestPayment?.screenshotUrl?`<button class="view-shot" onclick="event.stopPropagation();viewScreenshot('${String(r.latestPayment.id).replace(/'/g,"\\'")}')">🖼 View Screenshot</button>`:'';return `<div class="month-row"><div><b>${escapeHtml(r.m.name)}</b><div style="color:var(--muted);font-size:9px">📱 ${escapeHtml(r.m.phone||'—')}</div></div><div>${r.amount?money(r.amount):'—'}</div><div><div class="mini-bar"><i style="width:${pct}%"></i></div></div><div><span class="status ${st.toLowerCase()}">${st}</span>${shot}<div style="color:var(--muted);font-size:9px;margin-top:2px">${escapeHtml(r.latest)}</div></div></div>`}).join('');document.getElementById('detailModal').classList.add('open')}
-function openMember(id){const m=state.members.find(x=>String(x.id)===String(id));if(!m)return;const ps=memberPayments(m),target=expectedYear(),total=ps.reduce((s,p)=>s+Number(p.amount||0),0);document.getElementById('memberTitle').textContent=m.name;document.getElementById('pTotal').textContent=money(total);document.getElementById('pExpected').textContent=money(target);document.getElementById('pExtra').textContent=total>=target?'+'+money(total-target):money(total-target);document.getElementById('pCount').textContent=ps.length;document.getElementById('pPhone').textContent=m.phone||'—';document.getElementById('profileRows').innerHTML=MONTHS.map(([month,min])=>{const payment=ps.filter(p=>p.month===month).sort((a,b)=>String(b.date).localeCompare(String(a.date)))[0],amt=payment?Number(payment.amount||0):0,st=amt>=min?'PAID':amt?'PARTIAL':'PENDING',shot=payment?.screenshotUrl?`<button class="view-shot" onclick="viewScreenshot('${String(payment.id).replace(/'/g,"\\'")}')">🖼 View Screenshot</button>`:'';return `<div class="month-row"><b>${month}</b><span>${amt?money(amt):'—'}</span><span>${amt?money(min)+' min':'Not paid'}</span><span class="status ${st.toLowerCase()}">${st}</span>${shot}</div>`}).join('');document.getElementById('memberModal').classList.add('open')}
+
+function renderMembers(){
+  const q=(document.getElementById('search').value||'').toLowerCase();
+  const target=expectedYear();
+  const list=state.members.filter(m=>(m.name+' '+m.phone).toLowerCase().includes(q));
+  document.getElementById('memberGrid').innerHTML=list.map(m=>{
+    const ps=memberPayments(m),
+          total=ps.reduce((s,p)=>s+Number(p.amount||0),0),
+          diff=total-target,
+          st=total>=target?'PAID':total?'PARTIAL':'PENDING';
+    return `<article class="member-card" onclick="openMember('${String(m.id).replace(/'/g,"\\'")}')">
+      <div class="avatar">${initials(m.name)}</div>
+      <div class="member-main">
+        <b>${escapeHtml(m.name)}</b>
+        <div class="phone">📱 ${escapeHtml(m.phone||'')}</div>
+      </div>
+      <div class="member-money">
+        <b>${money(total)}</b>
+        <small>${st} • ${diff>=0?'+'+money(diff):money(diff)}</small>
+      </div>
+    </article>`
+  }).join('')||'<div class="empty">No member found.</div>';
+}
+
+function goSlide(i){
+  document.getElementById('slides').style.transform=`translateX(-${i * 33.3333}%)`;
+  document.getElementById('navMonths').classList.toggle('active',i===0);
+  document.getElementById('navMembers').classList.toggle('active',i===1);
+  const nExp=document.getElementById('navExpenses');if(nExp)nExp.classList.toggle('active',i===2);
+}
+
+function isUserAdmin(){
+  return !!(window.isAdminLoggedIn || sessionStorage.getItem('SVYS_ADMIN_LOGGED_IN') === 'true');
+}
+
+window.__currentMonthFilter = 'all';
+
+function filterMonthModalRows(){
+  const q = (document.getElementById('monthMemberSearch')?.value || '').toLowerCase().trim();
+  const filter = window.__currentMonthFilter || 'all';
+  const cards = document.querySelectorAll('#modalRows .month-item-card');
+  cards.forEach(card => {
+    const name = card.getAttribute('data-name') || '';
+    const status = card.getAttribute('data-status') || '';
+    const matchesQ = !q || name.includes(q);
+    const matchesFilter = (filter === 'all') || (status === filter);
+    card.style.display = (matchesQ && matchesFilter) ? '' : 'none';
+  });
+}
+
+function setMonthFilter(type, btn){
+  window.__currentMonthFilter = type;
+  document.querySelectorAll('.mfilter-pill').forEach(b => b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  filterMonthModalRows();
+}
+
+function openMonth(name){
+  window.__currentOpenMonth = name;
+  const min=MONTHS.find(x=>x[0]===name)[1],
+        rows=state.members.map(m=>{
+          const ps=state.payments.filter(p=>p.month===name&&String(p.memberId)===String(m.id)),
+                amount=ps.reduce((s,p)=>s+Number(p.amount||0),0),
+                latestPayment=ps.slice().sort((a,b)=>String(b.date).localeCompare(String(a.date)))[0],
+                latest=latestPayment?.date||'—';
+          return{m,amount,latest,latestPayment};
+        }),
+        collected=rows.reduce((s,r)=>s+r.amount,0),
+        expected=state.members.length*min,
+        paidCount=rows.filter(r=>r.amount>=min).length,
+        totalCount=rows.length,
+        pendingCount=totalCount-paidCount;
+
+  document.getElementById('modalTitle').textContent=name;
+  document.getElementById('mMin').textContent=money(min);
+  document.getElementById('mCollected').textContent=money(collected);
+  document.getElementById('mExpected').textContent=money(expected);
+  document.getElementById('mPaid').textContent=paidCount;
+  document.getElementById('mExtra').textContent=money(Math.max(0,collected-expected));
+
+  const pctPaid = totalCount ? Math.round((paidCount / totalCount) * 100) : 0;
+  const chipEl = document.getElementById('mProgressChip');
+  if(chipEl){
+    chipEl.textContent = `${paidCount} / ${totalCount} Paid (${pctPaid}%)`;
+    chipEl.className = 'month-status-pill ' + (pctPaid >= 80 ? 'paid' : pctPaid >= 40 ? 'partial' : 'pending');
+  }
+
+  // Update Toolbar Filter Counts
+  const fAll = document.getElementById('mFilterCountAll'); if(fAll) fAll.textContent = totalCount;
+  const fPaid = document.getElementById('mFilterCountPaid'); if(fPaid) fPaid.textContent = paidCount;
+  const fPending = document.getElementById('mFilterCountPending'); if(fPending) fPending.textContent = pendingCount;
+  if(document.getElementById('monthMemberSearch')) document.getElementById('monthMemberSearch').value = '';
+  window.__currentMonthFilter = 'all';
+  document.querySelectorAll('.mfilter-pill').forEach((b, idx) => b.classList.toggle('active', idx === 0));
+
+  const isAdmin = isUserAdmin();
+
+  const adminBadgeEl = document.getElementById('monthAdminStatusBadge');
+  if(adminBadgeEl){
+    adminBadgeEl.innerHTML = isAdmin ? `
+      <span style="display:inline-flex;align-items:center;gap:6px">
+        <span style="font-size:11px;background:#0f766e1f;color:#0f766e;border:1px solid #0f766e44;padding:3px 8px;border-radius:20px;font-weight:700">🛡️ Admin Active</span>
+        <button type="button" class="btn soft" style="font-size:11px;padding:3px 8px;color:var(--red);border-color:rgba(217,83,79,0.3)" onclick="adminSignOut()">🚪 Logout</button>
+      </span>
+    ` : '';
+  }
+
+  document.getElementById('modalRows').innerHTML=rows.map(r=>{
+    const pct=Math.min(100,r.amount/min*100),
+          st=r.amount>=min?'PAID':r.amount?'PARTIAL':'PENDING';
+    const shot=r.latestPayment?.screenshotUrl ? `
+      <button type="button" class="btn-proof-modern" onclick="event.stopPropagation();viewScreenshot('${String(r.latestPayment.id).replace(/'/g,"\\'")}')" title="View official verified payment screenshot">
+        <svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <span>View Proof</span>
+      </button>
+    ` : '';
+    const due=Math.max(0,min-r.amount);
+    const remindBtn=(isAdmin && due>0 && r.m.phone)?`
+      <button type="button" class="btn-wa" title="Send WhatsApp reminder (Admin only)" onclick="event.stopPropagation();sendWhatsAppReminder('${escapeHtml(r.m.name)}','${escapeHtml(r.m.phone)}','${escapeHtml(name)}',${due})">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c4.56 0 8.25 3.69 8.25 8.24 0 2.2-.86 4.28-2.42 5.83a8.196 8.196 0 0 1-5.83 2.41h-.01c-1.49 0-2.95-.39-4.23-1.15l-.3-.18-3.13.82.83-3.05-.2-.32a8.214 8.214 0 0 1-1.26-4.36c0-4.55 3.69-8.24 8.25-8.24m4.52 11.64c-.25-.13-1.48-.73-1.71-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.07-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.78 2.72 4.31 3.81.6.26 1.07.42 1.44.53.61.19 1.16.17 1.6.1.49-.07 1.48-.61 1.69-1.19.21-.59.21-1.09.15-1.19-.06-.11-.23-.17-.48-.3"/></svg>
+        Remind
+      </button>
+    ` : '';
+    const receiptBtn=(isAdmin && r.amount>0 && r.m.phone)?`
+      <button type="button" class="btn-wa-receipt" title="Send WhatsApp receipt (Admin only)" onclick="event.stopPropagation();sendWhatsAppReceipt('${escapeHtml(r.m.name)}','${escapeHtml(r.m.phone)}','${escapeHtml(name)}',${r.amount},'${escapeHtml(r.latestPayment?.date||'')}')">
+        🧾 Receipt
+      </button>
+    ` : '';
+
+    const init = initials(r.m.name);
+    const stClass = st.toLowerCase();
+    const stLabel = st==='PAID'?'✓ PAID':st==='PARTIAL'?'⚡ PARTIAL':'⏳ PENDING';
+
+    return `
+    <div class="month-item-card" data-status="${stClass}" data-name="${escapeHtml(r.m.name.toLowerCase())}" onclick="openMember('${String(r.m.id).replace(/'/g,"\\'")}')">
+      <div class="mic-left">
+        <div class="mic-avatar">${init}</div>
+        <div class="mic-info">
+          <div class="mic-name">${escapeHtml(r.m.name)}</div>
+          <div class="mic-phone">${r.m.phone ? `📱 ${escapeHtml(r.m.phone)}` : '<span style="color:var(--muted)">No phone</span>'}</div>
+        </div>
+      </div>
+
+      <div class="mic-center">
+        <div class="mic-amount-box">
+          <span class="mic-amt-val ${r.amount>=min?'paid-amt':''}">${r.amount?money(r.amount):'—'}</span>
+          <span class="mic-min-lbl">${r.amount?`of ${money(min)}`:`Min ${money(min)}`}</span>
+        </div>
+        <div class="mic-progress-wrap">
+          <div class="mic-progress-bar"><div class="mic-progress-fill ${r.amount>=min?'fill-full':''}" style="width:${pct}%"></div></div>
+          <div class="mic-date">${r.latestPayment?.date ? `📅 ${escapeHtml(r.latestPayment.date)}` : (st==='PAID'?'Recorded':'Not yet paid')}</div>
+        </div>
+      </div>
+
+      <div class="mic-right">
+        <span class="status-pill-modern ${stClass}">${stLabel}</span>
+        <div class="mic-actions">
+          ${shot}
+          ${receiptBtn}
+          ${remindBtn}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('detailModal').classList.add('open');
+}
+
+function openMember(id){
+  window.__currentOpenMemberId = id;
+  const m=state.members.find(x=>String(x.id)===String(id));
+  if(!m)return;
+  const ps=memberPayments(m),target=expectedYear(),total=ps.reduce((s,p)=>s+Number(p.amount||0),0);
+  document.getElementById('memberTitle').textContent=m.name;
+  document.getElementById('pTotal').textContent=money(total);
+  document.getElementById('pExpected').textContent=money(target);
+  document.getElementById('pExtra').textContent=total>=target?'+'+money(total-target):money(total-target);
+  document.getElementById('pCount').textContent=ps.length;
+  document.getElementById('pPhone').textContent=m.phone||'—';
+
+  const isAdmin = isUserAdmin();
+
+  const adminBadgeEl = document.getElementById('monthAdminStatusBadge');
+  if(adminBadgeEl){
+    adminBadgeEl.innerHTML = isAdmin ? `
+      <span style="display:inline-flex;align-items:center;gap:6px">
+        <span style="font-size:11px;background:#0f766e1f;color:#0f766e;border:1px solid #0f766e44;padding:3px 8px;border-radius:20px;font-weight:700">🛡️ Admin Active</span>
+        <button type="button" class="btn soft" style="font-size:11px;padding:3px 8px;color:var(--red);border-color:rgba(217,83,79,0.3)" onclick="adminSignOut()">🚪 Logout</button>
+      </span>
+    ` : '';
+  }
+
+  const actionsEl=document.getElementById('memberModalActions');
+  if(actionsEl){
+    const statementBtn = isAdmin ? `
+      <button class="btn-wa" style="padding:10px 14px;border-radius:12px;font-size:12px" onclick="sendMemberSummary('${escapeHtml(m.id)}')"><svg viewBox="0 0 24 24" style="width:16px;height:16px"><path fill="currentColor" d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c4.56 0 8.25 3.69 8.25 8.24 0 2.2-.86 4.28-2.42 5.83a8.196 8.196 0 0 1-5.83 2.41h-.01c-1.49 0-2.95-.39-4.23-1.15l-.3-.18-3.13.82.83-3.05-.2-.32a8.214 8.214 0 0 1-1.26-4.36c0-4.55 3.69-8.24 8.25-8.24m4.52 11.64c-.25-.13-1.48-.73-1.71-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.07-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.78 2.72 4.31 3.81.6.26 1.07.42 1.44.53.61.19 1.16.17 1.6.1.49-.07 1.48-.61 1.69-1.19.21-.59.21-1.09.15-1.19-.06-.11-.23-.17-.48-.3"/></svg> Send WhatsApp Statement</button>
+    ` : '';
+    actionsEl.innerHTML=`
+      <button class="btn gold" onclick="openUpiModal()">⚡ Pay via UPI</button>
+      ${statementBtn}
+    `;
+  }
+
+  document.getElementById('profileRows').innerHTML=MONTHS.map(([month,min])=>{
+    const payment=ps.filter(p=>p.month===month).sort((a,b)=>String(b.date).localeCompare(String(a.date)))[0],
+          amt=payment?Number(payment.amount||0):0,
+          st=amt>=min?'PAID':amt?'PARTIAL':'PENDING',
+          shot=payment?.screenshotUrl?`<button class="btn-proof-modern" style="padding:3px 8px;font-size:10px" onclick="viewScreenshot('${String(payment.id).replace(/'/g,"\\'")}')"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2.2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> View Proof</button>`:'',
+          receiptBtn=(isAdmin && amt>0 && m.phone)?`<button class="btn-wa-receipt" style="padding:3px 7px;font-size:10px;margin-left:5px" onclick="sendWhatsAppReceipt('${escapeHtml(m.name)}','${escapeHtml(m.phone)}','${escapeHtml(month)}',${amt},'${escapeHtml(payment?.date||'')}')">🧾 Receipt</button>`:'';
+    return `<div class="month-row"><b>${month}</b><span>${amt?money(amt):'—'}</span><span>${amt?money(min)+' min':'Not paid'}</span><span class="status ${st.toLowerCase()}">${st}</span>${shot}${receiptBtn}</div>`
+  }).join('');
+  document.getElementById('memberModal').classList.add('open');
+}
+
+/* WhatsApp Reminders & Instant Confirmation Receipts */
+let _lastWaActionTime = 0;
+
+function sendWhatsAppReceipt(name, phone, month, amount, date){
+  const now = Date.now();
+  if (now - _lastWaActionTime < 800) return; // Prevent duplicate rapid clicks
+  _lastWaActionTime = now;
+
+  if(!phone){
+    const p=prompt(`Enter 10-digit mobile number for ${name}:`);
+    if(!p)return;
+    phone=p.trim();
+  }
+  const cleanPhone=String(phone).replace(/\D/g,'').slice(-10);
+  if(cleanPhone.length!==10){
+    alert('Please enter a valid 10-digit mobile number.');
+    return;
+  }
+  const dateStr=date||new Date().toISOString().slice(0,10);
+  const formattedAmt=Number(amount||0).toLocaleString('en-IN');
+
+  // Short, clean, single-copy official receipt (under 10 lines, no duplicate body, no broken diamonds)
+  const text=encodeURIComponent(
+    `🚩 *శ్రీ వినాయక యువసేన - చందా రసీదు*\n\n` +
+    `నమస్కారం *${name.trim()}* గారు, మీ చందా నమోదైంది.\n\n` +
+    `• నెల: *${month}*\n` +
+    `• మొత్తం: *₹${formattedAmt}*\n` +
+    `• తేదీ: *${dateStr}*\n` +
+    `• స్థితి: *ధృవీకరించబడింది (Verified)*\n\n` +
+    `లైవ్ లెక్కలు: https://srivinayakayuvasena.vercel.app/\n` +
+    `గణపతి బప్పా మోరియా! 🙏`
+  );
+  window.open(`https://wa.me/91${cleanPhone}?text=${text}`,'_blank');
+}
+
+function sendMemberLatestReceipt(memberId){
+  const m=state.members.find(x=>String(x.id)===String(memberId));
+  if(!m)return;
+  const ps=memberPayments(m).sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));
+  if(!ps.length){
+    alert(`No payment recorded yet for ${m.name}.`);
+    return;
+  }
+  const p=ps[0];
+  sendWhatsAppReceipt(m.name, m.phone, p.month, p.amount, p.date);
+}
+
+function sendWhatsAppReminder(name, phone, month, dueAmount){
+  const now = Date.now();
+  if (now - _lastWaActionTime < 800) return;
+  _lastWaActionTime = now;
+
+  if(!phone){alert('Mobile number not available for '+name);return}
+  const cleanPhone=String(phone).replace(/\D/g,'').slice(-10);
+  if(cleanPhone.length!==10){
+    alert('Please enter a valid 10-digit mobile number.');
+    return;
+  }
+  const formattedDue=Number(dueAmount||0).toLocaleString('en-IN');
+  const text=encodeURIComponent(
+    `🙏 *శ్రీ వినాయక యువసేన - చందా రిమైండర్*\n\n` +
+    `నమస్తే *${name.trim()}* గారు,\n` +
+    `గణేష్ ఉత్సవ చందా బకాయి వివరాలు:\n\n` +
+    `• నెల: *${month}*\n` +
+    `• బకాయి మొత్తం: *₹${formattedDue}*\n\n` +
+    `లైవ్ లెక్కలు & QR: https://srivinayakayuvasena.vercel.app/\n` +
+    `గణపతి బప్పా మోరియా! 🚩`
+  );
+  window.open(`https://wa.me/91${cleanPhone}?text=${text}`,'_blank');
+}
+
+function sendMemberSummary(memberId){
+  const now = Date.now();
+  if (now - _lastWaActionTime < 800) return;
+  _lastWaActionTime = now;
+
+  const m=state.members.find(x=>String(x.id)===String(memberId));
+  if(!m||!m.phone){alert('Member phone number not available.');return}
+  const cleanPhone=String(m.phone).replace(/\D/g,'').slice(-10);
+  if(cleanPhone.length!==10){
+    alert('Please enter a valid 10-digit mobile number.');
+    return;
+  }
+  const ps=memberPayments(m);
+  const totalPaid=ps.reduce((s,p)=>s+Number(p.amount||0),0);
+  const target=expectedYear();
+  const balance=target-totalPaid;
+
+  const text=encodeURIComponent(
+    `🙏 *శ్రీ వినాయక యువసేన - ఖాతా సారాంశం*\n\n` +
+    `సభ్యుడు: *${m.name.trim()}*\n` +
+    `• జమ చేసిన మొత్తం: *₹${totalPaid.toLocaleString('en-IN')}*\n` +
+    `• వార్షిక లక్ష్యం: *₹${target.toLocaleString('en-IN')}*\n` +
+    (balance>0?`• బకాయి: *₹${balance.toLocaleString('en-IN')}*\n\n`:`• స్థితి: *పూర్తయింది (All Paid)* 🎉\n\n`) +
+    `లైవ్ లెక్కలు: https://srivinayakayuvasena.vercel.app/\n` +
+    `గణపతి బప్పా మోరియా! 🚩`
+  );
+  window.open(`https://wa.me/91${cleanPhone}?text=${text}`,'_blank');
+}
+
+/* QR Code Modal Controls */
+function openUpiModal(){
+  document.getElementById('upiModal').classList.add('open');
+}
+function closeUpiModal(){
+  document.getElementById('upiModal').classList.remove('open');
+}
+
+function saveQrCodeLocal(){
+  const qrImg=document.getElementById('officialUpiQr');
+  const src=(qrImg&&qrImg.src)?qrImg.src:'assets/upi-qr.png';
+  fetch(src)
+    .then(r=>r.blob())
+    .then(blob=>{
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement('a');
+      a.href=url;
+      a.download='SVYS_Official_UPI_QR.png';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(()=>URL.revokeObjectURL(url),1000);
+      alert(currentLang==='te'?'QR కోడ్ మీ డివైస్‌లో విజయవంతంగా సేవ్ చేయబడింది! 📥':'QR Code saved to your device gallery! 📥');
+    })
+    .catch(()=>{
+      const a=document.createElement('a');
+      a.href=src;
+      a.download='SVYS_Official_UPI_QR.png';
+      a.target='_blank';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    });
+}
+
+/* ============================================================
+   DEVOTIONAL ACTIONS: FLOWER SHOWER (ON LOGO ONLY) & BELL RINGING
+   ============================================================ */
+function offerFlowerShower() {
+  const container = document.getElementById('logoFlowerContainer');
+  if (!container) return;
+
+  const flowers = ['🌸', '🌺', '🌼', '🏵️', '💐', '✨', '🌹'];
+  const count = 22;
+
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement('div');
+    p.className = 'falling-logo-petal';
+    p.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+    p.style.left = (8 + Math.random() * 84) + '%';
+    p.style.animationDuration = (1.5 + Math.random() * 1.5) + 's';
+    p.style.fontSize = (15 + Math.random() * 13) + 'px';
+    p.style.setProperty('--drift', ((Math.random() - 0.5) * 36) + 'px');
+    p.style.setProperty('--rot', ((Math.random() > 0.5 ? 1 : -1) * (180 + Math.random() * 360)) + 'deg');
+    p.style.animationDelay = (Math.random() * 0.7) + 's';
+    container.appendChild(p);
+
+    setTimeout(() => { p.remove(); }, 3800);
+  }
+
+  // Gentle divine glow on logo during shower
+  const logoBox = document.querySelector('.hero-logo-box');
+  if (logoBox) {
+    logoBox.classList.add('puja-glowing');
+    setTimeout(() => { logoBox.classList.remove('puja-glowing'); }, 1800);
+  }
+}
+
+function ringTempleBell() {
+  const icon = document.getElementById('bellIcon');
+  if (icon) {
+    icon.classList.remove('bell-ringing');
+    void icon.offsetWidth;
+    icon.classList.add('bell-ringing');
+  }
+
+  // Gentle divine glow on logo during bell ring
+  const logoBox = document.querySelector('.hero-logo-box');
+  if (logoBox) {
+    logoBox.classList.add('puja-glowing');
+    setTimeout(() => { logoBox.classList.remove('puja-glowing'); }, 1500);
+  }
+
+  try {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (AudioCtx) {
+      const ctx = new AudioCtx();
+      if (ctx.state === 'suspended') ctx.resume();
+
+      const harmonics = [
+        { f: 587.33, g: 0.45, decay: 3.2 },
+        { f: 880.00, g: 0.35, decay: 2.6 },
+        { f: 1174.66, g: 0.25, decay: 2.0 },
+        { f: 1760.00, g: 0.15, decay: 1.5 },
+        { f: 2349.32, g: 0.08, decay: 1.0 }
+      ];
+
+      harmonics.forEach(h => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(h.f, ctx.currentTime);
+
+        gain.gain.setValueAtTime(h.g, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + h.decay);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start();
+        osc.stop(ctx.currentTime + h.decay + 0.1);
+      });
+    }
+  } catch (err) {
+    console.warn('AudioContext note:', err);
+  }
+}
+function showMemberGreetingPopup(user){
+  const u=user||window.svysCurrentUser;
+  const rawName=(u&&(u.displayName||(u.email||'').split('@')[0]))||'';
+  
+  let m=null;
+  if(rawName){
+    m=state.members.find(x=>
+      x.name.toLowerCase()===rawName.toLowerCase() ||
+      x.name.toLowerCase().includes(rawName.toLowerCase()) ||
+      rawName.toLowerCase().includes(x.name.toLowerCase().split(' ')[0])
+    );
+  }
+  if(!m&&state.members.length){
+    m=state.members.find(x=>x.name.toLowerCase().includes('tharun'))||state.members[0];
+  }
+  if(!m)return;
+
+  const firstName=m.name.split(' ')[0];
+  // Determine month check (current active cycle month: November)
+  const now=new Date();
+  const monthNames=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const activeMonth=monthNames[now.getMonth()]||'November';
+  const monthDef=MONTHS.find(([name])=>name.toLowerCase()===activeMonth.toLowerCase())||['November',200];
+  const minAmt=monthDef[1];
+
+  const ps=memberPayments(m);
+  const paidCurrent=ps.filter(p=>p.month.toLowerCase()===activeMonth.toLowerCase()).reduce((s,p)=>s+Number(p.amount||0),0);
+
+  const badgeEl=document.getElementById('greetBadge');
+  const titleEl=document.getElementById('greetTitle');
+  const msgEl=document.getElementById('greetMessage');
+  const actBtn=document.getElementById('greetActionBtn');
+
+  if(paidCurrent<minAmt){
+    const due=minAmt-paidCurrent;
+    badgeEl.className='toast-status-pill pending';
+    badgeEl.textContent='NOVEMBER PENDING';
+    titleEl.textContent=`Hii ${firstName}, your ${activeMonth} payment is pending`;
+    msgEl.innerHTML=`Your contribution for <b>${activeMonth}</b> (<b>₹${due}</b> pending) has not been recorded yet.<br><br>Scan the official QR code to complete payment and share your screenshot in the committee WhatsApp group.`;
+    actBtn.textContent=`Pay for ${activeMonth} via QR →`;
+  } else {
+    // Current month completed! Recommend next month
+    const curIdx=MONTHS.findIndex(([name])=>name.toLowerCase()===activeMonth.toLowerCase());
+    const nextIdx=(curIdx>=0&&curIdx<MONTHS.length-1)?curIdx+1:0;
+    const [nextMonthName,nextMin]=MONTHS[nextIdx];
+
+    badgeEl.className='toast-status-pill cleared';
+    badgeEl.textContent='PAYMENT COMPLETED';
+    titleEl.textContent=`Hii ${firstName}, pay for the next month`;
+    msgEl.innerHTML=`You have already completed your <b>${activeMonth}</b> contribution of <b>₹${paidCurrent}</b>! Dhanyavadalu 🙏<br><br>You can now pay for the next month (<b>${nextMonthName}</b> - ₹${nextMin}).`;
+    actBtn.textContent=`Pay for ${nextMonthName} via QR →`;
+  }
+
+  document.getElementById('memberGreetingModal').classList.add('open');
+}
+
+function closeGreetingModal(){
+  document.getElementById('memberGreetingModal').classList.remove('open');
+}
+
+window.svysOnUserLogin=function(user){
+  showMemberGreetingPopup(user);
+};
+
+/* Festival Expenses Module */
+function renderExpenses(){
+  const expenses=state.expenses||[];
+  const catTotals={};
+  expenses.forEach(e=>{
+    catTotals[e.category]=(catTotals[e.category]||0)+Number(e.amount||0);
+  });
+
+  const catGrid=document.getElementById('expenseCategoryGrid');
+  if(catGrid){
+    catGrid.innerHTML=EXPENSE_CATEGORIES.map(c=>`
+      <div class="exp-cat-card" style="cursor:pointer" onclick="setExpenseFilter('${escapeHtml(c.name)}')">
+        <div class="exp-cat-icon">${c.icon}</div>
+        <div class="exp-cat-meta">
+          <b>${escapeHtml(c.name)}</b>
+          <span>${money(catTotals[c.name]||0)}</span>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  const filterBox=document.getElementById('expenseFilterChips');
+  if(filterBox){
+    filterBox.innerHTML=`
+      <button class="filter-chip ${currentExpenseFilter==='all'?'active':''}" onclick="setExpenseFilter('all')">All (${expenses.length})</button>
+      ${EXPENSE_CATEGORIES.map(c=>`
+        <button class="filter-chip ${currentExpenseFilter===c.name?'active':''}" onclick="setExpenseFilter('${escapeHtml(c.name)}')">${c.icon} ${escapeHtml(c.name)}</button>
+      `).join('')}
+    `;
+  }
+
+  const filtered=currentExpenseFilter==='all'?expenses:expenses.filter(e=>e.category===currentExpenseFilter);
+  const rows=document.getElementById('expenseRows');
+  if(rows){
+    rows.innerHTML=filtered.length?filtered.map(e=>{
+      const catObj=EXPENSE_CATEGORIES.find(c=>c.name===e.category)||{icon:'📝',cls:'cat-misc'};
+      const receipt=e.receiptUrl?`<a href="${escapeHtml(e.receiptUrl)}" target="_blank" class="view-shot">🧾 Bill</a>`:'';
+      const delBtn=window.isAdminLoggedIn?`<button class="btn-del" onclick="deleteExpenseItem('${escapeHtml(e.id)}')">✕ Delete</button>`:'';
+      return `
+        <div class="month-row" style="grid-template-columns:1.4fr .7fr .6fr .5fr">
+          <div>
+            <span class="cat-pill ${catObj.cls}">${catObj.icon} ${escapeHtml(e.category)}</span>
+            <b style="display:block;margin-top:5px;font-size:13px">${escapeHtml(e.title)}</b>
+            <div style="font-size:10px;color:var(--muted);margin-top:2px">Vendor: ${escapeHtml(e.paidTo||'—')} • 📅 ${escapeHtml(e.date||'—')}</div>
+          </div>
+          <div><strong style="color:var(--burg);font-size:15px">${money(e.amount)}</strong></div>
+          <div>${receipt}</div>
+          <div style="text-align:right">${delBtn}</div>
+        </div>
+      `;
+    }).join(''):'<div class="empty">No expenditures recorded yet. (Admin records celebration expenses).</div>';
+  }
+}
+
+function setExpenseFilter(cat){
+  currentExpenseFilter=cat;
+  renderExpenses();
+}
+
+async function saveExpense(){
+  const category=document.getElementById('expCategory').value,
+        amount=Number(document.getElementById('expAmount').value),
+        title=document.getElementById('expTitle').value.trim(),
+        paidTo=document.getElementById('expPaidTo').value.trim(),
+        date=document.getElementById('expDate').value||new Date().toISOString().slice(0,10),
+        file=document.getElementById('expReceipt').files[0];
+
+  if(!title){alert('Enter the item or purpose of expenditure.');return}
+  if(!amount||amount<1){alert('Enter a valid expense amount.');return}
+
+  try{
+    let receiptData='',receiptName='',mimeType='';
+    if(file){
+      if(!file.type.startsWith('image/')){alert('Please upload an image file for the receipt.');return}
+      if(file.size>6*1024*1024){alert('Receipt image is too large. Please use an image under 6 MB.');return}
+      receiptData=await readFile(file);
+      receiptName=file.name;
+      mimeType=file.type;
+    }
+    const u=document.getElementById('adminUser').value;
+    const p=document.getElementById('adminPass').value;
+    
+    if(apiUrl()&&!apiUrl().includes('PASTE_YOUR')){
+      const d=await postAction({
+        action:'addExpense',
+        username:u,
+        password:p,
+        category,
+        title,
+        amount,
+        date,
+        paidTo,
+        receiptData,
+        receiptName,
+        mimeType
+      });
+      state.expenses=d.expenses||state.expenses;
+    } else {
+      const newExp={id:'E'+Date.now(),category,title,amount,date,paidTo,receiptUrl:''};
+      state.expenses=(state.expenses||[]).concat(newExp);
+    }
+    localStorage.setItem('SVYS_EXPENSES',JSON.stringify(state.expenses));
+    render();
+    document.getElementById('expTitle').value='';
+    document.getElementById('expAmount').value='';
+    document.getElementById('expPaidTo').value='';
+    document.getElementById('expReceipt').value='';
+    closeAdmin();
+    goSlide(2);
+    alert('Expense recorded successfully!');
+  }catch(e){
+    alert('Could not save expense: '+e.message);
+  }
+}
+
+async function deleteExpenseItem(id){
+  if(!confirm('Are you sure you want to delete this expense record?'))return;
+  const u=document.getElementById('adminUser').value;
+  const p=document.getElementById('adminPass').value;
+  try{
+    if(apiUrl()&&!apiUrl().includes('PASTE_YOUR')){
+      const d=await postAction({action:'deleteExpense',username:u,password:p,id});
+      state.expenses=d.expenses||state.expenses;
+    } else {
+      state.expenses=(state.expenses||[]).filter(e=>e.id!==id);
+    }
+    localStorage.setItem('SVYS_EXPENSES',JSON.stringify(state.expenses));
+    render();
+    alert('Expense record deleted.');
+  }catch(e){
+    alert('Could not delete expense: '+e.message);
+  }
+}
+
+function exportFinancialReport(){
+  const totalCol=state.payments.reduce((s,p)=>s+Number(p.amount||0),0);
+  const totalExp=(state.expenses||[]).reduce((s,e)=>s+Number(e.amount||0),0);
+  const balance=totalCol-totalExp;
+
+  let expRows=(state.expenses||[]).map((e,i)=>`
+    <tr>
+      <td>${i+1}</td>
+      <td>${escapeHtml(e.date)}</td>
+      <td>${escapeHtml(e.category)}</td>
+      <td>${escapeHtml(e.title)}</td>
+      <td>${escapeHtml(e.paidTo||'—')}</td>
+      <td>₹${Number(e.amount||0).toLocaleString('en-IN')}</td>
+    </tr>
+  `).join('');
+
+  let html=`<html><head><meta charset="UTF-8"><style>table{border-collapse:collapse;width:100%}th,td{border:1px solid #ccc;padding:8px;text-align:left}th{background:#f4ebd9}</style></head><body>
+    <h1>SRI VINAYAKA YUVASENA - FINANCIAL STATEMENT</h1>
+    <p><b>Total Collections:</b> ₹${totalCol.toLocaleString('en-IN')}</p>
+    <p><b>Total Expenses:</b> ₹${totalExp.toLocaleString('en-IN')}</p>
+    <p><b>Net Balance in Treasury:</b> ₹${balance.toLocaleString('en-IN')}</p>
+    <hr>
+    <h2>Celebration Expenditures</h2>
+    <table>
+      <tr><th>#</th><th>Date</th><th>Category</th><th>Item Description</th><th>Paid To</th><th>Amount</th></tr>
+      ${expRows}
+    </table>
+  </body></html>`;
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([html],{type:'application/vnd.ms-excel'}));
+  a.download='SRI_VINAYAKA_YUVA_SENA_Financial_Statement.xls';
+  a.click();
+}
+
+
+
+function onShotImageError(img) {
+  const loader = document.getElementById('shotLoader');
+  if (loader) loader.style.display = 'none';
+  if (img) img.style.display = 'none';
+  const fb = document.getElementById('shotFallback');
+  if (fb) fb.style.display = 'block';
+}
+
 function driveImageUrl(url){
   const s=String(url||'');
   const match=s.match(/\/file\/d\/([a-zA-Z0-9_-]+)/)||s.match(/[?&]id=([a-zA-Z0-9_-]+)/);
-  return match
-    ? 'https://drive.google.com/thumbnail?id='+match[1]+'&sz=w1600'
-    : s;
+  return match?'https://drive.google.com/thumbnail?id='+match[1]+'&sz=w1600':s;
 }
-function viewScreenshot(paymentId){const p=state.payments.find(x=>String(x.id)===String(paymentId));if(!p||!p.screenshotUrl){alert('Payment screenshot is not available.');return}const m=state.members.find(x=>String(x.id)===String(p.memberId));document.getElementById('shotTitle').textContent=(m?.name||'Member')+' • '+p.month;document.getElementById('shotImage').src=driveImageUrl(p.screenshotUrl);document.getElementById('shotMember').textContent=m?.name||'Member';document.getElementById('shotPhone').textContent='📱 '+(m?.phone||'—');document.getElementById('shotMonth').textContent=p.month;document.getElementById('shotAmount').textContent=money(p.amount);document.getElementById('shotDate').textContent=p.date||'—';document.getElementById('screenshotModal').classList.add('open')}
-function closeScreenshot(){document.getElementById('screenshotModal').classList.remove('open');document.getElementById('shotImage').removeAttribute('src')}function closeModal(){document.getElementById('detailModal').classList.remove('open')}function closeMember(){document.getElementById('memberModal').classList.remove('open')}
-function openAuth(){document.getElementById('authModal').classList.add('open');setTimeout(()=>document.getElementById('adminUser').focus(),50)}function closeAuth(){document.getElementById('authModal').classList.remove('open');document.getElementById('authError').textContent=''}
-function verifyAdmin(){const u=document.getElementById('adminUser').value.trim(),p=document.getElementById('adminPass').value;if(u==='Tharun'&&p==='Tharun@18'){closeAuth();openAdmin()}else document.getElementById('authError').textContent='Incorrect username or password.'}
-document.getElementById('adminPass').addEventListener('keydown',e=>{if(e.key==='Enter')verifyAdmin()});document.getElementById('search').addEventListener('input',renderMembers);
-function openAdmin(){document.getElementById('adminModal').classList.add('open');document.getElementById('conDate').value=new Date().toISOString().slice(0,10);fillAdminSelects()}function closeAdmin(){document.getElementById('adminModal').classList.remove('open')}
-function adminTab(name,btn){document.querySelectorAll('.admin-tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.admin-pane').forEach(x=>x.classList.remove('active'));btn.classList.add('active');document.getElementById('pane'+name.charAt(0).toUpperCase()+name.slice(1)).classList.add('active')}
-async function loadLoginActivity(btn){adminTab('loginActivity',btn);await refreshLoginActivity()}
-async function refreshLoginActivity(){const status=document.getElementById('loginActivityStatus'),rows=document.getElementById('loginActivityRows');status.textContent='Loading login history…';try{const d=await postAction({action:'getLoginActivity',username:document.getElementById('adminUser').value.trim(),password:document.getElementById('adminPass').value});const items=Array.isArray(d.activity)?d.activity:[];rows.innerHTML=items.length?items.map(x=>`<tr><td style="padding:10px;border-bottom:1px solid var(--line)">${escapeHtml(x.displayName||'—')}</td><td style="padding:10px;border-bottom:1px solid var(--line)">${escapeHtml(x.email||'—')}</td><td style="padding:10px;border-bottom:1px solid var(--line)">${escapeHtml(x.loginAt||'—')}</td><td style="padding:10px;border-bottom:1px solid var(--line)">${escapeHtml(x.method||'Email/Password')}</td></tr>`).join(''):'<tr><td colspan="4" style="padding:12px;color:var(--muted)">No successful logins recorded yet.</td></tr>';status.textContent='Showing '+items.length+' recent successful login(s).'}catch(e){status.textContent='Could not load login history: '+e.message;rows.innerHTML=''}}
-function fillAdminSelects(){document.getElementById('conMember').innerHTML=state.members.map(m=>`<option value="${escapeHtml(m.id)}">${escapeHtml(m.name)}${m.phone?' • '+escapeHtml(m.phone):''}</option>`).join('');document.getElementById('conMonth').innerHTML=MONTHS.map(([m,min])=>`<option value="${m}">${m} • minimum ${money(min)}</option>`).join('')}
-function readFile(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(file)})}
-async function saveContribution(){const memberId=document.getElementById('conMember').value,month=document.getElementById('conMonth').value,amount=Number(document.getElementById('conAmount').value),date=document.getElementById('conDate').value||new Date().toISOString().slice(0,10),file=document.getElementById('conScreenshot').files[0];if(!amount||amount<1){alert('Enter a valid contribution amount.');return}if(!file){alert('Payment screenshot is mandatory. Please upload the payment screenshot before saving.');return}if(!file.type.startsWith('image/')){alert('Please upload an image file.');return}if(file.size>6*1024*1024){alert('Screenshot is too large. Please use an image under 6 MB.');return}try{const screenshotData=await readFile(file);const u=document.getElementById('adminUser').value;const p=document.getElementById('adminPass').value;const d=await postAction({action:'addContribution',username:u,password:p,memberId,month,amount,date,screenshotData,screenshotName:file.name,mimeType:file.type});state={members:d.members||state.members,payments:d.payments||state.payments};render();document.getElementById('conAmount').value='';document.getElementById('conScreenshot').value='';closeAdmin();alert('Contribution saved to the live Google Sheet and payment screenshot saved to Google Drive.');}catch(e){alert(e.message)}}
-async function saveMember(){const name=document.getElementById('newName').value.trim(),phone=document.getElementById('newPhone').value.trim();if(!name){alert('Enter the member name.');return}if(!/^\d{10}$/.test(phone)){alert('Enter a valid 10-digit mobile number.');return}try{const d=await postAction({action:'addMember',username:'Tharun',password:'Tharun@18',name,phone});state={members:d.members||state.members,payments:d.payments||state.payments};render();document.getElementById('newName').value='';document.getElementById('newPhone').value='';goSlide(1);alert(name+' was added to the live member sheet.')}catch(e){alert(e.message)}}
-function exportExcel(){if(!state.payments.length){alert('There are no payments to export.');return}let rows=state.payments.map((p,i)=>{const m=state.members.find(x=>String(x.id)===String(p.memberId));return `<tr><td>${i+1}</td><td>${escapeHtml(p.month)}</td><td>${escapeHtml(m?.name||'')}</td><td>${escapeHtml(m?.phone||'')}</td><td>₹${Number(p.amount||0).toLocaleString('en-IN')}</td><td>${escapeHtml(p.date||'')}</td><td>${p.screenshotUrl?`<a href="${escapeHtml(p.screenshotUrl)}">View Screenshot</a>`:'No screenshot'}</td></tr>`}).join('');let html=`<html><head><meta charset="UTF-8"><style>table{border-collapse:collapse}th,td{border:1px solid #ccc;padding:8px}</style></head><body><h1>SRI VINAYAKA YUVA SENA</h1><table><tr><th>#</th><th>Month</th><th>Member</th><th>Mobile</th><th>Amount</th><th>Date</th><th>Screenshot</th></tr>${rows}</table>
-</body></html>`;const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([html],{type:'application/vnd.ms-excel'}));a.download='SRI_VINAYAKA_YUVA_SENA_Live_Export.xls';a.click()}
 
+function viewScreenshot(paymentId){
+  const p=state.payments.find(x=>String(x.id)===String(paymentId));
+  if(!p||!p.screenshotUrl){alert('Payment screenshot is not available.');return}
+  const m=state.members.find(x=>String(x.id)===String(p.memberId));
+  
+  document.getElementById('shotTitle').textContent=(m?.name||'Member')+' • '+p.month;
+  
+  const shotImg = document.getElementById('shotImage');
+  const shotLoader = document.getElementById('shotLoader');
+  const shotFallback = document.getElementById('shotFallback');
+  const shotExternalLink = document.getElementById('shotExternalLink');
+  const shotFallbackLink = document.getElementById('shotFallbackLink');
+  
+  if (shotLoader) shotLoader.style.display = 'flex';
+  if (shotFallback) shotFallback.style.display = 'none';
+  if (shotImg) {
+    shotImg.style.display = 'block';
+    shotImg.src = driveImageUrl(p.screenshotUrl);
+  }
+  if (shotExternalLink) shotExternalLink.href = p.screenshotUrl;
+  if (shotFallbackLink) shotFallbackLink.href = p.screenshotUrl;
+
+  document.getElementById('shotMember').textContent=m?.name||'Member';
+  document.getElementById('shotPhone').textContent=m?.phone ? '📱 ' + m.phone : '—';
+  document.getElementById('shotMonth').textContent=p.month;
+  document.getElementById('shotAmount').textContent=money(p.amount);
+  document.getElementById('shotDate').textContent=p.date||'—';
+  document.getElementById('screenshotModal').classList.add('open');
+}
+
+function closeScreenshot(){
+  document.getElementById('screenshotModal').classList.remove('open');
+  const img = document.getElementById('shotImage');
+  if(img) img.removeAttribute('src');
+}
+function closeModal(){document.getElementById('detailModal').classList.remove('open')}
+function closeMember(){document.getElementById('memberModal').classList.remove('open')}
+
+function updateAdminState(loggedIn){
+  window.isAdminLoggedIn = !!loggedIn;
+  if(loggedIn){
+    sessionStorage.setItem('SVYS_ADMIN_LOGGED_IN', 'true');
+    document.body.classList.add('is-admin');
+  } else {
+    sessionStorage.removeItem('SVYS_ADMIN_LOGGED_IN');
+    document.body.classList.remove('is-admin');
+  }
+  updateAdminNavUI();
+}
+
+function updateAdminNavUI(){
+  const isAdmin = isUserAdmin();
+
+  const adminBadgeEl = document.getElementById('monthAdminStatusBadge');
+  if(adminBadgeEl){
+    adminBadgeEl.innerHTML = isAdmin ? `
+      <span style="display:inline-flex;align-items:center;gap:6px">
+        <span style="font-size:11px;background:#0f766e1f;color:#0f766e;border:1px solid #0f766e44;padding:3px 8px;border-radius:20px;font-weight:700">🛡️ Admin Active</span>
+        <button type="button" class="btn soft" style="font-size:11px;padding:3px 8px;color:var(--red);border-color:rgba(217,83,79,0.3)" onclick="adminSignOut()">🚪 Logout</button>
+      </span>
+    ` : '';
+  }
+  const topWrap = document.getElementById('topAdminBtnWrap');
+  if(topWrap){
+    if(isAdmin){
+      topWrap.innerHTML = `
+        <button type="button" class="btn gold" onclick="openAdmin()" title="Open Admin Center" style="font-size:12px;padding:6px 11px;display:inline-flex;align-items:center;gap:5px">
+          <span>🛡️</span> <span>Admin: Tharun</span>
+        </button>
+        <button type="button" class="btn soft" onclick="adminSignOut()" title="Log out of Admin mode" style="font-size:12px;padding:6px 9px;color:var(--red);border-color:rgba(217,83,79,0.3)">
+          <span>🚪 Logout</span>
+        </button>
+      `;
+    } else {
+      topWrap.innerHTML = `
+        <button type="button" class="btn soft" onclick="handleAdminBtnClick()">
+          <svg viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
+          <span class="lbl" data-i18n="admin">Admin</span>
+        </button>
+      `;
+    }
+  }
+
+  const sideLabel = document.getElementById('sideNavAdminLabel');
+  if(sideLabel) sideLabel.textContent = isAdmin ? 'Admin Center (Active)' : 'Admin Center';
+  const sideLogout = document.getElementById('sideAdminLogoutBtn');
+  if(sideLogout) sideLogout.style.display = isAdmin ? 'flex' : 'none';
+}
+
+function handleAdminBtnClick(){
+  if(isUserAdmin()){
+    openAdmin();
+  } else {
+    openAuth();
+  }
+}
+
+function openAuth(){
+  if(isUserAdmin()){
+    openAdmin();
+    return;
+  }
+  document.getElementById('authModal').classList.add('open');
+  setTimeout(()=>document.getElementById('adminUser').focus(),50);
+}
+function closeAuth(){
+  document.getElementById('authModal').classList.remove('open');
+  document.getElementById('authError').textContent='';
+}
+
+function verifyAdmin(){
+  const u=document.getElementById('adminUser').value.trim(),p=document.getElementById('adminPass').value;
+  if(u==='Tharun'&&p==='Tharun@18'){
+    updateAdminState(true);
+    closeAuth();
+    openAdmin();
+    renderExpenses();
+    if(window.__currentOpenMonth) openMonth(window.__currentOpenMonth);
+    if(window.__currentOpenMemberId) openMember(window.__currentOpenMemberId);
+  }else {
+    document.getElementById('authError').textContent='Incorrect username or password.';
+  }
+}
+
+function adminSignOut(){
+  updateAdminState(false);
+  closeAdmin();
+  renderExpenses();
+  if(window.__currentOpenMonth) openMonth(window.__currentOpenMonth);
+  if(window.__currentOpenMemberId) openMember(window.__currentOpenMemberId);
+}
+
+const prevSignOut = window.svysSignOut;
+window.svysSignOut = async function(){
+  adminSignOut();
+  if(typeof prevSignOut === 'function') await prevSignOut();
+};
+
+document.getElementById('adminPass').addEventListener('keydown',e=>{if(e.key==='Enter')verifyAdmin()});
+document.getElementById('search').addEventListener('input',renderMembers);
+
+function openAdmin(){
+  document.getElementById('adminModal').classList.add('open');
+  document.getElementById('conDate').value=new Date().toISOString().slice(0,10);
+  document.getElementById('expDate').value=new Date().toISOString().slice(0,10);
+  fillAdminSelects();
+  renderAdminReminders();
+}
+function closeAdmin(){document.getElementById('adminModal').classList.remove('open')}
+
+function adminTab(name,btn){
+  document.querySelectorAll('.admin-tab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.admin-pane').forEach(x=>x.classList.remove('active'));
+  btn.classList.add('active');
+  const pane=document.getElementById('pane'+name.charAt(0).toUpperCase()+name.slice(1));
+  if(pane)pane.classList.add('active');
+  if(name==='reminders')renderAdminReminders();
+}
+
+async function loadLoginActivity(btn){adminTab('loginActivity',btn);await refreshLoginActivity()}
+
+async function refreshLoginActivity(){
+  const status=document.getElementById('loginActivityStatus'),rows=document.getElementById('loginActivityRows');
+  status.textContent='Loading login history…';
+  try{
+    const d=await postAction({action:'getLoginActivity',username:document.getElementById('adminUser').value.trim(),password:document.getElementById('adminPass').value});
+    const items=Array.isArray(d.activity)?d.activity:[];
+    rows.innerHTML=items.length?items.map(x=>`<tr><td style="padding:10px;border-bottom:1px solid var(--line)">${escapeHtml(x.displayName||'—')}</td><td style="padding:10px;border-bottom:1px solid var(--line)">${escapeHtml(x.email||'—')}</td><td style="padding:10px;border-bottom:1px solid var(--line)">${escapeHtml(x.loginAt||'—')}</td><td style="padding:10px;border-bottom:1px solid var(--line)">${escapeHtml(x.method||'Email/Password')}</td></tr>`).join(''):'<tr><td colspan="4" style="padding:12px;color:var(--muted)">No successful logins recorded yet.</td></tr>';
+    status.textContent='Showing '+items.length+' recent successful login(s).';
+  }catch(e){status.textContent='Could not load login history: '+e.message;rows.innerHTML=''}
+}
+
+function fillAdminSelects(){
+  document.getElementById('conMember').innerHTML=state.members.map(m=>`<option value="${escapeHtml(m.id)}">${escapeHtml(m.name)}${m.phone?' • '+escapeHtml(m.phone):''}</option>`).join('');
+  document.getElementById('conMonth').innerHTML=MONTHS.map(([m,min])=>`<option value="${m}">${m} • minimum ${money(min)}</option>`).join('');
+  const expCat=document.getElementById('expCategory');
+  if(expCat){
+    expCat.innerHTML=EXPENSE_CATEGORIES.map(c=>`<option value="${escapeHtml(c.name)}">${c.icon} ${escapeHtml(c.name)}</option>`).join('');
+  }
+}
+
+function readFile(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(file)})}
+
+async function saveContribution(){
+  const memberId=document.getElementById('conMember').value,
+        month=document.getElementById('conMonth').value,
+        amount=Number(document.getElementById('conAmount').value),
+        date=document.getElementById('conDate').value||new Date().toISOString().slice(0,10),
+        file=document.getElementById('conScreenshot').files[0];
+  if(!amount||amount<1){alert('Enter a valid contribution amount.');return}
+  if(!file){alert('Payment screenshot is mandatory. Please upload the payment screenshot before saving.');return}
+  if(!file.type.startsWith('image/')){alert('Please upload an image file.');return}
+  if(file.size>6*1024*1024){alert('Screenshot is too large. Please use an image under 6 MB.');return}
+  try{
+    const screenshotData=await readFile(file);
+    const u=document.getElementById('adminUser').value;
+    const p=document.getElementById('adminPass').value;
+    const d=await postAction({action:'addContribution',username:u,password:p,memberId,month,amount,date,screenshotData,screenshotName:file.name,mimeType:file.type});
+    state={members:d.members||state.members,payments:d.payments||state.payments,expenses:d.expenses||state.expenses};
+    render();
+    document.getElementById('conAmount').value='';
+    document.getElementById('conScreenshot').value='';
+    closeAdmin();
+    alert('Contribution saved to live Google Sheet.');
+
+    // Option 8: Prompt admin to send instant WhatsApp confirmation receipt
+    const m = state.members.find(x => String(x.id) === String(memberId));
+    if (m && m.phone) {
+      setTimeout(() => {
+        if (confirm(`Contribution of ₹${amount} saved for ${m.name}! 🎉\n\nWould you like to send an instant official WhatsApp payment receipt to ${m.name} (${m.phone})?`)) {
+          sendWhatsAppReceipt(m.name, m.phone, month, amount, date);
+        }
+      }, 350);
+    }
+  }catch(e){alert(e.message)}
+}
+
+async function saveMember(){
+  const name=document.getElementById('newName').value.trim(),phone=document.getElementById('newPhone').value.trim();
+  if(!name){alert('Enter the member name.');return}
+  if(!/^\d{10}$/.test(phone)){alert('Enter a valid 10-digit mobile number.');return}
+  try{
+    const u=document.getElementById('adminUser').value||'Tharun';
+    const p=document.getElementById('adminPass').value||'Tharun@18';
+    const d=await postAction({action:'addMember',username:u,password:p,name,phone});
+    state={members:d.members||state.members,payments:d.payments||state.payments,expenses:d.expenses||state.expenses};
+    render();
+    document.getElementById('newName').value='';
+    document.getElementById('newPhone').value='';
+    goSlide(1);
+    alert(name+' was added to the live member sheet.');
+  }catch(e){alert(e.message)}
+}
+
+function exportExcel(){
+  if(!state.payments.length){alert('There are no payments to export.');return}
+  let rows=state.payments.map((p,i)=>{
+    const m=state.members.find(x=>String(x.id)===String(p.memberId));
+    return `<tr><td>${i+1}</td><td>${escapeHtml(p.month)}</td><td>${escapeHtml(m?.name||'')}</td><td>${escapeHtml(m?.phone||'')}</td><td>₹${Number(p.amount||0).toLocaleString('en-IN')}</td><td>${escapeHtml(p.date||'')}</td><td>${p.screenshotUrl?`<a href="${escapeHtml(p.screenshotUrl)}">View Screenshot</a>`:'No screenshot'}</td></tr>`
+  }).join('');
+  let html=`<html><head><meta charset="UTF-8"><style>table{border-collapse:collapse}th,td{border:1px solid #ccc;padding:8px}</style></head><body><h1>SRI VINAYAKA YUVASENA</h1><table><tr><th>#</th><th>Month</th><th>Member</th><th>Mobile</th><th>Amount</th><th>Date</th><th>Screenshot</th></tr>${rows}</table></body></html>`;
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([html],{type:'application/vnd.ms-excel'}));a.download='SRI_VINAYAKA_YUVA_SENA_Live_Export.xls';a.click();
+}
+
+/* Bilingual (English / Telugu) Dictionary */
+const I18N = {
+  en: {
+    brandSubtitle: "SAVINGS TRACKER",
+    explore: "EXPLORE",
+    navMonths: "Monthly Collection",
+    navMembers: "Members",
+    navExpenses: "Festival Expenses",
+    navPay: "Pay via UPI",
+    navAdmin: "Admin Center",
+    navSignOut: "Sign Out",
+    installApp: "Install App",
+    myStatus: "My Status",
+    payQr: "Pay via UPI",
+    admin: "Admin",
+    heroEyebrow: "Ganesh Chaturthi • Community Fund",
+    heroTelugu: "శ్రీ వినాయక యువసేన",
+    heroDesc: "Live community contribution tracker for SRI VINAYAKA YUVASENA. Displays all member contributions from the live Google Sheet and festival expenditure budget.",
+    countdownBadge: "UTSAV COUNTDOWN",
+    countdownSubtitle: "Next Grand Celebration",
+    countdownFestName: "Ganesh Chaturthi 2027",
+    days: "Days",
+    hours: "Hours",
+    mins: "Mins",
+    secs: "Secs",
+    btnMonthly: "Monthly Collection →",
+    btnMembers: "Meet the Members",
+    btnExpenses: "Festival Expenses",
+    btnPayQr: "⚡ Pay via UPI",
+    statMembers: "Total Members",
+    statMembersHint: "Live Sheet Members",
+    statCollected: "Total Collected",
+    statCollectedHint: "Recorded Payments",
+    statTarget: "Yearly Minimum",
+    statTargetHint: "Target for group",
+    statExtra: "Extra Collected",
+    statExtraHint: "Above minimum",
+    statPct: "Collection",
+    statPctHint: "Against target",
+    chartOverviewTitle: "Monthly savings overview",
+    chartOverviewSub: "Collected (colour) against expected (outline), October – September",
+    chartProgressTitle: "Collection progress",
+    chartProgressSub: "Share of the yearly minimum collected",
+    recentTitle: "Recent payment activity",
+    recentSub: "Latest recorded contributions from Google Sheet",
+    upiModalEyebrow: "OFFICIAL FESTIVAL CONTRIBUTIONS",
+    upiModalTitle: "Pay via UPI & QR Code",
+    payeeNameLabel: "Official Payee",
+    copyUpi: "Copy",
+    selectAmountLabel: "Select Contribution Amount (₹):",
+    customAmount: "Or custom amount:",
+    payViaApps: "⚡ 1-Click Pay with Mobile UPI Apps",
+    payAnyUpi: "Pay via Any UPI App / BHIM",
+    qrScanCaption: "🙏 SRI VINAYAKA YUVASENA • Scan to pay from any app",
+    saveQrLocal: "Save QR to Device",
+    offerFlowers: "Offer Flowers",
+    ringBell: "Ring Bell",
+    howItWorks: "How It Works (Mandatory Process):",
+    step1: "Tap your preferred UPI app above or scan the QR code to complete payment.",
+    step2: "Save a screenshot of the successful payment receipt showing the transaction ID.",
+    step3: "Send the screenshot in the committee WhatsApp group or to Admin.",
+    step4: "Admin will verify the screenshot and record it into the website.",
+    close: "Close"
+  },
+  te: {
+    brandSubtitle: "చందాల ట్రాకర్",
+    explore: "అన్వేషించండి",
+    navMonths: "నెలవారీ చందాలు",
+    navMembers: "సభ్యుల జాబితా",
+    navExpenses: "ఉత్సవ ఖర్చులు",
+    navPay: "UPI ద్వారా చెల్లించండి",
+    navAdmin: "అడ్మిన్ సెంటర్",
+    navSignOut: "లాగ్ అవుట్",
+    installApp: "యాప్ ఇన్‌స్టాల్",
+    myStatus: "నా వివరాలు",
+    payQr: "UPI చెల్లింపు",
+    admin: "అడ్మిన్",
+    heroEyebrow: "వినాయక చవితి • సామూహిక నిధి",
+    heroTelugu: "శ్రీ వినాయక యువసేన",
+    heroDesc: "శ్రీ వినాయక యువసేన లైవ్ చందాల ట్రాకర్. గూగుల్ షీట్ నుండి సభ్యుల నెలవారీ చందాలు మరియు ఉత్సవ ఖర్చుల సమగ్ర వివరాలు.",
+    countdownBadge: "ఉత్సవ కౌంట్‌డౌన్",
+    countdownSubtitle: "తదుపరి మహోత్సవం",
+    countdownFestName: "వినాయక చవితి 2027",
+    days: "రోజులు",
+    hours: "గంటలు",
+    mins: "నిమిషాలు",
+    secs: "సెకన్లు",
+    btnMonthly: "నెలవారీ చందాలు →",
+    btnMembers: "సభ్యుల వివరాలు",
+    btnExpenses: "ఉత్సవ ఖర్చులు",
+    btnPayQr: "⚡ UPI ద్వారా చెల్లించండి",
+    statMembers: "మొత్తం సభ్యులు",
+    statMembersHint: "లైవ్ షీట్ సభ్యులు",
+    statCollected: "వసూలైన మొత్తం",
+    statCollectedHint: "రికార్డ్ అయిన చెల్లింపులు",
+    statTarget: "వార్షిక లక్ష్యం",
+    statTargetHint: "మొత్తం గ్రూప్ లక్ష్యం",
+    statExtra: "అదనపు నిధి",
+    statExtraHint: "కనీస మొత్తం కంటే ఎక్కువ",
+    statPct: "చందాల పురోగతి",
+    statPctHint: "లక్ష్యానికి అనుగుణంగా",
+    chartOverviewTitle: "నెలవారీ పొదుపు సారాంశం",
+    chartOverviewSub: "వసూలైనది మరియు ఆశించిన మొత్తం, అక్టోబర్ – సెప్టెంబర్",
+    chartProgressTitle: "వసూళ్ల పురోగతి",
+    chartProgressSub: "వార్షిక కనీస లక్ష్యంలో వసూలైన వాటా",
+    recentTitle: "ఇటీవలి చెల్లింపులు",
+    recentSub: "గూగుల్ షీట్ నుండి తాజా చెల్లింపుల రికార్డులు",
+    upiModalEyebrow: "అధికారిక ఉత్సవ చందాలు",
+    upiModalTitle: "UPI చందా & QR కోడ్",
+    payeeNameLabel: "అధికారిక గ్రహీత",
+    copyUpi: "కాపీ",
+    selectAmountLabel: "చందా మొత్తాన్ని ఎంచుకోండి (₹):",
+    customAmount: "లేదా మీ స్వంత మొత్తం:",
+    payViaApps: "⚡ 1-క్లిక్ మొబైల్ UPI యాప్ చెల్లింపు",
+    payAnyUpi: "ఏదైనా UPI యాప్ / BHIM ద్వారా చెల్లించండి",
+    qrScanCaption: "🙏 శ్రీ వినాయక యువసేన • ఏదైనా యాప్ ద్వారా స్కాన్ చేయండి",
+    saveQrLocal: "QR కోడ్‌ను సేవ్ చేసుకోండి",
+    offerFlowers: "పూల వర్షం",
+    ringBell: "గంట నాదం",
+    howItWorks: "చెల్లింపు విధానం (తప్పనిసరి ప్రక్రియ):",
+    step1: "పై UPI యాప్‌పై క్లిక్ చేయండి లేదా మీ ఫోన్‌తో QR కోడ్‌ను స్కాన్ చేసి చెల్లించండి.",
+    step2: "లావాదేవీ ID కనిపించేలా విజయవంతమైన చెల్లింపు స్క్రీన్‌షాట్‌ను భద్రపరచండి.",
+    step3: "ఆ స్క్రీన్‌షాట్‌ను కమిటీ WhatsApp గ్రూప్‌లో లేదా అడ్మిన్‌కు పంపండి.",
+    step4: "అడ్మిన్ స్క్రీన్‌షాట్ ధృవీకరించి వెబ్‌సైట్‌లో రికార్డ్ చేస్తారు.",
+    close: "మూసివేయి"
+  }
+};
+
+let currentLang = localStorage.getItem('SVYS_LANG') || 'en';
+window.currentLang = currentLang;
+
+function applyLanguage(lang) {
+  currentLang = lang;
+  window.currentLang = lang;
+  localStorage.setItem('SVYS_LANG', lang);
+  const dict = I18N[lang] || I18N.en;
+  
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (dict[key]) {
+      el.textContent = dict[key];
+    }
+  });
+
+  const btnText = document.getElementById('langBtnText');
+  if (btnText) {
+    btnText.textContent = lang === 'en' ? 'తెలుగు' : 'English';
+  }
+}
+
+function toggleLanguage() {
+  applyLanguage(currentLang === 'en' ? 'te' : 'en');
+}
+
+/* Option 1: Dynamic UPI Payment & Mobile App Intents */
+let selectedUpiAmount = 200;
+
+function updateUpiLinks(amount) {
+  selectedUpiAmount = amount;
+  const upiId = (CONFIG.UPI_ID || '9390266268@upi').trim();
+  const payeeName = (CONFIG.UPI_NAME || 'THAMMINENI REVANTH').trim();
+  const encodedName = encodeURIComponent(payeeName);
+  const note = encodeURIComponent('SVYS Festival Contribution');
+
+  // Official NPCI UPI URI standard that opens GPay / PhonePe / Paytm on mobile with Payee details pre-filled
+  const upiUrl = `upi://pay?pa=${upiId}&pn=${encodedName}&am=${amount}&cu=INR&tn=${note}`;
+
+  const btnGPay = document.getElementById('btnPayGPay');
+  if (btnGPay) btnGPay.href = upiUrl;
+
+  const btnPhonePe = document.getElementById('btnPayPhonePe');
+  if (btnPhonePe) btnPhonePe.href = upiUrl;
+
+  const btnPaytm = document.getElementById('btnPayPaytm');
+  if (btnPaytm) btnPaytm.href = upiUrl;
+
+  const btnGeneric = document.getElementById('btnPayGeneric');
+  if (btnGeneric) btnGeneric.href = upiUrl;
+
+  const payeeEl = document.getElementById('upiPayeeNameDisplay');
+  if (payeeEl) payeeEl.textContent = payeeName;
+
+  const idEl = document.getElementById('upiIdDisplay');
+  if (idEl) idEl.textContent = upiId;
+}
+
+function setUpiAmount(amt, btn) {
+  document.querySelectorAll('#upiAmountPills .amt-pill').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  updateUpiLinks(amt);
+}
+
+function copyUpiId() {
+  const upiId = (CONFIG.UPI_ID || '9390266268@upi').trim();
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(upiId).then(() => {
+      alert('📋 Copied UPI ID: ' + upiId);
+    }).catch(() => prompt('Copy UPI ID:', upiId));
+  } else {
+    prompt('Copy UPI ID:', upiId);
+  }
+}
+
+/* Option 3: Festival Live Countdown Timer */
+function startCountdown() {
+  const targetStr = CONFIG.FESTIVAL_DATE || "2027-09-04T00:00:00+05:30";
+  const targetDate = new Date(targetStr).getTime();
+
+  function update() {
+    const now = new Date().getTime();
+    const diff = targetDate - now;
+
+    if (diff <= 0) {
+      const daysEl = document.getElementById('cdDays');
+      if (daysEl) daysEl.textContent = '000';
+      return;
+    }
+
+    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+    const daysEl = document.getElementById('cdDays');
+    const hrsEl = document.getElementById('cdHours');
+    const minsEl = document.getElementById('cdMins');
+    const secsEl = document.getElementById('cdSecs');
+
+    if (daysEl) daysEl.textContent = String(d).padStart(3, '0');
+    if (hrsEl) hrsEl.textContent = String(h).padStart(2, '0');
+    if (minsEl) minsEl.textContent = String(m).padStart(2, '0');
+    if (secsEl) secsEl.textContent = String(s).padStart(2, '0');
+  }
+
+  update();
+  setInterval(update, 1000);
+}
+
+/* Option 5: Admin Bulk WhatsApp Reminders (Previous & Current Months) */
+function renderAdminReminders() {
+  const filter = document.getElementById('reminderFilterSelect')?.value || 'all';
+  const listEl = document.getElementById('adminRemindersList');
+  const countEl = document.getElementById('reminderSummaryCount');
+  if (!listEl) return;
+
+  const targetYear = expectedYear();
+  const upiId = (CONFIG.UPI_ID || '9390266268@upi').trim();
+  const payeeName = (CONFIG.UPI_NAME || 'THAMMINENI REVANTH').trim();
+
+  // Active tracking months
+  const octMin = 200;
+  const novMin = 200;
+
+  let membersData = state.members.map(m => {
+    const ps = memberPayments(m);
+    const totalPaid = ps.reduce((s, p) => s + Number(p.amount || 0), 0);
+    const overallDue = Math.max(0, targetYear - totalPaid);
+
+    // October (Previous Month)
+    const octPaid = ps.filter(p => p.month === 'October').reduce((s, p) => s + Number(p.amount || 0), 0);
+    const octDue = Math.max(0, octMin - octPaid);
+    const hasPrevDue = octDue > 0;
+
+    // November (Current Month)
+    const novPaid = ps.filter(p => p.month === 'November').reduce((s, p) => s + Number(p.amount || 0), 0);
+    const novDue = Math.max(0, novMin - novPaid);
+    const hasCurDue = novDue > 0;
+
+    // Total elapsed due (October + November)
+    const totalElapsedDue = octDue + novDue;
+
+    return {
+      m,
+      totalPaid,
+      overallDue,
+      octPaid,
+      octDue,
+      novPaid,
+      novDue,
+      hasPrevDue,
+      hasCurDue,
+      totalElapsedDue
+    };
+  });
+
+  let filtered = [];
+  if (filter === 'all') {
+    filtered = membersData.filter(d => d.hasPrevDue || d.hasCurDue);
+  } else if (filter === 'previous') {
+    filtered = membersData.filter(d => d.hasPrevDue);
+  } else if (filter === 'current') {
+    filtered = membersData.filter(d => d.hasCurDue);
+  } else if (filter === 'both') {
+    filtered = membersData.filter(d => d.hasPrevDue && d.hasCurDue);
+  } else if (filter === 'paid') {
+    filtered = membersData.filter(d => !d.hasPrevDue && !d.hasCurDue);
+  }
+
+  if (countEl) {
+    countEl.textContent = `Showing ${filtered.length} of ${state.members.length} members`;
+  }
+
+  if (!filtered.length) {
+    listEl.innerHTML = `<div class="empty" style="padding:32px;text-align:center;color:var(--muted)">🎉 No members found for this filter. All up to date!</div>`;
+    return;
+  }
+
+  const isAdmin = isUserAdmin();
+
+  const adminBadgeEl = document.getElementById('monthAdminStatusBadge');
+  if(adminBadgeEl){
+    adminBadgeEl.innerHTML = isAdmin ? `
+      <span style="display:inline-flex;align-items:center;gap:6px">
+        <span style="font-size:11px;background:#0f766e1f;color:#0f766e;border:1px solid #0f766e44;padding:3px 8px;border-radius:20px;font-weight:700">🛡️ Admin Active</span>
+        <button type="button" class="btn soft" style="font-size:11px;padding:3px 8px;color:var(--red);border-color:rgba(217,83,79,0.3)" onclick="adminSignOut()">🚪 Logout</button>
+      </span>
+    ` : '';
+  }
+
+  listEl.innerHTML = filtered.map(item => {
+    const isDue = item.totalElapsedDue > 0;
+
+    // Compose polite WhatsApp text listing past & current months
+    let duesText = '';
+    if (item.hasPrevDue) duesText += `• అక్టోబర్ (గత నెల): ₹${item.octDue}\n`;
+    if (item.hasCurDue) duesText += `• నవంబర్ (ప్రస్తుత నెల): ₹${item.novDue}\n`;
+
+    const cleanPhone = String(item.m.phone||'').replace(/\D/g,'').slice(-10);
+    const msg = encodeURIComponent(
+      `🚩 *శ్రీ వినాయక యువసేన - చందా రిమైండర్*\n\n` +
+      `నమస్తే *${item.m.name}* గారు 🙏\n` +
+      `మీ చందా బకాయి వివరాలు:\n\n` +
+      duesText +
+      `• మొత్తం బకాయి: *₹${item.totalElapsedDue}*\n\n` +
+      `లైవ్ లెక్కలు & QR: https://srivinayakayuvasena.vercel.app/\n` +
+      `గణపతి బప్పా మోరియా! 🚩`
+    );
+    const waUrl = cleanPhone.length === 10 ? `https://wa.me/91${cleanPhone}?text=${msg}` : '#';
+
+    return `
+      <div class="reminder-card-item">
+        <div class="reminder-member-info">
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+            <b>${escapeHtml(item.m.name)}</b>
+            ${item.hasPrevDue ? `<span class="badge-prev-due">⚠️ October Unpaid (₹${item.octDue})</span>` : ''}
+            ${item.hasCurDue ? `<span class="badge-cur-due">⏳ November Unpaid (₹${item.novDue})</span>` : ''}
+            ${(!item.hasPrevDue && !item.hasCurDue) ? `<span class="badge-ok">✓ Up-to-Date (₹${item.totalPaid})</span>` : ''}
+          </div>
+          <small>📱 ${escapeHtml(item.m.phone || '—')} • Paid so far: ₹${item.totalPaid}</small>
+          <div style="margin-top:4px;font-size:12px;font-weight:700;color:var(--maroon)">
+            ${isDue ? `Total Due (Oct + Nov): ₹${item.totalElapsedDue}` : 'All past & current dues cleared'}
+          </div>
+        </div>
+        <div>
+          ${(isAdmin && isDue && item.m.phone) ? `
+            <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="btn-wa-direct">
+              <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c4.56 0 8.25 3.69 8.25 8.24 0 2.2-.86 4.28-2.42 5.83a8.196 8.196 0 0 1-5.83 2.41h-.01c-1.49 0-2.95-.39-4.23-1.15l-.3-.18-3.13.82.83-3.05-.2-.32a8.214 8.214 0 0 1-1.26-4.36c0-4.55 3.69-8.24 8.25-8.24m4.52 11.64c-.25-.13-1.48-.73-1.71-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.07-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.78 2.72 4.31 3.81.6.26 1.07.42 1.44.53.61.19 1.16.17 1.6.1.49-.07 1.48-.61 1.69-1.19.21-.59.21-1.09.15-1.19-.06-.11-.23-.17-.48-.3"/></svg>
+              <span>Remind (₹${item.totalElapsedDue})</span>
+            </a>
+          ` : (isAdmin && item.m.phone && item.totalPaid > 0) ? `
+            <button onclick="sendMemberLatestReceipt('${escapeHtml(item.m.id)}')" class="btn-wa-receipt" title="Send official payment receipt on WhatsApp">
+              🧾 Send Receipt
+            </button>
+          ` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function copyPendingGroupSummary() {
+  const upiId = (CONFIG.UPI_ID || '9390266268@upi').trim();
+  const payeeName = (CONFIG.UPI_NAME || 'THAMMINENI REVANTH').trim();
+
+  // Find October unpaid members
+  const octUnpaid = state.members.map(m => {
+    const ps = memberPayments(m);
+    const paid = ps.filter(p => p.month === 'October').reduce((s, p) => s + Number(p.amount || 0), 0);
+    const due = Math.max(0, 200 - paid);
+    return { name: m.name, phone: m.phone, due };
+  }).filter(x => x.due > 0);
+
+  // Find November unpaid members
+  const novUnpaid = state.members.map(m => {
+    const ps = memberPayments(m);
+    const paid = ps.filter(p => p.month === 'November').reduce((s, p) => s + Number(p.amount || 0), 0);
+    const due = Math.max(0, 200 - paid);
+    return { name: m.name, phone: m.phone, due };
+  }).filter(x => x.due > 0);
+
+  if (!octUnpaid.length && !novUnpaid.length) {
+    alert('All members are fully up to date for October and November! 🎉');
+    return;
+  }
+
+  let text = `🚩 *శ్రీ వినాయక యువసేన - చందాల బకాయిల నివేదిక* 🚩\n\n`;
+
+  if (octUnpaid.length) {
+    text += `⚠️ *గత నెల (అక్టోబర్) బకాయి ఉన్న సభ్యులు:*\n`;
+    text += octUnpaid.map((x, i) => `${i + 1}. ${x.name} - ₹${x.due}`).join('\n') + `\n\n`;
+  } else {
+    text += `✓ అక్టోబర్ నెల చందాలు అందరూ చెల్లించారు! 🎉\n\n`;
+  }
+
+  if (novUnpaid.length) {
+    text += `⏳ *ప్రస్తుత నెల (నవంబర్) బకాయి ఉన్న సభ్యులు:*\n`;
+    text += novUnpaid.map((x, i) => `${i + 1}. ${x.name} - ₹${x.due}`).join('\n') + `\n\n`;
+  } else {
+    text += `✓ నవంబర్ నెల చందాలు అందరూ చెల్లించారు! 🎉\n\n`;
+  }
+
+  text += `💳 *UPI ID:* ${upiId} (${payeeName})\nదయచేసి పెండింగ్ ఉన్న సభ్యులు తమ చందాలు చెల్లించి రసీదు గ్రూప్‌లో పంపగలరు. 🙏`;
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => {
+      alert('📋 Copied full pending report (Previous & Current months) to clipboard! You can paste it into the WhatsApp group.');
+    }).catch(() => prompt('Copy pending summary:', text));
+  } else {
+    prompt('Copy pending summary:', text);
+  }
+}
+
+/* Option 7: PWA Service Worker & Install Prompt */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').then(reg => {
+      console.info('SVYS ServiceWorker ready');
+    }).catch(err => {
+      console.warn('SVYS ServiceWorker note:', err);
+    });
+  });
+}
+
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  const btn = document.getElementById('pwaInstallBtn');
+  if (btn) btn.style.display = 'inline-flex';
+});
+
+function installPwa() {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(choiceResult => {
+      if (choiceResult.outcome === 'accepted') {
+        const btn = document.getElementById('pwaInstallBtn');
+        if (btn) btn.style.display = 'none';
+      }
+      deferredPrompt = null;
+    });
+  } else {
+    alert('To install the SVYS App on your phone:\n\n• On Android (Chrome): Tap the three dots (⋮) and select "Add to Home screen" or "Install app".\n• On iPhone (Safari): Tap the Share button (⎋) and select "Add to Home Screen".');
+  }
+}
+
+// Initial automatic load
+updateAdminState(isUserAdmin());
+render();
+loadData();
+applyLanguage(currentLang);
+updateUpiLinks(200);
+startCountdown();
 </script>
 <script src="dashboard.js"></script>
 <script src="auth.js"></script>

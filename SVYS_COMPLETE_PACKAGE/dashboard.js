@@ -3,15 +3,23 @@
 var $=function(id){return document.getElementById(id)};
 // Toasts replace blocking alert() popups; messages are unchanged.
 var host=document.createElement('div');host.className='toasts';host.setAttribute('aria-live','polite');document.body.appendChild(host);
-window.alert=function(msg){var t=document.createElement('div');t.className='toast'+(/could not|not saved|not available|enter |invalid|incorrect|mandatory|too large|failed|unreachable|no payments|please/i.test(msg)?' err':'');t.textContent=msg;host.appendChild(t);setTimeout(function(){t.classList.add('out');setTimeout(function(){t.remove()},320)},4500)};
+window.alert=function(msg){var t=document.createElement('div');t.className='toast'+(/could not|not saved|not available|enter |invalid|incorrect|mandatory|too large|failed|unreachable|no payments|please|error/i.test(msg)?' err':'');t.textContent=msg;host.appendChild(t);setTimeout(function(){t.classList.add('out');setTimeout(function(){t.remove()},320)},4500)};
 // Mobile drawer
 function nav(open){document.body.classList.toggle('nav-open',open)}
 $('menuBtn').addEventListener('click',function(){nav(!document.body.classList.contains('nav-open'))});
 $('backdrop').addEventListener('click',function(){nav(false)});
 document.addEventListener('keydown',function(e){if(e.key==='Escape'){nav(false);document.querySelectorAll('.modal.open').forEach(function(m){m.classList.remove('open')})}});
 document.querySelectorAll('.sidebar .nav-item').forEach(function(b){b.addEventListener('click',function(){nav(false)})});
-var title={navMonths:'Monthly Collection',navMembers:'Our Members'};
-var _go=window.goSlide;window.goSlide=function(i){_go(i);$('topTitle').textContent=i?title.navMembers:title.navMonths;var m=document.querySelector('.slider-anchor');if(m&&m.scrollIntoView)m.scrollIntoView({behavior:'smooth',block:'start'})};
+var titlesEn=['Monthly Collection','Our Members','Festival Expenses'];
+var titlesTe=['నెలవారీ చందాలు','మన సభ్యులు','ఉత్సవ ఖర్చులు'];
+var _go=window.goSlide;
+window.goSlide=function(i){
+  _go(i);
+  var isTe = window.currentLang === 'te';
+  $('topTitle').textContent=(isTe ? titlesTe[i] : titlesEn[i]) || titlesEn[0];
+  var m=document.querySelector('.slider-anchor');
+  if(m&&m.scrollIntoView)m.scrollIntoView({behavior:'smooth',block:'start'})
+};
 // Charts + activity
 var esc=function(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
 function enhance(){
