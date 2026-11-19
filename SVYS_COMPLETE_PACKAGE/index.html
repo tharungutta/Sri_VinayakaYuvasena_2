@@ -479,7 +479,7 @@
 </div>
 
 <!-- Admin Pane: Contribution -->
-<div id="paneContribution" class="admin-pane active"><div class="form-grid"><div class="field"><label>Member</label><select id="conMember" onchange="autoFillContributionEmail()"></select></div><div class="field"><label>Month</label><select id="conMonth"></select></div><div class="field"><label>Amount (₹)</label><input id="conAmount" type="number" min="1" placeholder="Example: 200"></div><div class="field"><label>Date</label><input id="conDate" type="date"></div><div class="field" style="grid-column:1/-1"><label>Contributor Email (For Automated E-Receipt PDF Delivery)</label><input id="conEmail" type="email" placeholder="devotee@gmail.com"></div><div class="field" style="grid-column:1/-1"><label>Payment screenshot <b style="color:var(--red)">* mandatory</b></label><input id="conScreenshot" type="file" accept="image/*"></div></div><div style="padding:0 20px 20px;display:flex;justify-content:flex-end;gap:8px"><button class="btn soft" onclick="closeAdmin()">Close</button><button class="btn primary" onclick="saveContribution()">Save Contribution</button></div></div>
+<div id="paneContribution" class="admin-pane active"><div class="form-grid"><div class="field"><label>Member</label><select id="conMember" onchange="autoFillContributionEmail()"></select></div><div class="field"><label>Month</label><select id="conMonth"></select></div><div class="field"><label>Amount (₹)</label><input id="conAmount" type="number" min="1" placeholder="Example: 200"></div><div class="field"><label>Date</label><input id="conDate" type="date"></div><div class="field" style="grid-column:1/-1"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><label style="margin:0">Contributor Email (For Automated E-Receipt PDF Delivery)</label><span id="conEmailSource" style="font-size:11px"></span></div><input id="conEmail" type="email" placeholder="devotee@gmail.com" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></div><div class="field" style="grid-column:1/-1"><label>Payment screenshot <b style="color:var(--red)">* mandatory</b></label><input id="conScreenshot" type="file" accept="image/*"></div></div><div style="padding:0 20px 20px;display:flex;justify-content:flex-end;gap:8px"><button class="btn soft" onclick="closeAdmin()">Close</button><button class="btn primary" onclick="saveContribution()">Save Contribution</button></div></div>
 
 <!-- Admin Pane: Expense -->
 <div id="paneExpense" class="admin-pane"><div class="form-grid">
@@ -2018,6 +2018,7 @@ function openAdmin(){
   document.getElementById('conDate').value=new Date().toISOString().slice(0,10);
   document.getElementById('expDate').value=new Date().toISOString().slice(0,10);
   fillAdminSelects();
+  autoFillContributionEmail();
   renderAdminReminders();
 }
 function closeAdmin(){document.getElementById('adminModal').classList.remove('open')}
@@ -2028,6 +2029,7 @@ function adminTab(name,btn){
   btn.classList.add('active');
   const pane=document.getElementById('pane'+name.charAt(0).toUpperCase()+name.slice(1));
   if(pane)pane.classList.add('active');
+  if(name==='contribution')autoFillContributionEmail();
   if(name==='reminders')renderAdminReminders();
   if(name==='suggestions')renderAdminSuggestions();
 }
@@ -2052,6 +2054,7 @@ document.getElementById('conMonth').innerHTML=MONTHS.map(([m,min])=>`<option val
   if(expCat){
     expCat.innerHTML=EXPENSE_CATEGORIES.map(c=>`<option value="${escapeHtml(c.name)}">${c.icon} ${escapeHtml(c.name)}</option>`).join('');
   }
+  autoFillContributionEmail();
 }
 
 function readFile(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(file)})}
@@ -2076,6 +2079,7 @@ async function saveContribution(){
     render();
     document.getElementById('conAmount').value='';
     document.getElementById('conScreenshot').value='';
+    if(document.getElementById('conEmail')) document.getElementById('conEmail').value='';
     closeAdmin();
 
     const m = state.members.find(x => String(x.id) === String(memberId));
@@ -3698,10 +3702,26 @@ let currentActiveReceipt = null;
 
 function autoFillContributionEmail() {
   const mId = document.getElementById('conMember')?.value;
-  const m = state.members.find(x => String(x.id) === String(mId));
+  const m = (state.members || []).find(x => String(x.id) === String(mId));
   const emailInput = document.getElementById('conEmail');
-  if (emailInput && m) {
-    emailInput.value = findMemberEmailLocally(m.name, m.phone);
+  const sourceLabel = document.getElementById('conEmailSource');
+  if (!emailInput) return;
+
+  if (m) {
+    const foundEmail = (m.email && m.email.includes('@')) ? m.email.trim() : findMemberEmailLocally(m.name, m.phone);
+    if (foundEmail) {
+      emailInput.value = foundEmail;
+      emailInput.placeholder = 'devotee@gmail.com';
+      if (sourceLabel) sourceLabel.innerHTML = '<span style="color:#25d366;font-weight:600">✓ Fetched from Sheet</span>';
+    } else {
+      emailInput.value = '';
+      emailInput.placeholder = 'No email in sheet (Type here manually if needed)';
+      if (sourceLabel) sourceLabel.innerHTML = '<span style="color:#e67e22;font-weight:600">✏️ Not in sheet — Enter email manually</span>';
+    }
+  } else {
+    emailInput.value = '';
+    emailInput.placeholder = 'devotee@gmail.com';
+    if (sourceLabel) sourceLabel.textContent = '';
   }
 }
 
@@ -3852,7 +3872,10 @@ function sendActiveReceiptSms() {
   const text = encodeURIComponent(
     `Thank you, ${r.memberName}! Sri Vinayaka Yuvasena has received your contribution of ₹${Number(r.amount||0).toLocaleString('en-IN')} for ${r.month} in support of Ganesh Chaturthi Utsav.\n\nReceipt No.: ${r.receiptId || ('SVYS-RCPT-' + Date.now().toString().slice(-6))}\n\nTrack your contribution here: https://srivinayakayuvasena.vercel.app/`
   );
-  window.location.href = `sms:+91${cleanPhone}?body=${text}`;
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  const separator = isIOS ? '&' : '?';
+  const phoneTarget = cleanPhone ? (cleanPhone.length === 10 ? '+91' + cleanPhone : cleanPhone) : '';
+  window.location.href = `sms:${phoneTarget}${separator}body=${text}`;
 }
 
 // Initial automatic load

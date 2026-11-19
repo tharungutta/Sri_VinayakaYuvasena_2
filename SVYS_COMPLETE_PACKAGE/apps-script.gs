@@ -1,8 +1,20 @@
 function authorizePermissions(){
-  // Run this function once in Apps Script and click "Allow" to enable Email sending
-  const quota = MailApp.getRemainingDailyQuota();
-  Logger.log('SUCCESS: MailApp is authorized! Remaining daily emails: ' + quota);
-  return 'SUCCESS: MailApp is authorized! Daily quota: ' + quota;
+  // Run this function once in Apps Script and click "Review permissions" -> "Allow" to enable Email sending
+  let log = [];
+  try {
+    const quota = MailApp.getRemainingDailyQuota();
+    log.push('MailApp quota available: ' + quota);
+  } catch(e) {
+    log.push('MailApp info: ' + e.message);
+  }
+  try {
+    const drafts = GmailApp.getDrafts();
+    log.push('GmailApp authorized successfully');
+  } catch(e) {
+    log.push('GmailApp info: ' + e.message);
+  }
+  Logger.log('Permissions check: ' + log.join(' | '));
+  return 'SUCCESS: ' + log.join(' | ');
 }
 
 const SHEET_MEMBERS = 'Members';
@@ -204,6 +216,7 @@ function addContribution_(b){
 
   // 1. Automatic Email Delivery with PDF attachment (Zero manual effort)
   if (targetEmail && targetEmail.indexOf('@') !== -1 && pdfBlob) {
+    let emailSent = false;
     try {
       MailApp.sendEmail({
         to: targetEmail,
@@ -212,12 +225,44 @@ function addContribution_(b){
         name: 'Sri Vinayaka Yuvasena',
         attachments: [pdfBlob]
       });
-      Logger.log('SUCCESS: Email dispatched to ' + targetEmail);
+      emailSent = true;
+      Logger.log('SUCCESS: Email dispatched via MailApp to ' + targetEmail);
     } catch(mailErr) {
       Logger.log('MailApp error: ' + mailErr.message);
     }
+
+    if (!emailSent) {
+      try {
+        GmailApp.sendEmail(targetEmail, 'Official Donation Receipt #' + id + ' - Sri Vinayaka Yuvasena', 'Please find attached your official donation receipt.', {
+          htmlBody: htmlReceipt,
+          name: 'Sri Vinayaka Yuvasena',
+          attachments: [pdfBlob]
+        });
+        emailSent = true;
+        Logger.log('SUCCESS: Email dispatched via GmailApp fallback to ' + targetEmail);
+      } catch(gmailErr) {
+        Logger.log('GmailApp fallback error: ' + gmailErr.message);
+      }
+    }
+
+    // If email was manually provided and sheet didn't have it, auto-save to Column D of Members!
+    if (String(b.email||'').trim() && (!member.email || member.email.indexOf('@')===-1)) {
+      try {
+        const emailToSave = String(b.email).trim();
+        for (let i = 1; i < members.length; i++) {
+          if (String(members[i][0]) === String(member.id)) {
+            ms.getRange(i + 1, 4).setValue(emailToSave);
+            member.email = emailToSave;
+            Logger.log('Auto-saved new email to Members sheet for ' + member.name + ': ' + emailToSave);
+            break;
+          }
+        }
+      } catch(sheetUpdateErr) {
+        Logger.log('Could not update member email in sheet: ' + sheetUpdateErr.message);
+      }
+    }
   } else {
-    Logger.log('Email skipped: No email registered for ' + member.name);
+    Logger.log('Email skipped: No email provided or registered for ' + member.name);
   }
 
   // 2. Automatic WhatsApp Dispatch
