@@ -1324,7 +1324,7 @@ latest=latestPayment?.date||'—';
 
     const init = initials(r.m.name);
     const stClass = st.toLowerCase();
-    const stLabel = st==='PAID'?'? PAID':st==='PARTIAL'?'? PARTIAL':'? PENDING';
+    const stLabel = st;
 
     return `
     <div class="month-item-card" data-status="${stClass}" data-name="${escapeHtml(r.m.name.toLowerCase())}" onclick="openMember('${String(r.m.id).replace(/'/g,"\\'")}')">

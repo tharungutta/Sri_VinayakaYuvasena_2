@@ -1,3 +1,10 @@
+function authorizePermissions(){
+  // Run this function once in Apps Script and click "Allow" to enable Email sending
+  const quota = MailApp.getRemainingDailyQuota();
+  Logger.log('SUCCESS: MailApp is authorized! Remaining daily emails: ' + quota);
+  return 'SUCCESS: MailApp is authorized! Daily quota: ' + quota;
+}
+
 const SHEET_MEMBERS = 'Members';
 const SHEET_PAYMENTS = 'Payments';
 const SHEET_EXPENSES = 'Expenses';
@@ -168,36 +175,36 @@ function addContribution_(b){
   const id='P'+Date.now();
   ps.appendRow([id,member.id,member.name,member.phone,b.month,Number(b.amount),b.date,file.getUrl(),file.getName(),new Date()]);
 
-  // Automated E-Receipt Email with PDF Attachment
-  try{
-    const targetEmail = String(b.email||'').trim() || findMemberEmail_(member.name, member.phone);
-    if(targetEmail && targetEmail.indexOf('@')!==-1){
-      const rcptData = {
-        id: id,
-        memberName: member.name,
-        phone: member.phone,
-        email: targetEmail,
-        month: b.month,
-        amount: Number(b.amount),
-        date: b.date,
-        screenshotUrl: file.getUrl()
-      };
-      const htmlReceipt = generateReceiptHtml_(rcptData);
-      const pdfBlob = Utilities.newBlob(htmlReceipt, 'text/html', 'SVYS_Receipt_'+id+'.html').getAs('application/pdf').setName('SVYS_Payment_Receipt_'+id+'.pdf');
-      
-      // Save PDF receipt to Drive Receipts folder so it has a permanent shareable link
-      let pdfDownloadUrl = '';
-      try {
-        const rootFolder = getOrCreateFolder_(DRIVE_ROOT);
-        const receiptFolder = getOrCreateFolder_(rootFolder, 'Receipts');
-        const pdfFile = receiptFolder.createFile(pdfBlob);
-        pdfFile.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-        pdfDownloadUrl = pdfFile.getUrl();
-      } catch(fErr){
-        Logger.log('PDF drive save error: ' + fErr.message);
-      }
+  // Prepare receipt data
+  const targetEmail = String(b.email||'').trim() || member.email || findMemberEmail_(member.name, member.phone);
+  const rcptData = {
+    id: id,
+    memberName: member.name,
+    phone: member.phone,
+    email: targetEmail,
+    month: b.month,
+    amount: Number(b.amount),
+    date: b.date,
+    screenshotUrl: file.getUrl()
+  };
 
-      // 1. Automatic Email Delivery with PDF attachment (Zero manual effort)
+  // Compile HTML and PDF
+  let htmlReceipt = '', pdfBlob = null, pdfDownloadUrl = '';
+  try {
+    htmlReceipt = generateReceiptHtml_(rcptData);
+    pdfBlob = Utilities.newBlob(htmlReceipt, 'text/html', 'SVYS_Receipt_'+id+'.html').getAs('application/pdf').setName('SVYS_Payment_Receipt_'+id+'.pdf');
+    const rootFolder = getOrCreateFolder_(DRIVE_ROOT);
+    const receiptFolder = getOrCreateFolder_(rootFolder, 'Receipts');
+    const pdfFile = receiptFolder.createFile(pdfBlob);
+    pdfFile.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+    pdfDownloadUrl = pdfFile.getUrl();
+  } catch(pdfErr) {
+    Logger.log('PDF generation error: ' + pdfErr.message);
+  }
+
+  // 1. Automatic Email Delivery with PDF attachment (Zero manual effort)
+  if (targetEmail && targetEmail.indexOf('@') !== -1 && pdfBlob) {
+    try {
       MailApp.sendEmail({
         to: targetEmail,
         subject: 'Official Donation Receipt #' + id + ' - Sri Vinayaka Yuvasena',
@@ -205,15 +212,26 @@ function addContribution_(b){
         name: 'Sri Vinayaka Yuvasena',
         attachments: [pdfBlob]
       });
-
-      // 2. Automatic WhatsApp Dispatch via Webhook/API (Zero manual effort)
-      sendAutoWhatsAppReceipt_(member.phone, rcptData, pdfDownloadUrl);
-
-      // 3. Automatic SMS Dispatch via SMS Gateway (Zero manual effort)
-      sendAutoSmsReceipt_(member.phone, rcptData, pdfDownloadUrl);
+      Logger.log('SUCCESS: Email dispatched to ' + targetEmail);
+    } catch(mailErr) {
+      Logger.log('MailApp error: ' + mailErr.message);
     }
-  }catch(mailErr){
-    Logger.log('Receipt notification error: ' + mailErr.message);
+  } else {
+    Logger.log('Email skipped: No email registered for ' + member.name);
+  }
+
+  // 2. Automatic WhatsApp Dispatch
+  try {
+    sendAutoWhatsAppReceipt_(member.phone, rcptData, pdfDownloadUrl);
+  } catch(waErr) {
+    Logger.log('WhatsApp error: ' + waErr.message);
+  }
+
+  // 3. Automatic SMS Dispatch
+  try {
+    sendAutoSmsReceipt_(member.phone, rcptData, pdfDownloadUrl);
+  } catch(smsErr) {
+    Logger.log('SMS error: ' + smsErr.message);
   }
 
   const resultData = getData_();
