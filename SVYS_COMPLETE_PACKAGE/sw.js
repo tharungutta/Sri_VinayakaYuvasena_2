@@ -1,4 +1,4 @@
-const CACHE_NAME = 'svys-cache-v2';
+const CACHE_NAME = 'svys-cache-v4';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
@@ -80,5 +80,23 @@ self.addEventListener('fetch', event => {
         return networkRes;
       })
       .catch(() => caches.match(req))
+  );
+});
+
+// Push & Notification Click Listener (WhatsApp-style notification handling)
+self.addEventListener('notificationclick', event => {
+  event.notification.close();
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clientList => {
+      for (const client of clientList) {
+        if (client.url && 'focus' in client) {
+          client.postMessage({ action: 'openChat' });
+          return client.focus();
+        }
+      }
+      if (clients.openWindow) {
+        return clients.openWindow('/?action=openChat');
+      }
+    })
   );
 });

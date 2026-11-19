@@ -6,7 +6,7 @@ window.SVYS_CONFIG = {
   ADMIN_WHATSAPP: "9392618109",
 
   // Next Festival Celebration Date for live countdown timer
-  FESTIVAL_DATE: "2027-09-04T00:00:00",
+  FESTIVAL_DATE: "2027-09-04T00:00:00+05:30",
   FESTIVAL_NAME: "Ganesh Chaturthi 2027",
 
   // Deploy apps-script.gs as a Web App and paste its /exec URL here.

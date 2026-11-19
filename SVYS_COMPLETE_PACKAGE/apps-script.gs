@@ -15,7 +15,6 @@ function setupSheets(){
   if(a.getLastRow()===0)a.appendRow(['Login ID','Firebase UID','Display Name','Email','Login At','Method']);
 }
 function doGet(){
-  setupSheets();
   return jsonOut(getData_());
 }
 function doPost(e){
@@ -47,6 +46,84 @@ function addMember_(b){
   const id='M'+Date.now();sh.appendRow([id,name,phone]);
   return getData_();
 }
+
+function findMemberEmail_(name, phone){
+  try{
+    const ss=SpreadsheetApp.getActive();
+    const sh=ss.getSheetByName('Login Activity');
+    if(!sh) return '';
+    const vals=sh.getDataRange().getValues();
+    const cleanPhone=String(phone||'').replace(/\D/g,'').slice(-10);
+    for(let i=vals.length-1; i>=1; i--){
+      const email=String(vals[i][3]||'').trim();
+      const disp=String(vals[i][2]||'').trim().toLowerCase();
+      if(email && name && disp.indexOf(name.toLowerCase())!==-1){
+        return email;
+      }
+    }
+  }catch(e){}
+  return '';
+}
+
+function generateReceiptHtml_(r){
+  return `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 24px; background: #fdfaf6; color: #2e0910; }
+  .receipt-box { max-width: 620px; margin: 0 auto; background: #ffffff; border: 3px double #d6a64f; border-radius: 16px; padding: 32px; box-shadow: 0 4px 20px rgba(87,27,35,0.1); }
+  .header { text-align: center; border-bottom: 2px solid #f2e3c6; padding-bottom: 18px; margin-bottom: 22px; }
+  .om { font-size: 24px; color: #b8860b; font-weight: bold; }
+  .title { font-size: 22px; font-weight: 800; color: #571b23; letter-spacing: 1px; margin: 6px 0; }
+  .subtitle { font-size: 13px; color: #7d2a36; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+  .badge { display: inline-block; background: #fbf2dc; border: 1px solid #d6a64f; color: #80570b; padding: 4px 14px; border-radius: 20px; font-size: 11px; font-weight: 800; margin-top: 8px; }
+  .rcpt-no-row { display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 13px; color: #555; }
+  .info-table { width: 100%; border-collapse: collapse; margin-bottom: 24px; }
+  .info-table td { padding: 10px 12px; border-bottom: 1px solid #f5ede0; font-size: 13.5px; }
+  .info-table td.lbl { width: 38%; color: #666; font-weight: 600; }
+  .info-table td.val { color: #222; font-weight: 700; }
+  .amount-card { background: linear-gradient(135deg, #571b23, #380d14); color: #ffffff; padding: 18px 24px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border: 1px solid #d6a64f; }
+  .amount-lbl { font-size: 13px; color: #f5d696; text-transform: uppercase; font-weight: 600; }
+  .amount-val { font-size: 26px; font-weight: 800; color: #ffd700; }
+  .footer { text-align: center; border-top: 1px dashed #d6a64f; padding-top: 18px; margin-top: 10px; font-size: 11.5px; color: #777; }
+  .seal { display: inline-block; border: 2px solid #27ae60; color: #27ae60; padding: 4px 12px; border-radius: 6px; font-weight: 800; font-size: 11px; margin-top: 8px; text-transform: uppercase; }
+</style>
+</head>
+<body>
+<div class="receipt-box">
+  <div class="header">
+    <div class="om">|| Sri Vinayaka Prasanna ||</div>
+    <div class="title">SRI VINAYAKA YUVASENA</div>
+    <div class="subtitle">Official Donation & Contribution Receipt</div>
+    <div class="badge">Annual Ganesh Festival 2026-2027</div>
+  </div>
+  <div class="rcpt-no-row">
+    <div><strong>Receipt No:</strong> ${r.id}</div>
+    <div><strong>Date:</strong> ${r.date}</div>
+  </div>
+  <table class="info-table">
+    <tr><td class="lbl">Received with thanks from:</td><td class="val">${r.memberName}</td></tr>
+    <tr><td class="lbl">Registered Mobile:</td><td class="val">+91 ${r.phone}</td></tr>
+    <tr><td class="lbl">Contribution Towards:</td><td class="val">Ganesh Chaturthi Utsav Fund</td></tr>
+    <tr><td class="lbl">Contribution Month:</td><td class="val">${r.month}</td></tr>
+    <tr><td class="lbl">Payment Verification:</td><td class="val">Verified in Live Google Sheet</td></tr>
+  </table>
+  <div class="amount-card">
+    <div><div class="amount-lbl">Total Amount Received</div><small style="color:#f2e3c6">Status: Verified & Accepted</small></div>
+    <div class="amount-val">INR ${Number(r.amount).toLocaleString('en-IN')}.00</div>
+  </div>
+  <div class="footer">
+    <div><strong>Sri Vinayaka Yuvasena Utsav Committee</strong></div>
+    <div>Live Tracking Portal: https://srivinayakayuvasena.vercel.app/</div>
+    <div class="seal">Verified Official Receipt</div>
+    <p style="margin: 8px 0 0; font-size: 10.5px; color: #999;">This is a system-generated electronic payment receipt. May Lord Vinayaka bless you and your family with prosperity and good health.</p>
+  </div>
+</div>
+</body>
+</html>`;
+}
+
 function addContribution_(b){
   auth_(b);
   if(!b.memberId||!b.month||!b.amount||!b.date)throw new Error('Member, month, amount and date are required.');
@@ -66,7 +143,47 @@ function addContribution_(b){
   file.setSharing(DriveApp.Access.ANYONE_WITH_LINK,DriveApp.Permission.VIEW);
   const id='P'+Date.now();
   ps.appendRow([id,member.id,member.name,member.phone,b.month,Number(b.amount),b.date,file.getUrl(),file.getName(),new Date()]);
-  return getData_();
+
+  // Automated E-Receipt Email with PDF Attachment
+  try{
+    const targetEmail = String(b.email||'').trim() || findMemberEmail_(member.name, member.phone);
+    if(targetEmail && targetEmail.indexOf('@')!==-1){
+      const rcptData = {
+        id: id,
+        memberName: member.name,
+        phone: member.phone,
+        month: b.month,
+        amount: Number(b.amount),
+        date: b.date,
+        screenshotUrl: file.getUrl()
+      };
+      const htmlReceipt = generateReceiptHtml_(rcptData);
+      const pdfBlob = Utilities.newBlob(htmlReceipt, 'text/html', 'SVYS_Receipt_'+id+'.html').getAs('application/pdf').setName('SVYS_Payment_Receipt_'+id+'.pdf');
+      MailApp.sendEmail({
+        to: targetEmail,
+        subject: 'Official Donation Receipt #' + id + ' - Sri Vinayaka Yuvasena',
+        htmlBody: htmlReceipt,
+        name: 'Sri Vinayaka Yuvasena',
+        attachments: [pdfBlob]
+      });
+    }
+  }catch(mailErr){
+    Logger.log('Receipt email notification error: ' + mailErr.message);
+  }
+
+  const resultData = getData_();
+  resultData.newReceipt = {
+    id: id,
+    memberId: member.id,
+    memberName: member.name,
+    phone: member.phone,
+    email: String(b.email||'').trim() || findMemberEmail_(member.name, member.phone),
+    month: b.month,
+    amount: Number(b.amount),
+    date: b.date,
+    screenshotUrl: file.getUrl()
+  };
+  return resultData;
 }
 function addExpense_(b){
   auth_(b);
@@ -106,7 +223,7 @@ function deleteExpense_(b){
   throw new Error('Expense record not found.');
 }
 function getOrCreateFolder_(parent,name){
-  if(name===undefined){name=parent;parent=DriveApp.getRootFolder();} // root call: getOrCreateFolder_('Folder name')
+  if(name===undefined){name=parent;parent=DriveApp.getRootFolder();}
   const it=parent.getFoldersByName(name);return it.hasNext()?it.next():parent.createFolder(name);
 }
 
