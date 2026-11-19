@@ -1,4 +1,4 @@
-﻿/* SVYS design system â€” Devotional Premium with User's Signature Colors */
+/* SVYS design system â€” Devotional Premium with User's Signature Colors */
 :root {
   --maroon: #571B23;
   --burg: #762B36;
@@ -360,7 +360,7 @@ h1, h2, h3 { font-family: var(--serif); margin: 0; }
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 7px;
   margin-top: 22px;
 }
 
@@ -483,7 +483,7 @@ h1, h2, h3 { font-family: var(--serif); margin: 0; }
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 7px;
   margin-top: 4px;
   z-index: 5;
 }
@@ -945,6 +945,53 @@ td { font-size: 13px; font-weight: 600; }
   place-items: center;
 }
 .close:hover { background: var(--maroon); color: #fff; }
+.modal-head .close,
+.chat-header-bar .close {
+  background: rgba(255, 255, 255, 0.18) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  border-radius: 50% !important;
+  width: 34px !important;
+  height: 34px !important;
+  font-size: 16px !important;
+  display: grid !important;
+  place-items: center !important;
+  cursor: pointer !important;
+  line-height: 1 !important;
+  transition: background .2s ease, transform .15s ease !important;
+}
+.modal-head .close:hover,
+.chat-header-bar .close:hover {
+  background: rgba(255, 255, 255, 0.32) !important;
+  color: #ffffff !important;
+  transform: scale(1.05);
+}
+
+.upi-card .modal-head .close,
+.admin-card .modal-head .close,
+.modal-card .modal-head .close {
+  background: #571b23 !important;
+  color: #ffd88a !important;
+  border: 1.5px solid #d6a64f !important;
+  border-radius: 50% !important;
+  width: 36px !important;
+  height: 36px !important;
+  font-size: 17px !important;
+  font-weight: 800 !important;
+  display: grid !important;
+  place-items: center !important;
+  cursor: pointer !important;
+  box-shadow: 0 3px 8px rgba(87, 27, 35, 0.22) !important;
+  transition: all .2s ease !important;
+}
+.upi-card .modal-head .close:hover,
+.admin-card .modal-head .close:hover,
+.modal-card .modal-head .close:hover {
+  background: #7a1d2d !important;
+  color: #ffffff !important;
+  border-color: #ffd88a !important;
+  transform: scale(1.08) !important;
+}
 
 .detail-grid {
   display: grid;
@@ -1152,7 +1199,7 @@ td { font-size: 13px; font-weight: 600; }
 .step-list { margin: 12px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; }
 .step-item {
   display: flex;
-  gap: 10px;
+  gap: 7px;
   align-items: flex-start;
   background: var(--cream);
   border: 1px solid var(--line);
@@ -1213,7 +1260,7 @@ td { font-size: 13px; font-weight: 600; }
 .toast-ident {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 7px;
 }
 .toast-mini-emblem {
   width: 42px;
@@ -1395,7 +1442,7 @@ td { font-size: 13px; font-weight: 600; }
   bottom: 18px;
   z-index: 200;
   display: grid;
-  gap: 10px;
+  gap: 7px;
   max-width: min(380px, calc(100vw - 36px));
 }
 .toast {
@@ -1711,7 +1758,7 @@ td { font-size: 13px; font-weight: 600; }
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 7px;
 }
 .upi-payee-text strong {
   display: block;
@@ -1762,7 +1809,7 @@ td { font-size: 13px; font-weight: 600; }
   margin: 10px 0 14px;
   display: flex;
   align-items: flex-start;
-  gap: 10px;
+  gap: 7px;
   font-size: 12px;
   color: #7a4603;
   line-height: 1.45;
@@ -1873,14 +1920,14 @@ td { font-size: 13px; font-weight: 600; }
 .upi-app-buttons-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  gap: 7px;
   margin-top: 10px;
 }
 .btn-upi-app {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 7px;
   padding: 12px 14px;
   border-radius: 12px;
   font-size: 13.5px;
@@ -1955,7 +2002,7 @@ td { font-size: 13px; font-weight: 600; }
 }
 .reminders-list {
   display: grid;
-  gap: 10px;
+  gap: 7px;
   max-height: 52vh;
   overflow-y: auto;
 }
@@ -2212,7 +2259,7 @@ body:not(.is-admin) .admin-only-action {
 .month-stats-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 10px;
+  gap: 7px;
   padding: 14px 24px 16px;
   background: #fdfaf4;
   border-bottom: 1px solid var(--line);
@@ -2225,7 +2272,7 @@ body:not(.is-admin) .admin-only-action {
   padding: 10px 12px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 7px;
   box-shadow: 0 2px 6px rgba(87, 27, 35, 0.03);
   transition: transform .2s ease, border-color .2s;
 }
@@ -2439,7 +2486,7 @@ body:not(.is-admin) .admin-only-action {
 .mic-progress-wrap {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 7px;
 }
 
 .mic-progress-bar {
@@ -2636,7 +2683,7 @@ body:not(.is-admin) .admin-only-action {
 .shot-info-strip {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 10px;
+  gap: 7px;
   padding: 16px 22px;
   background: #231217;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -2677,7 +2724,7 @@ body:not(.is-admin) .admin-only-action {
   }
   .month-item-card {
     grid-template-columns: 1fr;
-    gap: 10px;
+    gap: 7px;
   }
   .mic-right {
     justify-content: flex-start;
@@ -3101,7 +3148,7 @@ body:not(.is-admin) .admin-only-action {
    GROUP CHAT MODAL & WHATSAPP-STYLE INTERFACE
    ============================================================ */
 .group-chat-card {
-  max-width: 680px !important;
+  max-width: 520px !important;
   width: 95% !important;
   height: 86vh !important;
   max-height: 750px;
@@ -3187,7 +3234,7 @@ body:not(.is-admin) .admin-only-action {
 .chat-header-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 7px;
 }
 .chat-notif-btn {
   background: rgba(255, 255, 255, 0.15);
@@ -3206,6 +3253,7 @@ body:not(.is-admin) .admin-only-action {
   background: rgba(255, 255, 255, 0.25);
   transform: scale(1.05);
 }
+
 .chat-notif-btn.active {
   background: #e89b35;
   color: #2b0b11;
@@ -3214,7 +3262,7 @@ body:not(.is-admin) .admin-only-action {
 .chat-pinned-bar {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 7px;
   background: #fff8e8;
   border-bottom: 1px solid rgba(214, 166, 79, 0.35);
   padding: 8px 16px;
@@ -3271,7 +3319,7 @@ body:not(.is-admin) .admin-only-action {
 .chat-message-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 7px;
 }
 .chat-msg-row {
   display: flex;
@@ -3582,7 +3630,7 @@ body:not(.is-admin) .admin-only-action {
 .cs-feature-item {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
+  gap: 7px;
   background: #fbf7f2;
   border: 1px solid rgba(214, 166, 79, 0.25);
   border-radius: 12px;
@@ -3615,7 +3663,7 @@ body:not(.is-admin) .admin-only-action {
    PHOTO GALLERY MODAL (IN-APP CELEBRATIONS GALLERY + LIGHTBOX)
    ========================================================================== */
 .gallery-modal-card {
-  max-width: 680px !important;
+  max-width: 520px !important;
   width: 95% !important;
   height: 88vh !important;
   border-radius: 22px;
@@ -3836,7 +3884,7 @@ body:not(.is-admin) .admin-only-action {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 10px;
+  gap: 7px;
 }
 .lightbox-badge {
   font-size: 10px;
@@ -3888,7 +3936,7 @@ body:not(.is-admin) .admin-only-action {
 /* Chat Messages */
 .sug-chat-msg {
   display: flex;
-  gap: 10px;
+  gap: 7px;
   max-width: 86%;
 }
 .sug-chat-msg.my-msg {
@@ -4193,7 +4241,7 @@ body:not(.is-admin) .admin-only-action {
 .cid-vip-pass,
 .cid-smart-card {
   width: 100%;
-  max-width: 340px;
+  max-width: 380px;
   background: linear-gradient(150deg, #2b070f 0%, #460f1c 40%, #2e0813 75%, #180308 100%);
   border: 2px solid #ffd700;
   border-radius: 18px;
@@ -4249,7 +4297,7 @@ body:not(.is-admin) .admin-only-action {
 .vip-pass-header {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 7px;
 }
 .vip-logo-ring {
   width: 44px;
@@ -4457,10 +4505,45 @@ body:not(.is-admin) .admin-only-action {
 .vip-val.zone-pill, .zone-pill { color: #ffeed0 !important; font-size: 9.5px; }
 
 /* Pass Verification Bar (QR + Barcode) */
+.devotional-pill {
+  color: #4a151e !important;
+  background: #ffffff !important;
+  border: 1.5px solid #d6a64f !important;
+  font-weight: 700 !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08) !important;
+}
+.devotional-pill:hover {
+  background: #fff8e8 !important;
+  border-color: #ffd700 !important;
+}
+.vip-auth-strip {
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(214, 166, 79, 0.28);
+  border-radius: 6px;
+  padding: 4px 8px;
+  text-align: center;
+  margin: 1px 0;
+}
+.vip-barcode-pattern {
+  font-family: monospace;
+  font-size: 11px;
+  font-weight: 900;
+  color: #ffd700;
+  letter-spacing: 2px;
+  line-height: 1;
+}
+.vip-auth-code {
+  font-family: monospace;
+  font-size: 7.5px;
+  font-weight: 700;
+  color: #2ecc71;
+  letter-spacing: 0.5px;
+  margin-top: 1px;
+}
 .vip-verification-strip {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 7px;
   background: rgba(0, 0, 0, 0.42);
   border: 1px solid rgba(214, 166, 79, 0.35);
   border-radius: 10px;
@@ -4637,9 +4720,7 @@ body:not(.is-admin) .admin-only-action {
     height: 68vh !important;
     max-height: 68vh !important;
   }
-  .cid-vip-pass,
-  .cid-smart-card {
-    max-width: 330px !important;
+  .cid-vip-pass, .cid-smart-card { max-width: 360px !important; min-height: auto !important; padding: 12px 10px 10px !important; }
     min-height: auto !important;
     padding: 12px 10px 10px !important;
   }

@@ -50,15 +50,38 @@ function addMember_(b){
 function findMemberEmail_(name, phone){
   try{
     const ss=SpreadsheetApp.getActive();
+    // 1. Check Members Sheet Column D (Mail ID)
+    const ms=ss.getSheetByName(SHEET_MEMBERS);
+    if(ms){
+      const mVals=ms.getDataRange().getValues();
+      const cleanPhone=String(phone||'').replace(/\D/g,'').slice(-10);
+      const targetName=String(name||'').trim().toLowerCase();
+      for(let i=1; i<mVals.length; i++){
+        const rowName=String(mVals[i][1]||'').trim().toLowerCase();
+        const rowPhone=String(mVals[i][2]||'').replace(/\D/g,'').slice(-10);
+        const rowEmail=String(mVals[i][3]||'').trim();
+        if(rowEmail && rowEmail.indexOf('@')!==-1){
+          if((cleanPhone && rowPhone===cleanPhone) || (targetName && (rowName===targetName || rowName.indexOf(targetName)!==-1 || targetName.indexOf(rowName)!==-1))){
+            return rowEmail;
+          }
+        }
+      }
+    }
+    // 2. Check Login Activity Sheet
     const sh=ss.getSheetByName('Login Activity');
-    if(!sh) return '';
-    const vals=sh.getDataRange().getValues();
-    const cleanPhone=String(phone||'').replace(/\D/g,'').slice(-10);
-    for(let i=vals.length-1; i>=1; i--){
-      const email=String(vals[i][3]||'').trim();
-      const disp=String(vals[i][2]||'').trim().toLowerCase();
-      if(email && name && disp.indexOf(name.toLowerCase())!==-1){
-        return email;
+    if(sh){
+      const vals=sh.getDataRange().getValues();
+      const cleanPhone=String(phone||'').replace(/\D/g,'').slice(-10);
+      const targetName=String(name||'').trim().toLowerCase();
+      for(let i=vals.length-1; i>=1; i--){
+        const email=String(vals[i][3]||'').trim();
+        const disp=String(vals[i][2]||'').trim().toLowerCase();
+        const userPhone=String(vals[i][1]||'').replace(/\D/g,'').slice(-10);
+        if(email && email.indexOf('@')!==-1){
+          if((cleanPhone && userPhone===cleanPhone) || (targetName && disp===targetName)){
+            return email;
+          }
+        }
       }
     }
   }catch(e){}
@@ -103,8 +126,9 @@ function generateReceiptHtml_(r){
     <div><strong>Date:</strong> ${r.date}</div>
   </div>
   <table class="info-table">
-    <tr><td class="lbl">Received with thanks from:</td><td class="val">${r.memberName}</td></tr>
-    <tr><td class="lbl">Registered Mobile:</td><td class="val">+91 ${r.phone}</td></tr>
+    <tr><td class="lbl">Contributor / Devotee:</td><td class="val">${r.memberName}</td></tr>
+    <tr><td class="lbl">Contributor Mobile:</td><td class="val">+91 ${r.phone}</td></tr>
+    <tr><td class="lbl">Contributor Email:</td><td class="val">${r.email || '—'}</td></tr>
     <tr><td class="lbl">Contribution Towards:</td><td class="val">Ganesh Chaturthi Utsav Fund</td></tr>
     <tr><td class="lbl">Contribution Month:</td><td class="val">${r.month}</td></tr>
     <tr><td class="lbl">Payment Verification:</td><td class="val">Verified in Live Google Sheet</td></tr>
@@ -130,7 +154,7 @@ function addContribution_(b){
   if(!b.screenshotData)throw new Error('Payment screenshot is mandatory.');
   const ss=SpreadsheetApp.getActive();const ms=ss.getSheetByName(SHEET_MEMBERS),ps=ss.getSheetByName(SHEET_PAYMENTS);
   const members=ms.getDataRange().getValues();let member=null;
-  for(let i=1;i<members.length;i++)if(String(members[i][0])===String(b.memberId))member={id:members[i][0],name:members[i][1],phone:members[i][2]};
+  for(let i=1;i<members.length;i++)if(String(members[i][0])===String(b.memberId))member={id:members[i][0],name:members[i][1],phone:members[i][2],email:String(members[i][3]||'').trim()};
   if(!member)throw new Error('Member not found.');
   const bytes=Utilities.base64Decode(String(b.screenshotData).split(',').pop());
   const mime=b.mimeType||'image/jpeg';
@@ -152,6 +176,7 @@ function addContribution_(b){
         id: id,
         memberName: member.name,
         phone: member.phone,
+        email: targetEmail,
         month: b.month,
         amount: Number(b.amount),
         date: b.date,
@@ -159,6 +184,20 @@ function addContribution_(b){
       };
       const htmlReceipt = generateReceiptHtml_(rcptData);
       const pdfBlob = Utilities.newBlob(htmlReceipt, 'text/html', 'SVYS_Receipt_'+id+'.html').getAs('application/pdf').setName('SVYS_Payment_Receipt_'+id+'.pdf');
+      
+      // Save PDF receipt to Drive Receipts folder so it has a permanent shareable link
+      let pdfDownloadUrl = '';
+      try {
+        const rootFolder = getOrCreateFolder_(DRIVE_ROOT);
+        const receiptFolder = getOrCreateFolder_(rootFolder, 'Receipts');
+        const pdfFile = receiptFolder.createFile(pdfBlob);
+        pdfFile.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+        pdfDownloadUrl = pdfFile.getUrl();
+      } catch(fErr){
+        Logger.log('PDF drive save error: ' + fErr.message);
+      }
+
+      // 1. Automatic Email Delivery with PDF attachment (Zero manual effort)
       MailApp.sendEmail({
         to: targetEmail,
         subject: 'Official Donation Receipt #' + id + ' - Sri Vinayaka Yuvasena',
@@ -166,9 +205,15 @@ function addContribution_(b){
         name: 'Sri Vinayaka Yuvasena',
         attachments: [pdfBlob]
       });
+
+      // 2. Automatic WhatsApp Dispatch via Webhook/API (Zero manual effort)
+      sendAutoWhatsAppReceipt_(member.phone, rcptData, pdfDownloadUrl);
+
+      // 3. Automatic SMS Dispatch via SMS Gateway (Zero manual effort)
+      sendAutoSmsReceipt_(member.phone, rcptData, pdfDownloadUrl);
     }
   }catch(mailErr){
-    Logger.log('Receipt email notification error: ' + mailErr.message);
+    Logger.log('Receipt notification error: ' + mailErr.message);
   }
 
   const resultData = getData_();
@@ -267,9 +312,82 @@ function getData_(){
   const ss=SpreadsheetApp.getActive();
   const ms=ss.getSheetByName(SHEET_MEMBERS),ps=ss.getSheetByName(SHEET_PAYMENTS),es=ss.getSheetByName(SHEET_EXPENSES);
   const mv=ms?ms.getDataRange().getValues():[],pv=ps?ps.getDataRange().getValues():[],ev=es?es.getDataRange().getValues():[];
-  const members=mv.slice(1).filter(r=>r[0]).map(r=>({id:String(r[0]),name:String(r[1]||''),phone:String(r[2]||'')}));
+  const members=mv.slice(1).filter(r=>r[0]).map(r=>({id:String(r[0]),name:String(r[1]||''),phone:String(r[2]||''),email:String(r[3]||'').trim()}));
   const payments=pv.slice(1).filter(r=>r[0]).map(r=>({id:String(r[0]),memberId:String(r[1]),memberName:String(r[2]||''),phone:String(r[3]||''),month:String(r[4]||''),amount:Number(r[5]||0),date:r[6] instanceof Date?Utilities.formatDate(r[6],Session.getScriptTimeZone(),'yyyy-MM-dd'):String(r[6]||''),screenshotUrl:String(r[7]||''),screenshotName:String(r[8]||'')}));
   const expenses=ev.slice(1).filter(r=>r[0]).map(r=>({id:String(r[0]),category:String(r[1]||'Miscellaneous'),title:String(r[2]||''),amount:Number(r[3]||0),date:r[4] instanceof Date?Utilities.formatDate(r[4],Session.getScriptTimeZone(),'yyyy-MM-dd'):String(r[4]||''),paidTo:String(r[5]||''),receiptUrl:String(r[6]||''),receiptName:String(r[7]||'')}));
   return {ok:true,members,payments,expenses};
 }
 function jsonOut(obj){return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);}
+
+// ==========================================================================
+// ZERO-MANUAL-EFFORT AUTOMATED DISPATCH (WHATSAPP & SMS WEBHOOK GATEWAYS)
+// ==========================================================================
+function sendAutoWhatsAppReceipt_(phone, r, pdfUrl){
+  try {
+    const props = PropertiesService.getScriptProperties();
+    const apiUrl = props.getProperty('WHATSAPP_API_URL') || '';
+    const apiToken = props.getProperty('WHATSAPP_API_TOKEN') || '';
+    if (!apiUrl) {
+      Logger.log('Auto WhatsApp: Set WHATSAPP_API_URL in Script Properties for 0-click automated delivery.');
+      return;
+    }
+    const cleanPhone = String(phone).replace(/\D/g, '');
+    const fullPhone = cleanPhone.length === 10 ? ('91' + cleanPhone) : cleanPhone;
+    const msg = `🙏 *SRI VINAYAKA YUVASENA - OFFICIAL E-RECEIPT* 🙏\n\n` +
+      `Receipt No: ${r.id}\n` +
+      `Devotee: ${r.memberName}\n` +
+      `Amount: ₹${Number(r.amount).toLocaleString('en-IN')}\n` +
+      `Month: ${r.month}\n` +
+      `Date: ${r.date}\n` +
+      `Status: Verified & Recorded in Live Audit\n\n` +
+      (pdfUrl ? `📄 Download PDF Receipt: ${pdfUrl}\n\n` : '') +
+      `May Lord Sri Ganesha bless you and your family!\n` +
+      `Live Portal: https://srivinayakayuvasena.vercel.app/`;
+
+    UrlFetchApp.fetch(apiUrl, {
+      method: 'post',
+      contentType: 'application/json',
+      payload: JSON.stringify({
+        token: apiToken,
+        to: fullPhone,
+        body: msg
+      }),
+      muteHttpExceptions: true
+    });
+    Logger.log('Auto WhatsApp dispatched successfully to ' + fullPhone);
+  } catch(e) {
+    Logger.log('Auto WhatsApp error: ' + e.message);
+  }
+}
+
+function sendAutoSmsReceipt_(phone, r, pdfUrl){
+  try {
+    const props = PropertiesService.getScriptProperties();
+    const smsApiKey = props.getProperty('FAST2SMS_API_KEY') || '';
+    if (!smsApiKey) {
+      Logger.log('Auto SMS: Set FAST2SMS_API_KEY in Script Properties for 0-click automated delivery.');
+      return;
+    }
+    const cleanPhone = String(phone).replace(/\D/g, '').slice(-10);
+    const formattedAmt = Number(r.amount || 0).toLocaleString('en-IN');
+    const smsText = `Thank you, ${r.memberName}! Sri Vinayaka Yuvasena has received your contribution of ₹${formattedAmt} for ${r.month} in support of Ganesh Chaturthi Utsav.\n\nReceipt No.: ${r.id}\n\nTrack your contribution here: https://srivinayakayuvasena.vercel.app/`;
+
+    UrlFetchApp.fetch('https://www.fast2sms.com/dev/bulkV2', {
+      method: 'post',
+      headers: { 'authorization': smsApiKey },
+      contentType: 'application/json',
+      payload: JSON.stringify({
+        route: 'v3',
+        sender_id: 'TXTIND',
+        message: smsText,
+        language: 'english',
+        flash: 0,
+        numbers: cleanPhone
+      }),
+      muteHttpExceptions: true
+    });
+    Logger.log('Auto SMS dispatched successfully to ' + cleanPhone);
+  } catch(e) {
+    Logger.log('Auto SMS error: ' + e.message);
+  }
+}

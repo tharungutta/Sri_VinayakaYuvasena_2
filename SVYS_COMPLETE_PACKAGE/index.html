@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -15,6 +15,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,500&display=swap" rel="stylesheet">
 <link id="mainStylesheet" rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="auth.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 <div id="authGate" class="auth-gate">
@@ -23,9 +24,9 @@
 <section class="auth-side"><div class="auth-panel">
 <div class="auth-title"><h1>SRI VINAYAKA YUVASENA</h1><p>Together in Devotion, United in Savings</p></div>
 <div class="auth-tabs"><button id="authLoginTab" class="active" type="button" onclick="svysShowAuth('login')">Log in</button><button id="authSignupTab" type="button" onclick="svysShowAuth('signup')">Create account</button></div>
-<section id="svysLoginView" class="auth-view active"><div class="auth-heading"><div class="auth-eyebrow">GOOD TO SEE YOU AGAIN</div><h2>Welcome back</h2><p>Sign in to continue to your community dashboard.</p></div><form id="svysLoginForm" class="auth-form"><label for="svysLoginId">Email or mobile number</label><div class="auth-input"><span>?</span><input id="svysLoginId" autocomplete="username" placeholder="Email or mobile number" required></div><label for="svysLoginPassword">Password</label><div class="auth-input"><span>?</span><input id="svysLoginPassword" type="password" autocomplete="current-password" placeholder="Enter your password" required><button type="button" class="auth-eye" aria-label="Show or hide password" onclick="svysTogglePassword('svysLoginPassword',this)">?</button></div><div class="auth-row"><label class="auth-remember"><input type="checkbox" checked> Keep me signed in</label><button class="auth-link" type="button" onclick="svysShowAuth('reset')">Forgot password?</button></div><div id="svysLoginFeedback" class="auth-feedback" role="status"></div><button class="auth-submit" type="submit">Sign in <span>?</span></button></form><div class="auth-foot">New to the community? <button class="auth-link" type="button" onclick="svysShowAuth('signup')">Create an account</button></div></section>
-<section id="svysSignupView" class="auth-view"><div class="auth-heading"><div class="auth-eyebrow">JOIN THE COMMUNITY</div><h2>Create your account</h2><p>Register with your email address. Mobile registration can be enabled with SMS verification.</p></div><form id="svysSignupForm" class="auth-form"><label for="svysSignupName">Full name</label><div class="auth-input"><span>?</span><input id="svysSignupName" autocomplete="name" placeholder="Your full name" required></div><label for="svysSignupId">Email or mobile number</label><div class="auth-input"><span>?</span><input id="svysSignupId" autocomplete="username" placeholder="Email or mobile number" required></div><label for="svysSignupPassword">Create password</label><div class="auth-input"><span>?</span><input id="svysSignupPassword" type="password" minlength="8" autocomplete="new-password" placeholder="At least 8 characters" required><button type="button" class="auth-eye" aria-label="Show or hide password" onclick="svysTogglePassword('svysSignupPassword',this)">?</button></div><label for="svysSignupConfirm">Confirm password</label><div class="auth-input"><span>?</span><input id="svysSignupConfirm" type="password" minlength="8" autocomplete="new-password" placeholder="Re-enter password" required></div><div id="svysSignupFeedback" class="auth-feedback" role="status"></div><button class="auth-submit" type="submit">Create account <span>?</span></button></form><div class="auth-foot">Already registered? <button class="auth-link" type="button" onclick="svysShowAuth('login')">Log in</button></div></section>
-<section id="svysResetView" class="auth-view"><button class="auth-link auth-back" type="button" onclick="svysShowAuth('login')">? Back to login</button><div class="auth-heading"><div class="auth-eyebrow">ACCOUNT RECOVERY</div><h2>Reset password</h2><p>Enter your registered email address to receive a password reset link.</p></div><form id="svysResetForm" class="auth-form"><label for="svysResetId">Registered email or mobile number</label><div class="auth-input"><span>?</span><input id="svysResetId" placeholder="Email or mobile number" required></div><div id="svysResetFeedback" class="auth-feedback" role="status"></div><button class="auth-submit" type="submit">Continue <span>?</span></button></form></section>
+<section id="svysLoginView" class="auth-view active"><div class="auth-heading"><div class="auth-eyebrow">GOOD TO SEE YOU AGAIN</div><h2>Welcome back</h2><p>Sign in to continue to your community dashboard.</p></div><form id="svysLoginForm" class="auth-form"><label for="svysLoginId">Email or mobile number</label><div class="auth-input"><span>✉</span><input id="svysLoginId" autocomplete="username" placeholder="Email or mobile number" required></div><label for="svysLoginPassword">Password</label><div class="auth-input"><span>🔒</span><input id="svysLoginPassword" type="password" autocomplete="current-password" placeholder="Enter your password" required><button type="button" class="auth-eye" aria-label="Show or hide password" onclick="svysTogglePassword('svysLoginPassword',this)">👁</button></div><div class="auth-row"><label class="auth-remember"><input type="checkbox" checked> Keep me signed in</label><button class="auth-link" type="button" onclick="svysShowAuth('reset')">Forgot password?</button></div><div id="svysLoginFeedback" class="auth-feedback" role="status"></div><button class="auth-submit" type="submit">Sign in <span>→</span></button></form><div class="auth-foot">New to the community? <button class="auth-link" type="button" onclick="svysShowAuth('signup')">Create an account</button></div></section>
+<section id="svysSignupView" class="auth-view"><div class="auth-heading"><div class="auth-eyebrow">JOIN THE COMMUNITY</div><h2>Create your account</h2><p>Register with your email address. Mobile registration can be enabled with SMS verification.</p></div><form id="svysSignupForm" class="auth-form"><label for="svysSignupName">Full name</label><div class="auth-input"><span>👤</span><input id="svysSignupName" autocomplete="name" placeholder="Your full name" required></div><label for="svysSignupId">Email or mobile number</label><div class="auth-input"><span>✉</span><input id="svysSignupId" autocomplete="username" placeholder="Email or mobile number" required></div><label for="svysSignupPassword">Create password</label><div class="auth-input"><span>🔒</span><input id="svysSignupPassword" type="password" minlength="8" autocomplete="new-password" placeholder="At least 8 characters" required><button type="button" class="auth-eye" aria-label="Show or hide password" onclick="svysTogglePassword('svysSignupPassword',this)">👁</button></div><label for="svysSignupConfirm">Confirm password</label><div class="auth-input"><span>🔒</span><input id="svysSignupConfirm" type="password" minlength="8" autocomplete="new-password" placeholder="Re-enter password" required></div><div id="svysSignupFeedback" class="auth-feedback" role="status"></div><button class="auth-submit" type="submit">Create account <span>→</span></button></form><div class="auth-foot">Already registered? <button class="auth-link" type="button" onclick="svysShowAuth('login')">Log in</button></div></section>
+<section id="svysResetView" class="auth-view"><button class="auth-link auth-back" type="button" onclick="svysShowAuth('login')">← Back to login</button><div class="auth-heading"><div class="auth-eyebrow">ACCOUNT RECOVERY</div><h2>Reset password</h2><p>Enter your registered email address to receive a password reset link.</p></div><form id="svysResetForm" class="auth-form"><label for="svysResetId">Registered email or mobile number</label><div class="auth-input"><span>✉</span><input id="svysResetId" placeholder="Email or mobile number" required></div><div id="svysResetFeedback" class="auth-feedback" role="status"></div><button class="auth-submit" type="submit">Continue <span>→</span></button></form></section>
 <div class="auth-legal">Never share your password or verification code with anyone.</div>
 <div class="auth-guest-wrap" style="margin-top:14px;text-align:center;border-top:1px solid rgba(0,0,0,0.08);padding-top:14px">
   <button type="button" class="btn soft" onclick="svysBypassAuthGate()" style="width:100%;padding:11px;font-size:13.5px;font-weight:700;display:inline-flex;justify-content:center;align-items:center;gap:6px;background:#f3e8d2;color:var(--maroon);border:1px solid #d4a753">
@@ -48,7 +49,7 @@
       <span id="sideProfileRoleText">Active Member</span>
     </div>
   </div>
-  <div class="side-profile-arrow" title="View details">�</div>
+  <div class="side-profile-arrow" title="View details">→</div>
 </div>
 
 <nav class="side-nav"><div class="side-label" data-i18n="explore">EXPLORE</div>
@@ -83,7 +84,7 @@
 <div id="syncBadge" class="sync-badge" onclick="triggerManualSync()" title="Click to refresh live data from Google Sheet">
   <span class="sync-dot"></span>
   <span id="syncText">Live</span>
-  <span class="sync-refresh-icon">?</span>
+  <span class="sync-refresh-icon">↻</span>
 </div>
 <button class="lang-btn" id="langToggleBtn" onclick="toggleLanguage()" title="Language"><span style="font-size:15px">🌐</span> <span id="langBtnText">English</span></button>
 <button class="pwa-install-btn" id="pwaInstallBtn" onclick="installPwa()" style="display:none" title="Install App on Phone"><span style="font-size:14px">📲</span> <span class="lbl" data-i18n="installApp">Install App</span></button>
@@ -97,15 +98,15 @@
 <section class="hero">
 <div class="hero-wrap">
 <div class="hero-left">
-<div class="eyebrow" data-i18n="heroEyebrow">Ganesh Chaturthi � Community Fund</div>
+<div class="eyebrow" data-i18n="heroEyebrow">Ganesh Chaturthi • Community Fund</div>
 <h1>SRI VINAYAKA YUVASENA</h1>
-<div class="hero-telugu" data-i18n="heroTelugu">Annual Ganesh Festival � 2026�2027</div>
+<div class="hero-telugu" data-i18n="heroTelugu">Annual Ganesh Festival • 2026–2027</div>
 <p data-i18n="heroDesc">Live community contribution tracker for SRI VINAYAKA YUVASENA. Displays all member contributions from the live Google Sheet and festival expenditure budget.</p>
 
 <!-- Option 3: Festival Live Countdown Timer Banner -->
 <div class="festival-countdown-card" id="festivalCountdownCard">
   <div class="countdown-header">
-    <span class="countdown-badge">? <span data-i18n="countdownBadge">UTSAV COUNTDOWN</span></span>
+    <span class="countdown-badge">⏳ <span data-i18n="countdownBadge">UTSAV COUNTDOWN</span></span>
     <span class="countdown-mantra">|| Vakratunda Mahakaya Suryakoti Samaprabha ||</span>
   </div>
   <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
@@ -126,10 +127,10 @@
 </div>
 
 <div class="hero-actions" style="margin-top:16px">
-<button class="btn gold" onclick="goSlide(0)" data-i18n="btnMonthly">Monthly Collection ?</button>
+<button class="btn gold" onclick="goSlide(0)" data-i18n="btnMonthly">Monthly Collection →</button>
 <button class="btn ghost" onclick="goSlide(1)" data-i18n="btnMembers">Meet the Members</button>
 <button class="btn ghost" onclick="goSlide(2)" data-i18n="btnExpenses">Festival Expenses</button>
-<button class="btn soft" onclick="openUpiModal()" data-i18n="btnPayQr">? Pay via UPI</button>
+<button class="btn soft" onclick="openUpiModal()" data-i18n="btnPayQr">⚡ Pay via UPI</button>
 </div>
 </div>
 <div class="hero-right">
@@ -150,41 +151,41 @@
 </section>
 <div class="stats">
 <div class="stat"><label data-i18n="statMembers">Total Members</label><strong id="totalMembers">0</strong><em data-i18n="statMembersHint">Live Sheet Members</em></div>
-<div class="stat"><label data-i18n="statCollected">Total Collected</label><strong id="totalCollected" class="accent">?0</strong><em data-i18n="statCollectedHint">Recorded Payments</em></div>
-<div class="stat"><label data-i18n="statTarget">Yearly Minimum</label><strong id="yearTarget">?0</strong><em data-i18n="statTargetHint">Target for group</em></div>
-<div class="stat"><label data-i18n="statExtra">Extra Collected</label><strong id="extra">?0</strong><em data-i18n="statExtraHint">Above minimum</em></div>
+<div class="stat"><label data-i18n="statCollected">Total Collected</label><strong id="totalCollected" class="accent">₹0</strong><em data-i18n="statCollectedHint">Recorded Payments</em></div>
+<div class="stat"><label data-i18n="statTarget">Yearly Minimum</label><strong id="yearTarget">₹0</strong><em data-i18n="statTargetHint">Target for group</em></div>
+<div class="stat"><label data-i18n="statExtra">Extra Collected</label><strong id="extra">₹0</strong><em data-i18n="statExtraHint">Above minimum</em></div>
 <div class="stat"><label data-i18n="statPct">Collection</label><strong id="collectionPct">0%</strong><em id="collectionHint" data-i18n="statPctHint">Against target</em></div>
 </div>
-<div class="grid2"><div class="card"><h3 data-i18n="chartOverviewTitle">Monthly savings overview</h3><div class="sub" data-i18n="chartOverviewSub">Collected (colour) against expected (outline), October � September</div><div id="chartMonths"></div></div>
+<div class="grid2"><div class="card"><h3 data-i18n="chartOverviewTitle">Monthly savings overview</h3><div class="sub" data-i18n="chartOverviewSub">Collected (colour) against expected (outline), October – September</div><div id="chartMonths"></div></div>
 <div class="card"><h3 data-i18n="chartProgressTitle">Collection progress</h3><div class="sub" data-i18n="chartProgressSub">Share of the yearly minimum collected</div><div class="donut-wrap" id="chartDonut"></div><div class="legend" id="donutLegend"></div></div></div>
-<div class="card" style="margin-top:14px"><h3 data-i18n="recentTitle">Recent payment activity</h3><div class="sub" data-i18n="recentSub">Latest recorded contributions from Google Sheet</div><div class="activity" id="recentActivity"><div class="empty">Loading payments from live database�</div></div></div>
+<div class="card" style="margin-top:14px"><h3 data-i18n="recentTitle">Recent payment activity</h3><div class="sub" data-i18n="recentSub">Latest recorded contributions from Google Sheet</div><div class="activity" id="recentActivity"><div class="empty">Loading payments from live database…</div></div></div>
 <hr class="divider"><span class="slider-anchor"></span><span id="dot0" hidden></span><span id="dot1" hidden></span><span id="dot2" hidden></span>
 <div class="viewport"><div class="slides" id="slides">
 
 <!-- Slide 0: Monthly Collection -->
-<section class="slide"><div class="section"><div class="section-head"><div><h2>Monthly Collection</h2><p>October�September � click any month to view member records and payment proofs</p></div></div><div class="months" id="months"></div></div></section>
+<section class="slide"><div class="section"><div class="section-head"><div><h2>Monthly Collection</h2><p>October–September • click any month to view member records and payment proofs</p></div></div><div class="months" id="months"></div></div></section>
 
 <!-- Slide 1: Members -->
-<section class="slide"><div class="section"><div class="section-head"><div><h2>Our Members</h2><p>Search by name or mobile number. Click any member to see their complete payment history.</p></div><input id="search" class="search" placeholder="Search name or mobile number�" aria-label="Search members"></div>
+<section class="slide"><div class="section"><div class="section-head"><div><h2>Our Members</h2><p>Search by name or mobile number. Click any member to see their complete payment history.</p></div><input id="search" class="search" placeholder="Search name or mobile number…" aria-label="Search members"></div>
 <div class="mfilter-chips-bar" id="memberFilterChips">
   <button type="button" class="mchip-btn active" id="mchipAll" onclick="setMemberFilter('all', this)">
     <span>All Members</span> <b class="chip-count" id="mchipCountAll">0</b>
   </button>
   <button type="button" class="mchip-btn" id="mchipPaid" onclick="setMemberFilter('paid_current', this)">
-    <span>? Paid This Month</span> <b class="chip-count" id="mchipCountPaid">0</b>
+    <span>✓ Paid This Month</span> <b class="chip-count" id="mchipCountPaid">0</b>
   </button>
   <button type="button" class="mchip-btn" id="mchipPending" onclick="setMemberFilter('pending_current', this)">
-    <span>? Pending</span> <b class="chip-count" id="mchipCountPending">0</b>
+    <span>⏳ Pending</span> <b class="chip-count" id="mchipCountPending">0</b>
   </button>
 </div>
-<div class="members-wrap"><div><div class="member-grid" id="memberGrid"></div></div><aside class="side-card"><div class="eyebrow">GROUP SNAPSHOT</div><h3>Growing together.</h3><p>Live member list synced directly from Google Sheet. Admin adds new members when someone joins.</p><div class="mini-list"><div class="mini"><span>October�December</span><b>?200 / month</b></div><div class="mini"><span>January�April</span><b>?250 / month</b></div><div class="mini"><span>May�September</span><b>?300 / month</b></div></div></aside></div></div></section>
+<div class="members-wrap"><div><div class="member-grid" id="memberGrid"></div></div><aside class="side-card"><div class="eyebrow">GROUP SNAPSHOT</div><h3>Growing together.</h3><p>Live member list synced directly from Google Sheet. Admin adds new members when someone joins.</p><div class="mini-list"><div class="mini"><span>October–December</span><b>₹200 / month</b></div><div class="mini"><span>January–April</span><b>₹250 / month</b></div><div class="mini"><span>May–September</span><b>₹300 / month</b></div></div></aside></div></div></section>
 
 <!-- Slide 2: Festival Expenses -->
-<section class="slide"><div class="section"><div class="section-head"><div><h2>Festival Expenses & Budget</h2><p>Transparent tracking of all Ganesh Utsav expenditures, vendor payments, and receipts</p></div><button class="btn soft" onclick="exportFinancialReport()">? Export Statement</button></div>
+<section class="slide"><div class="section"><div class="section-head"><div><h2>Festival Expenses & Budget</h2><p>Transparent tracking of all Ganesh Utsav expenditures, vendor payments, and receipts</p></div><button class="btn soft" onclick="exportFinancialReport()">📊 Export Statement</button></div>
 <div class="finance-banner">
-<div class="finance-box"><label>Total Inflow (Collections)</label><strong id="expTotalCollected">?0</strong><em>From recorded contributions</em></div>
-<div class="finance-box"><label>Total Outflow (Expenses)</label><strong id="totalExpenses" style="color:var(--burg)">?0</strong><em>Celebration expenditures</em></div>
-<div class="finance-box treasury"><label>Net Treasury Balance</label><strong id="netBalance">?0</strong><em>Available committee balance</em></div>
+<div class="finance-box"><label>Total Inflow (Collections)</label><strong id="expTotalCollected">₹0</strong><em>From recorded contributions</em></div>
+<div class="finance-box"><label>Total Outflow (Expenses)</label><strong id="totalExpenses" style="color:var(--burg)">₹0</strong><em>Celebration expenditures</em></div>
+<div class="finance-box treasury"><label>Net Treasury Balance</label><strong id="netBalance">₹0</strong><em>Available committee balance</em></div>
 </div>
 <div class="expense-cats" id="expenseCategoryGrid"></div>
 <div class="filter-chips" id="expenseFilterChips"></div>
@@ -193,7 +194,7 @@
 
 
 </div></div>
-<div class="footer">SRI VINAYAKA YUVASENA � Payment screenshot is mandatory � Exported Excel includes each payment's screenshot link</div>
+<div class="footer">SRI VINAYAKA YUVASENA • Payment screenshot is mandatory • Exported Excel includes each payment's screenshot link</div>
 </div>
 
 <!-- Modal: Month Details Breakdown -->
@@ -202,7 +203,7 @@
     <div class="modal-head month-modal-head">
       <div>
         <div class="eyebrow" style="display:flex;align-items:center;gap:6px">
-          <span>??</span>
+          <span>⚡</span>
           <span>MONTHLY CONTRIBUTION AUDIT</span>
         </div>
         <div style="display:flex;align-items:center;gap:12px;margin-top:4px;flex-wrap:wrap">
@@ -212,45 +213,45 @@
       </div>
       <div style="display:flex;align-items:center;gap:8px">
         <div id="monthAdminStatusBadge"></div>
-        <button class="close" onclick="closeModal()" aria-label="Close month details">?</button>
+        <button class="close" onclick="closeModal()" aria-label="Close month details">✕</button>
       </div>
     </div>
 
     <!-- 5 Upgraded Metric Cards -->
     <div class="month-stats-grid">
       <div class="month-stat-card">
-        <div class="mstat-icon">??</div>
+        <div class="mstat-icon">📊</div>
         <div class="mstat-content">
           <small>Target / Member</small>
-          <b id="mMin">?0</b>
+          <b id="mMin">₹0</b>
         </div>
       </div>
       <div class="month-stat-card highlight">
-        <div class="mstat-icon">??</div>
+        <div class="mstat-icon">📊</div>
         <div class="mstat-content">
           <small>Total Collected</small>
-          <b id="mCollected" class="accent">?0</b>
+          <b id="mCollected" class="accent">₹0</b>
         </div>
       </div>
       <div class="month-stat-card">
-        <div class="mstat-icon">??</div>
+        <div class="mstat-icon">📊</div>
         <div class="mstat-content">
           <small>Group Target</small>
-          <b id="mExpected">?0</b>
+          <b id="mExpected">₹0</b>
         </div>
       </div>
       <div class="month-stat-card">
-        <div class="mstat-icon">??</div>
+        <div class="mstat-icon">📊</div>
         <div class="mstat-content">
           <small>Members Paid</small>
           <b id="mPaid">0</b>
         </div>
       </div>
       <div class="month-stat-card">
-        <div class="mstat-icon">?</div>
+        <div class="mstat-icon">📈</div>
         <div class="mstat-content">
           <small>Surplus / Extra</small>
-          <b id="mExtra">?0</b>
+          <b id="mExtra">₹0</b>
         </div>
       </div>
     </div>
@@ -259,7 +260,7 @@
     <div class="month-table-toolbar">
       <div class="month-search-wrap">
         <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-        <input type="text" id="monthMemberSearch" placeholder="Search members in this month�" oninput="filterMonthModalRows()">
+        <input type="text" id="monthMemberSearch" placeholder="Search members in this month…" oninput="filterMonthModalRows()">
       </div>
       <div class="month-filter-pills" id="monthFilterPills">
         <button type="button" class="mfilter-pill active" onclick="setMonthFilter('all', this)">All (<span id="mFilterCountAll">0</span>)</button>
@@ -279,7 +280,7 @@
     <div class="modal-head">
       <div>
         <div class="eyebrow" style="display:flex;align-items:center;gap:6px">
-          <span>???</span>
+          <span>👁️</span>
           <span>OFFICIAL PAYMENT RECEIPT PROOF</span>
         </div>
         <h2 id="shotTitle" style="margin:4px 0 0;font-size:20px;font-weight:900">Payment Screenshot</h2>
@@ -287,9 +288,9 @@
       <div style="display:flex;align-items:center;gap:8px">
         <a id="shotExternalLink" href="#" target="_blank" rel="noopener noreferrer" class="btn-shot-action" title="Open original image in Google Drive in new tab">
           <svg viewBox="0 0 24 24" style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-          <span>Open Full Image ?</span>
+          <span>Open Full Image →</span>
         </a>
-        <button class="close" onclick="closeScreenshot()" aria-label="Close screenshot preview">?</button>
+        <button class="close" onclick="closeScreenshot()" aria-label="Close screenshot preview">✕</button>
       </div>
     </div>
 
@@ -297,15 +298,15 @@
     <div class="screenshot-image-wrap upgraded-shot-wrap">
       <div class="shot-loading-indicator" id="shotLoader">
         <div class="spinner"></div>
-        <span>Loading verified payment receipt from Google Drive�</span>
+        <span>Loading verified payment receipt from Google Drive…</span>
       </div>
       <img id="shotImage" class="screenshot-image upgraded-shot-img" alt="Payment Screenshot" onload="document.getElementById('shotLoader').style.display='none'" onerror="onShotImageError(this)">
       <div id="shotFallback" class="shot-fallback-box" style="display:none">
-        <div style="font-size:32px">??</div>
+        <div style="font-size:32px">🧾</div>
         <h4 style="margin:8px 0 4px;font-size:15px;color:var(--white)">Receipt Stored in Secure Google Drive</h4>
         <p style="font-size:12px;color:var(--muted);max-width:320px;margin:0 auto 12px">Google Drive thumbnail requires direct access. Click below to view the receipt directly.</p>
         <a id="shotFallbackLink" href="#" target="_blank" class="btn gold" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;font-size:12px">
-          <span>?? Open Receipt in Google Drive ?</span>
+          <span>🔗 Open Receipt in Google Drive →</span>
         </a>
       </div>
     </div>
@@ -318,7 +319,7 @@
       </div>
       <div class="shot-info-item">
         <small>PHONE NUMBER</small>
-        <strong id="shotPhone">?? �</strong>
+        <strong id="shotPhone">📱 —</strong>
       </div>
       <div class="shot-info-item">
         <small>CONTRIBUTION MONTH</small>
@@ -326,7 +327,7 @@
       </div>
       <div class="shot-info-item highlight">
         <small>AMOUNT RECORDED</small>
-        <strong id="shotAmount" class="accent">?0</strong>
+        <strong id="shotAmount" class="accent">₹0</strong>
       </div>
       <div class="shot-info-item">
         <small>PAYMENT DATE</small>
@@ -337,11 +338,11 @@
 </div>
 
 <!-- Modal: Member Profile -->
-<div class="modal" id="memberModal"><div class="modal-card"><div class="modal-head"><div><div class="eyebrow">Member profile</div><h2 id="memberTitle" style="margin:4px 0 0">Member</h2></div><button class="close" onclick="closeMember()">?</button></div><div class="detail-grid"><div class="detail"><small>Total paid</small><b id="pTotal" class="accent">?0</b></div><div class="detail"><small>Yearly minimum</small><b id="pExpected">?0</b></div><div class="detail"><small>Extra / balance</small><b id="pExtra">?0</b></div><div class="detail"><small>Payments</small><b id="pCount">0</b></div><div class="detail"><small>Mobile</small><b id="pPhone">�</b></div></div><div id="memberModalActions" style="padding:0 22px 14px;display:flex;gap:10px;flex-wrap:wrap"></div><div class="modal-body" id="profileRows"></div></div></div>
+<div class="modal" id="memberModal"><div class="modal-card"><div class="modal-head"><div><div class="eyebrow">Member profile</div><h2 id="memberTitle" style="margin:4px 0 0">Member</h2></div><button class="close" onclick="closeMember()">✕</button></div><div class="detail-grid"><div class="detail"><small>Total paid</small><b id="pTotal" class="accent">₹0</b></div><div class="detail"><small>Yearly minimum</small><b id="pExpected">₹0</b></div><div class="detail"><small>Extra / balance</small><b id="pExtra">₹0</b></div><div class="detail"><small>Payments</small><b id="pCount">0</b></div><div class="detail"><small>Mobile</small><b id="pPhone">—</b></div></div><div id="memberModalActions" style="padding:0 22px 14px;display:flex;gap:10px;flex-wrap:wrap"></div><div class="modal-body" id="profileRows"></div></div></div>
 
 
 <!-- Modal: QR Code Payment Modal -->
-<div class="modal" id="upiModal"><div class="upi-card"><div class="modal-head"><div><div class="eyebrow" data-i18n="upiModalEyebrow">OFFICIAL FESTIVAL CONTRIBUTIONS</div><h2 style="margin:4px 0 0" data-i18n="upiModalTitle">UPI Contribution & QR Code</h2></div><button class="close" onclick="closeUpiModal()">?</button></div>
+<div class="modal" id="upiModal"><div class="upi-card"><div class="modal-head"><div><div class="eyebrow" data-i18n="upiModalEyebrow">OFFICIAL FESTIVAL CONTRIBUTIONS</div><h2 style="margin:4px 0 0" data-i18n="upiModalTitle">UPI Contribution & QR Code</h2></div><button class="close" onclick="closeUpiModal()">✕</button></div>
 <div class="upi-body">
   <!-- Official Payee Information Banner -->
   <div class="upi-payee-info">
@@ -349,13 +350,13 @@
       <small style="font-size:10px;text-transform:uppercase;letter-spacing:0.8px;font-weight:800;color:var(--muted)" data-i18n="payeeNameLabel">Official Payee</small>
       <div style="display:flex;align-items:center;flex-wrap:wrap">
         <strong id="upiPayeeNameDisplay">THAMMINENI REVANTH</strong>
-        <span class="upi-verified-badge">? BhimUPI Verified</span>
+        <span class="upi-verified-badge">✓ BhimUPI Verified</span>
       </div>
       <div class="upi-details-row">
         <span class="upi-chip">📱 <span id="upiPhoneDisplay">9390266268</span></span>
-        <button type="button" class="btn soft btn-copy-compact" onclick="copyMobileNumber()" title="Copy Mobile Number">?? <span data-i18n="copyMobile">Copy Mobile</span></button>
-        <span class="upi-chip">? <span id="upiIdDisplay">9390266268@upi</span></span>
-        <button type="button" class="btn soft btn-copy-compact" onclick="copyUpiId()" title="Copy UPI ID">?? <span data-i18n="copyUpi">Copy UPI</span></button>
+        <button type="button" class="btn soft btn-copy-compact" onclick="copyMobileNumber()" title="Copy Mobile Number">📋 <span data-i18n="copyMobile">Copy Mobile</span></button>
+        <span class="upi-chip">⚡ <span id="upiIdDisplay">9390266268@upi</span></span>
+        <button type="button" class="btn soft btn-copy-compact" onclick="copyUpiId()" title="Copy UPI ID">📋 <span data-i18n="copyUpi">Copy UPI</span></button>
       </div>
     </div>
   </div>
@@ -374,36 +375,36 @@
     <div class="qr-image-display" id="qrDisplayWrap">
       <img id="officialUpiQr" src="assets/upi-qr.png" onerror="this.onerror=null;this.src='assets/upi-qr.jpg'" alt="Official SVYS QR Code">
     </div>
-    <div class="qr-caption" data-i18n="qrScanCaption">?? SRI VINAYAKA YUVASENA � Scan to pay from any app</div>
+    <div class="qr-caption" data-i18n="qrScanCaption">🙏 SRI VINAYAKA YUVASENA • Scan to pay from any app</div>
     
     <div class="qr-actions-row">
-      <button type="button" class="btn gold btn-save-qr-primary" onclick="saveQrCodeLocal()" title="Save QR code image locally to phone gallery / QR ??????? ?? ????????? ???? ?????????">
+      <button type="button" class="btn gold btn-save-qr-primary" onclick="saveQrCodeLocal()" title="Save QR code image locally to phone gallery">
         <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        <span data-i18n="saveQrGallery">?? Save QR to Gallery (Scan from Gallery)</span>
+        <span data-i18n="saveQrGallery">📥 Save QR to Gallery (Scan from Gallery)</span>
       </button>
       <button type="button" class="btn soft" style="width:100%;font-size:12px;font-weight:700" onclick="copyMobileNumber()">
-        ?? <span data-i18n="copyMobileAction">Copy Mobile (9390266268)</span>
+        📱 <span data-i18n="copyMobileAction">Copy Mobile (9390266268)</span>
       </button>
     </div>
-    <small class="qr-gallery-hint" data-i18n="galleryScanHint">?? In PhonePe / GPay / Paytm: Tap <b>Scan QR ? Gallery Photo</b> to pay up to ?2,000 instantly without any alerts.</small>
+    <small class="qr-gallery-hint" data-i18n="galleryScanHint">💡 In PhonePe / GPay / Paytm: Tap <b>Scan QR → Gallery Photo</b> to pay up to ₹2,000 instantly without any alerts.</small>
   </div>
 
   <!-- Quick Amount Selection -->
   <div style="margin-top:12px">
-    <label style="font-size:11px;font-weight:800;color:var(--maroon);text-transform:uppercase;letter-spacing:0.8px" data-i18n="selectAmountLabel">Select Contribution Amount (?):</label>
+    <label style="font-size:11px;font-weight:800;color:var(--maroon);text-transform:uppercase;letter-spacing:0.8px" data-i18n="selectAmountLabel">Select Contribution Amount (₹):</label>
     <div class="upi-amount-pills" id="upiAmountPills">
-      <button type="button" class="amt-pill active" onclick="setUpiAmount(200, this)">?200 <small>(Oct�Dec)</small></button>
-      <button type="button" class="amt-pill" onclick="setUpiAmount(250, this)">?250 <small>(Jan�Apr)</small></button>
-      <button type="button" class="amt-pill" onclick="setUpiAmount(300, this)">?300 <small>(May�Sep)</small></button>
-      <button type="button" class="amt-pill" onclick="setUpiAmount(500, this)">?500</button>
-      <button type="button" class="amt-pill" onclick="setUpiAmount(1000, this)">?1,000</button>
+      <button type="button" class="amt-pill active" onclick="setUpiAmount(200, this)">₹200 <small>(Oct–Dec)</small></button>
+      <button type="button" class="amt-pill" onclick="setUpiAmount(250, this)">₹250 <small>(Jan–Apr)</small></button>
+      <button type="button" class="amt-pill" onclick="setUpiAmount(300, this)">₹300 <small>(May–Sep)</small></button>
+      <button type="button" class="amt-pill" onclick="setUpiAmount(500, this)">₹500</button>
+      <button type="button" class="amt-pill" onclick="setUpiAmount(1000, this)">₹1,000</button>
     </div>
   </div>
 
   <!-- Direct 1-Click Mobile App Payment Buttons (Secondary Shortcut) -->
   <div class="upi-apps-section">
     <div class="upi-apps-toggle-head">
-      <small style="font-size:11px;text-transform:uppercase;letter-spacing:0.8px;font-weight:800;color:var(--maroon)" data-i18n="payViaApps">? 1-Click Mobile UPI App Links (Optional)</small>
+      <small style="font-size:11px;text-transform:uppercase;letter-spacing:0.8px;font-weight:800;color:var(--maroon)" data-i18n="payViaApps">⚡ 1-Click Mobile UPI App Links (Optional)</small>
     </div>
     <div class="upi-app-buttons-grid">
       <a id="btnPayPhonePe" href="upi://pay?pa=9390266268@upi&pn=THAMMINENI%20REVANTH&am=200&cu=INR&tn=SVYS%20Contribution" class="btn-upi-app btn-phonepe">
@@ -419,12 +420,12 @@
         <span>Paytm</span>
       </a>
       <a id="btnPayGeneric" href="upi://pay?pa=9390266268@upi&pn=THAMMINENI%20REVANTH&am=200&cu=INR&tn=SVYS%20Contribution" class="btn-upi-app btn-generic-upi">
-        <span style="font-size:16px">??</span>
+        <span style="font-size:16px">💡</span>
         <span data-i18n="payAnyUpi">Pay via Any UPI App / BHIM</span>
       </a>
     </div>
     <div class="upi-intent-warning" data-i18n="upiAppsWarning">
-      ?? <i>Note: If PhonePe or Paytm shows a "Payment Alert (UPI Risk Policy)", simply dismiss it and use <b>Scan QR</b> or pay to <b>9390266268</b> above.</i>
+      💡 <i>Note: If PhonePe or Paytm shows a "Payment Alert (UPI Risk Policy)", simply dismiss it and use <b>Scan QR</b> or pay to <b>9390266268</b> above.</i>
     </div>
   </div>
 
@@ -452,26 +453,26 @@
         <h4 id="greetTitle" class="toast-title">Hii Member</h4>
       </div>
     </div>
-    <button class="toast-close-x" onclick="closeGreetingModal()" aria-label="Close notification">?</button>
+    <button class="toast-close-x" onclick="closeGreetingModal()" aria-label="Close notification">✕</button>
   </div>
-  <div id="greetMessage" class="toast-body-text">Checking payment status�</div>
+  <div id="greetMessage" class="toast-body-text">Checking payment status…</div>
   <div class="toast-action-row">
-    <button id="greetActionBtn" class="btn gold toast-pay-btn" onclick="openUpiModal();closeGreetingModal()">Pay for November via QR ?</button>
+    <button id="greetActionBtn" class="btn gold toast-pay-btn" onclick="openUpiModal();closeGreetingModal()">Pay for November via QR →</button>
   </div>
 </div>
 
 <!-- Modal: Admin Auth -->
-<div class="modal" id="authModal"><div class="admin-card"><div class="eyebrow">ADMIN ACCESS</div><h3>?? Administrator</h3><p>Use administrator login to record a contribution, record an expense, add a member, or export reports.</p><label style="font-size:10px;font-weight:900">USERNAME</label><input id="adminUser" class="admin-input" autocomplete="username" placeholder="Username"><label style="font-size:10px;font-weight:900">PASSWORD</label><input id="adminPass" class="admin-input" type="password" autocomplete="current-password" placeholder="Password"><div id="authError" class="auth-error"></div><div class="auth-actions"><button class="btn soft" onclick="closeAuth()">Cancel</button><button class="btn gold" onclick="verifyAdmin()">Continue ?</button></div><div class="lock-note">Public visitors view live data. Only authenticated admins enter or modify records.</div></div></div>
+<div class="modal" id="authModal"><div class="admin-card"><div class="eyebrow">ADMIN ACCESS</div><h3>🔐 Administrator</h3><p>Use administrator login to record a contribution, record an expense, add a member, or export reports.</p><label style="font-size:10px;font-weight:900">USERNAME</label><input id="adminUser" class="admin-input" autocomplete="username" placeholder="Username"><label style="font-size:10px;font-weight:900">PASSWORD</label><input id="adminPass" class="admin-input" type="password" autocomplete="current-password" placeholder="Password"><div id="authError" class="auth-error"></div><div class="auth-actions"><button class="btn soft" onclick="closeAuth()">Cancel</button><button class="btn gold" onclick="verifyAdmin()">Continue →</button></div><div class="lock-note">Public visitors view live data. Only authenticated admins enter or modify records.</div></div></div>
 
 <!-- Modal: Admin Center -->
-<div class="modal" id="adminModal"><div class="modal-card"><div class="modal-head"><div><div class="eyebrow">Private controls</div><h2 style="margin:4px 0 0">Admin Center</h2></div><div style="display:flex;align-items:center;gap:8px"><button type="button" class="btn soft" style="font-size:12px;padding:6px 12px;color:var(--red);border-color:rgba(217,83,79,0.3)" onclick="adminSignOut()">🚪 Log Out Admin</button><button class="close" onclick="closeAdmin()">?</button></div></div>
+<div class="modal" id="adminModal"><div class="modal-card"><div class="modal-head"><div><div class="eyebrow">Private controls</div><h2 style="margin:4px 0 0">Admin Center</h2></div><div style="display:flex;align-items:center;gap:8px"><button type="button" class="btn soft" style="font-size:12px;padding:6px 12px;color:var(--red);border-color:rgba(217,83,79,0.3)" onclick="adminSignOut()">🚪 Log Out Admin</button><button class="close" onclick="closeAdmin()">✕</button></div></div>
 <div class="admin-tabs">
 <button class="admin-tab active" onclick="adminTab('contribution',this)">+ Contribution</button>
 <button class="admin-tab" onclick="adminTab('expense',this)">+ Expense</button>
 <button class="admin-tab" onclick="adminTab('member',this)">+ New Member</button>
 <button class="admin-tab" onclick="adminTab('suggestions',this)">💡 Suggestions <span class="badge" id="adminSugCount" style="display:none;background:#e89b35;color:#380d14;padding:1px 6px;border-radius:10px;font-size:10px;font-weight:800">0</span></button>
 <button class="admin-tab" onclick="adminTab('reminders',this)">💬 WhatsApp Reminders</button>
-<button class="admin-tab" onclick="loadLoginActivity(this)">? Login Activity</button>
+<button class="admin-tab" onclick="loadLoginActivity(this)">📜 Login Activity</button>
 <button class="admin-tab" onclick="exportExcel()">📊 Export Collections</button>
 <button class="admin-tab" onclick="exportFinancialReport()">📑 Export Full Statement</button>
 <button type="button" class="admin-tab" style="color:var(--red);font-weight:bold;margin-left:auto" onclick="adminSignOut()">🚪 Log Out Admin</button>
@@ -483,7 +484,7 @@
 <!-- Admin Pane: Expense -->
 <div id="paneExpense" class="admin-pane"><div class="form-grid">
 <div class="field"><label>Category</label><select id="expCategory"></select></div>
-<div class="field"><label>Amount (?)</label><input id="expAmount" type="number" min="1" placeholder="Example: 2500"></div>
+<div class="field"><label>Amount (₹)</label><input id="expAmount" type="number" min="1" placeholder="Example: 2500"></div>
 <div class="field" style="grid-column:1/-1"><label>Item / Purpose / Description</label><input id="expTitle" placeholder="Example: Advance for 7ft Clay Ganesha Idol"></div>
 <div class="field"><label>Paid To / Vendor</label><input id="expPaidTo" placeholder="Example: Sri Murugan Sculptors"></div>
 <div class="field"><label>Date</label><input id="expDate" type="date"></div>
@@ -498,31 +499,31 @@
   <div class="reminders-wrap">
     <div class="reminders-stats-bar">
       <div>
-        <h3 style="margin:0;color:var(--maroon);font-size:18px">?? Pending Dues & WhatsApp Reminders</h3>
+        <h3 style="margin:0;color:var(--maroon);font-size:18px">⚠️ Pending Dues & WhatsApp Reminders</h3>
         <p style="margin:4px 0 0;color:var(--muted);font-size:12px">Send 1-click personalized WhatsApp reminders with UPI ID & pending details</p>
       </div>
       <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
         <button class="btn soft" onclick="copyPendingGroupSummary()" title="Copy entire pending members list for WhatsApp group">
-          ?? Copy Group Summary
+          📋 Copy Group Summary
         </button>
-        <button class="btn soft" onclick="renderAdminReminders()">? Refresh</button>
+        <button class="btn soft" onclick="renderAdminReminders()">↻ Refresh</button>
       </div>
     </div>
     
     <div style="display:flex;gap:12px;margin-bottom:14px;align-items:center;flex-wrap:wrap">
       <div style="font-size:13px;font-weight:700;color:var(--maroon)">Filter:</div>
       <select id="reminderFilterSelect" onchange="renderAdminReminders()" style="padding:7px 14px;border-radius:10px;border:1px solid var(--line);font-size:13px;background:var(--cream);font-weight:700">
-        <option value="all">?? All Unpaid Members (Previous + Current Months)</option>
-        <option value="previous">?? Previous Month (October) Unpaid Members</option>
-        <option value="current">? Current Month (November) Unpaid Members</option>
-        <option value="both">?? Both Months Unpaid (Double Due)</option>
-        <option value="paid">?? Fully Paid / Up-to-Date</option>
+        <option value="all">📋 All Unpaid Members (Previous + Current Months)</option>
+        <option value="previous">⏳ Previous Month (October) Unpaid Members</option>
+        <option value="current">⏳ Current Month (November) Unpaid Members</option>
+        <option value="both">⚠️ Both Months Unpaid (Double Due)</option>
+        <option value="paid">✓ Fully Paid / Up-to-Date</option>
       </select>
       <div id="reminderSummaryCount" style="font-size:12.5px;color:var(--muted);margin-left:auto"></div>
     </div>
 
     <div class="reminders-list" id="adminRemindersList">
-      <div class="empty">Loading members�</div>
+      <div class="empty">Loading members…</div>
     </div>
   </div>
   <div style="padding:0 20px 20px;display:flex;justify-content:flex-end">
@@ -538,10 +539,10 @@
   <div style="padding:20px">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
       <div>
-        <h3 style="margin:0;color:var(--maroon);font-size:17px">?? Community Suggestions & Ideas</h3>
+        <h3 style="margin:0;color:var(--maroon);font-size:17px">💡 Community Suggestions & Ideas</h3>
         <p style="margin:4px 0 0;font-size:12px;color:var(--muted)">Ideas and feedback posted by members from the Suggestion Box</p>
       </div>
-      <button class="btn soft" onclick="renderAdminSuggestions()">? Refresh</button>
+      <button class="btn soft" onclick="renderAdminSuggestions()">↻ Refresh</button>
     </div>
     <div id="adminSuggestionsList"></div>
   </div>
@@ -562,32 +563,33 @@
           <div class="eyebrow" style="color:#ffd88a;font-size:10px">OFFICIAL MEMBER PORTAL</div>
           <h2 id="selfSheetName" style="color:#ffffff;margin:2px 0 0;font-size:19px;font-weight:900">Tharun Gutta</h2>
           <div style="display:flex;gap:8px;align-items:center;margin-top:3px">
-            <span id="selfSheetPhone" style="font-size:11.5px;color:#f5d6a4">?? 9392618109</span>
+            <span id="selfSheetPhone" style="font-size:11.5px;color:#f5d6a4">📱 9392618109</span>
             <span class="side-profile-role" style="margin-top:0"><span class="role-dot"></span> <span id="selfSheetRoleText">Active Member</span></span>
           </div>
         </div>
       </div>
-      <button class="close" onclick="closeSelfProfileModal()" style="color:#ffd88a">?</button>
+      <button class="close" onclick="closeSelfProfileModal()" style="color:#ffd88a">✕</button>
     </div>
 
     <div class="self-sheet-body">
       <!-- Annual Contribution Progress Bar -->
       <div style="background:var(--cream);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:14px">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-          <span style="font-size:12px;font-weight:800;color:var(--maroon)">2026�2027 ANNUAL CONTRIBUTION</span>
+          <span style="font-size:12px;font-weight:800;color:var(--maroon)">2026–2027 ANNUAL CONTRIBUTION</span>
           <b id="selfProgressPct" style="font-size:14px;color:var(--maroon)">0%</b>
         </div>
         <div class="bar" style="height:10px;background:#e8d9c0;border-radius:999px;overflow:hidden"><i id="selfProgressBar" style="width:0%;height:100%;background:linear-gradient(90deg,#e89b35,#762B36);display:block;transition:width .4s ease"></i></div>
         <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:11px;color:#777">
-          <span>Paid: <b id="selfTotalPaid" style="color:var(--maroon)">?0</b></span>
-          <span>Target: <b id="selfYearTarget">?3,100</b></span>
+          <span>Paid: <b id="selfTotalPaid" style="color:var(--maroon)">₹0</b></span>
+          <span>Target: <b id="selfYearTarget">₹3,100</b></span>
         </div>
       </div>
 
-      <!-- Quick Action Buttons -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
-        <button type="button" class="btn gold" onclick="closeSelfProfileModal();openUpiModal();" style="justify-content:center;padding:10px;font-size:12.5px">? Pay Contribution</button>
-        <button type="button" class="btn soft" onclick="downloadCurrentMemberStatement()" style="justify-content:center;padding:10px;font-size:12.5px">?? Download Statement</button>
+      <!-- Quick Action Buttons: Pay Contribution, ID Card (Download or Create), and Download Statement -->
+      <div class="self-profile-actions" style="display:grid;grid-template-columns:repeat(3, 1fr);gap:8px;margin-bottom:16px">
+        <button type="button" class="btn gold" onclick="closeSelfProfileModal();openUpiModal();" style="justify-content:center;padding:10px 4px;font-size:12px;font-weight:700" title="Pay Contribution via UPI">⚡ Pay Now</button>
+        <button type="button" class="btn primary" id="selfProfileIdBtn" onclick="handleSelfProfileIdClick()" style="justify-content:center;padding:10px 4px;font-size:12px;font-weight:700;background:linear-gradient(135deg,#5c1521,#380a13);border:1px solid #d6a64f;color:#ffd700" title="Official VIP Digital ID Card">🪪 Download ID</button>
+        <button type="button" class="btn soft" onclick="downloadCurrentMemberStatement()" style="justify-content:center;padding:10px 4px;font-size:12px;font-weight:700" title="Download Official Financial Statement">📥 Statement</button>
       </div>
 
       <!-- 12-Month Breakdown: Paid vs Pending -->
@@ -608,11 +610,11 @@
     <div class="modal-head" style="background:#281016;color:#ffffff;padding:16px 20px">
       <div class="eyebrow" style="color:#ffd88a">COMMUNITY FEATURE</div>
       <h2 style="color:#ffffff;margin:2px 0 0;font-size:19px">SVYS Group Chat</h2>
-      <button class="close" onclick="closeGroupChatComingSoon()" style="color:#ffd88a">?</button>
+      <button class="close" onclick="closeGroupChatComingSoon()" style="color:#ffd88a">✕</button>
     </div>
     <div class="coming-soon-body">
       <div class="coming-soon-hero">
-        <div class="coming-soon-badge-glow">? COMING SOON</div>
+        <div class="coming-soon-badge-glow">✨ COMING SOON</div>
         <div class="coming-soon-icon-wrap">
           <div class="pulse-ring"></div>
           <img src="assets/logo.png" alt="Logo" class="coming-soon-logo">
@@ -621,17 +623,17 @@
         <p class="coming-soon-desc">A dedicated space for Sri Vinayaka Yuvasena members to share announcements, festival updates, pooja timings, and devotional thoughts.</p>
       </div>
       <div class="cs-features-grid">
-        <div class="cs-feature-item"><span class="cs-feature-icon">??</span><div><b>Official Broadcasts</b><small>Committee notices & important celebration schedules</small></div></div>
-        <div class="cs-feature-item"><span class="cs-feature-icon">??</span><div><b>Devotional Reactions</b><small>1-tap reactions with Ganesha blessings</small></div></div>
-        <div class="cs-feature-item"><span class="cs-feature-icon">??</span><div><b>Instant Alerts</b><small>WhatsApp-style notification chimes</small></div></div>
-        <div class="cs-feature-item"><span class="cs-feature-icon">??</span><div><b>Member Discussions</b><small>Coordinate seva, prasad, and mandap duties</small></div></div>
+        <div class="cs-feature-item"><span class="cs-feature-icon">📢</span><div><b>Official Broadcasts</b><small>Committee notices & important celebration schedules</small></div></div>
+        <div class="cs-feature-item"><span class="cs-feature-icon">🙏</span><div><b>Devotional Reactions</b><small>1-tap reactions with Ganesha blessings</small></div></div>
+        <div class="cs-feature-item"><span class="cs-feature-icon">⚡</span><div><b>Instant Alerts</b><small>WhatsApp-style notification chimes</small></div></div>
+        <div class="cs-feature-item"><span class="cs-feature-icon">💬</span><div><b>Member Discussions</b><small>Coordinate seva, prasad, and mandap duties</small></div></div>
       </div>
       <div class="cs-action-box">
         <button type="button" class="btn primary" id="chatNotifyMeBtn" onclick="requestChatLaunchNotification()" style="width:100%;padding:13px;font-size:14px;justify-content:center">
-          <span id="chatNotifyBtnText">?? Notify Me at Launch (?????????????? ???????????)</span>
+          <span id="chatNotifyBtnText">🔔 Notify Me at Launch (ప్రారంభం కాగానే తెలియజేయండి)</span>
         </button>
         <div style="text-align:center;margin-top:10px">
-          <button type="button" class="btn ghost" onclick="closeGroupChatComingSoon();openGroupChatModal();" style="font-size:11.5px;padding:4px 10px;color:var(--maroon)">?? Test Chat Prototype (Admin/Beta)</button>
+          <button type="button" class="btn ghost" onclick="closeGroupChatComingSoon();openGroupChatModal();" style="font-size:11.5px;padding:4px 10px;color:var(--maroon)">🧪 Test Chat Prototype (Admin/Beta)</button>
         </div>
       </div>
     </div>
@@ -649,42 +651,42 @@
         </div>
         <div>
           <b style="display:block;font-size:14.5px;color:#ffffff;line-height:1.2">Sri Vinayaka Yuvasena</b>
-          <div style="font-size:11px;color:#ffd88a" id="chatSubTitle">35 Devotees & Youth � ?? Active</div>
+          <div style="font-size:11px;color:#ffd88a" id="chatSubTitle"><span id="chatDevoteeCount">17</span> Devotees &amp; Youth • 🟢 Active</div>
         </div>
       </div>
       <div style="display:flex;align-items:center;gap:8px">
-        <button type="button" class="btn soft" onclick="toggleChatNotifications()" id="chatNotifToggleBtn" style="font-size:12px;padding:5px 9px" title="Toggle Notifications">?? Alerts</button>
-        <button class="close" onclick="closeGroupChatModal()" style="color:#ffffff;font-size:18px">?</button>
+        <button type="button" class="btn soft" onclick="toggleChatNotifications()" id="chatNotifToggleBtn" style="font-size:12px;padding:5px 9px" title="Toggle Notifications">🔔 Alerts</button>
+        <button type="button" class="close" onclick="closeGroupChatModal()" style="background:rgba(255,255,255,0.18) !important;color:#ffffff !important;border:1px solid rgba(255,255,255,0.4) !important;border-radius:50%;width:34px;height:34px;font-size:16px;display:grid;place-items:center;cursor:pointer;line-height:1" title="Close Group Chat">✕</button>
       </div>
     </div>
     
     <!-- Pinned Announcement Bar with Collapse Toggle -->
     <div class="chat-pinned-bar" id="chatPinnedBar" style="background:#fff4db;padding:8px 14px;border-bottom:1px solid #ebd3a4;font-size:12px;color:#5a232b;display:flex;align-items:center;justify-content:space-between;gap:8px">
       <div id="chatPinnedText" style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">📌 <b>Notice:</b> 🚩 Welcome to Sri Vinayaka Yuvasena! Monthly contributions for Ganesh Chaturthi 2026–2027 are in progress. Jay Ganesh! 🙏</div>
-      <button type="button" onclick="togglePinnedChatNotice()" style="background:none;border:none;color:#8a4b08;font-size:11px;font-weight:700;cursor:pointer;padding:2px 6px">?/?</button>
+      <button type="button" onclick="togglePinnedChatNotice()" style="background:none;border:none;color:#8a4b08;font-size:11px;font-weight:700;cursor:pointer;padding:2px 6px">▲/▼</button>
     </div>
 
     <!-- Chat Messages Scroll Container -->
-    <div class="chat-messages-container" id="chatMessagesContainer" style="flex:1;overflow-y:auto;padding:14px;background:#efeae2;background-image:radial-gradient(#d8d0c4 1px, transparent 1px);background-size:18px 18px">
-      <div class="chat-date-separator" style="text-align:center;margin:4px 0 12px">
-        <span style="font-size:10.5px;font-weight:800;color:#762b36;background:rgba(255,255,255,0.85);padding:3px 12px;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,0.08)">Today � SVYS Devotee Group</span>
+    <div class="chat-messages-container" id="chatMessagesContainer" style="flex:1;min-height:0;overflow-y:auto;padding:14px;background:#efeae2;background-image:radial-gradient(#d8d0c4 1px, transparent 1px);background-size:18px 18px;display:flex;flex-direction:column">
+      <div style="text-align:center;margin-bottom:12px">
+        <span style="font-size:10.5px;font-weight:800;color:#762b36;background:rgba(255,255,255,0.85);padding:3px 12px;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,0.08)">Today • SVYS Devotee Group</span>
       </div>
-      <div id="chatMessageList" class="chat-message-list"></div>
+      <div id="chatMessageList" class="chat-message-list" style="flex:1"></div>
     </div>
 
     <!-- Quick Devotional Reaction Strip -->
-    <div class="chat-reactions-strip" style="display:flex;gap:6px;padding:6px 12px;background:#e5ded3;overflow-x:auto;-webkit-overflow-scrolling:touch;border-top:1px solid #dad1c4">
-      <button type="button" class="btn ghost" onclick="quickDevotionalChat('🙏 Ganapathi Bappa Morya!')" style="font-size:12px;padding:4px 9px;white-space:nowrap;background:#ffffff;border-radius:14px;box-shadow:0 1px 2px rgba(0,0,0,0.06)">🙏 Bappa Morya</button>
-      <button type="button" class="btn ghost" onclick="quickDevotionalChat('🚩 Jai Sri Ganesh!')" style="font-size:12px;padding:4px 9px;white-space:nowrap;background:#ffffff;border-radius:14px;box-shadow:0 1px 2px rgba(0,0,0,0.06)">🚩 Jai Ganesh</button>
-      <button type="button" class="btn ghost" onclick="quickDevotionalChat('🪔 Harati Samarpayami')" style="font-size:12px;padding:4px 9px;white-space:nowrap;background:#ffffff;border-radius:14px;box-shadow:0 1px 2px rgba(0,0,0,0.06)">🪔 Harati</button>
-      <button type="button" class="btn ghost" onclick="quickDevotionalChat('🌸 Vinayaka Chavithi Greetings!')" style="font-size:12px;padding:4px 9px;white-space:nowrap;background:#ffffff;border-radius:14px;box-shadow:0 1px 2px rgba(0,0,0,0.06)">🌸 Greetings</button>
-      <button type="button" class="btn ghost" onclick="quickDevotionalChat('🥥 Coconut Naivedyam')" style="font-size:12px;padding:4px 9px;white-space:nowrap;background:#ffffff;border-radius:14px;box-shadow:0 1px 2px rgba(0,0,0,0.06)">🥥 Coconut</button>
-      <button type="button" class="btn ghost" onclick="quickDevotionalChat('🌺 Om Gam Ganapataye Namah')" style="font-size:12px;padding:4px 9px;white-space:nowrap;background:#ffffff;border-radius:14px;box-shadow:0 1px 2px rgba(0,0,0,0.06)">🌺 Om Gam</button>
+    <div class="chat-reactions-strip" style="display:flex;gap:6px;padding:6px 12px;background:#e5ded3;overflow-x:auto;-webkit-overflow-scrolling:touch;border-top:1px solid #dad1c4;flex-shrink:0;width:100%;box-sizing:border-box">
+      <button type="button" class="btn devotional-pill" onclick="quickDevotionalChat('🙏 Ganapathi Bappa Morya!')" style="font-size:12px;padding:4px 10px;white-space:nowrap;background:#ffffff !important;color:#4a151e !important;font-weight:700;border:1px solid #d6a64f !important;border-radius:14px;box-shadow:0 1px 2px rgba(0,0,0,0.06)">🙏 Bappa Morya</button>
+      <button type="button" class="btn devotional-pill" onclick="quickDevotionalChat('🚩 Jai Sri Ganesh!')" style="font-size:12px;padding:4px 10px;white-space:nowrap;background:#ffffff !important;color:#4a151e !important;font-weight:700;border:1px solid #d6a64f !important;border-radius:14px;box-shadow:0 1px 2px rgba(0,0,0,0.06)">🚩 Jai Ganesh</button>
+      <button type="button" class="btn devotional-pill" onclick="quickDevotionalChat('🪔 Harati Samarpayami')" style="font-size:12px;padding:4px 10px;white-space:nowrap;background:#ffffff !important;color:#4a151e !important;font-weight:700;border:1px solid #d6a64f !important;border-radius:14px;box-shadow:0 1px 2px rgba(0,0,0,0.06)">🪔 Harati</button>
+      <button type="button" class="btn devotional-pill" onclick="quickDevotionalChat('🌸 Vinayaka Chavithi Greetings!')" style="font-size:12px;padding:4px 10px;white-space:nowrap;background:#ffffff !important;color:#4a151e !important;font-weight:700;border:1px solid #d6a64f !important;border-radius:14px;box-shadow:0 1px 2px rgba(0,0,0,0.06)">🌸 Greetings</button>
+      <button type="button" class="btn devotional-pill" onclick="quickDevotionalChat('🥥 Coconut Naivedyam')" style="font-size:12px;padding:4px 10px;white-space:nowrap;background:#ffffff !important;color:#4a151e !important;font-weight:700;border:1px solid #d6a64f !important;border-radius:14px;box-shadow:0 1px 2px rgba(0,0,0,0.06)">🥥 Coconut</button>
+      <button type="button" class="btn devotional-pill" onclick="quickDevotionalChat('🌺 Om Gam Ganapataye Namah')" style="font-size:12px;padding:4px 10px;white-space:nowrap;background:#ffffff !important;color:#4a151e !important;font-weight:700;border:1px solid #d6a64f !important;border-radius:14px;box-shadow:0 1px 2px rgba(0,0,0,0.06)">🌺 Om Gam</button>
     </div>
-    <form class="chat-input-form" id="chatInputForm" onsubmit="handleChatSubmit(event)" style="display:flex;gap:8px;padding:10px 14px;background:#f0f2f5;border-top:1px solid #d9d9d9;align-items:center">
-      <input type="text" id="chatInput" class="chat-input" placeholder="Type a message / ?? ?????? ??????..." maxlength="500" autocomplete="off" style="flex:1;padding:11px 16px;border:1px solid #d1d7db;border-radius:24px;font-size:16px;outline:none;background:#ffffff;box-sizing:border-box">
-      <button type="submit" class="btn primary" style="padding:10px 18px;border-radius:24px;display:flex;align-items:center;gap:4px;font-size:14px">
-        <span>Send</span> <span style="font-size:14px">?</span>
+    <form class="chat-input-form" id="chatInputForm" onsubmit="handleChatSubmit(event)" style="display:flex;gap:8px;padding:10px 14px;background:#f0f2f5;border-top:1px solid #d9d9d9;align-items:center;flex-shrink:0;width:100%;box-sizing:border-box">
+      <input type="text" id="chatInput" class="chat-input" placeholder="Type a message / సందేశం టైప్ చేయండి..." maxlength="500" autocomplete="off" style="flex:1;min-width:0;padding:11px 16px;border:1px solid #d1d7db;border-radius:24px;font-size:15px;outline:none;background:#ffffff;box-sizing:border-box">
+      <button type="submit" class="btn primary" style="padding:10px 18px;border-radius:24px;display:flex;align-items:center;gap:4px;font-size:14px;flex-shrink:0">
+        <span>Send</span> <span style="font-size:14px">➤</span>
       </button>
     </form>
   </div>
@@ -708,10 +710,6 @@
           The official SVYS photography and media team is curating 500+ high-definition photographs, daily pooja rituals, special aarti recordings, and grand procession drone moments from Ganesh Chaturthi celebrations.
         </p>
         <div class="gallery-cs-badge">🔒 Under Official Curation</div>
-      </div>
-      <div style="margin-top:12px;font-size:12px;color:#777">
-        Official Archive: <a id="gphotosLinkAnchor" href="https://photos.google.com/" target="_blank" style="color:var(--maroon);font-weight:700">Google Photos Album</a>
-        <button type="button" onclick="openDirectGooglePhotos()" style="display:none"></button>
       </div>
       <button type="button" class="btn primary" onclick="closeGalleryModal()" style="width:100%;margin-top:16px;padding:12px;justify-content:center;font-size:14px">
         ✓ Understood
@@ -743,11 +741,11 @@
           <div><strong>Date:</strong> <span id="rcptDisplayDate">19 Nov 2026</span></div>
         </div>
         <table class="rcpt-info-grid">
-          <tr><td class="rcpt-lbl">Received With Thanks From:</td><td class="rcpt-val" id="rcptDisplayName">Tharun Gutta</td></tr>
-          <tr><td class="rcpt-lbl">Registered Mobile:</td><td class="rcpt-val" id="rcptDisplayPhone">+91 9392618109</td></tr>
-          <tr><td class="rcpt-lbl">Registered Email:</td><td class="rcpt-val" id="rcptDisplayEmail">tharungutta@gmail.com</td></tr>
+          <tr><td class="rcpt-lbl">Received With Thanks From:</td><td class="rcpt-val" id="rcptDisplayName">—</td></tr>
+          <tr><td class="rcpt-lbl">Registered Mobile:</td><td class="rcpt-val" id="rcptDisplayPhone">—</td></tr>
+          <tr><td class="rcpt-lbl">Registered Email:</td><td class="rcpt-val" id="rcptDisplayEmail">—</td></tr>
           <tr><td class="rcpt-lbl">Contribution Towards:</td><td class="rcpt-val">Ganesh Chaturthi Utsav Fund</td></tr>
-          <tr><td class="rcpt-lbl">Contribution Month:</td><td class="rcpt-val" id="rcptDisplayMonth">November 2026</td></tr>
+          <tr><td class="rcpt-lbl">Contribution Month:</td><td class="rcpt-val" id="rcptDisplayMonth">—</td></tr>
           <tr><td class="rcpt-lbl">Payment Mode:</td><td class="rcpt-val">UPI Online Payment (Google Sheet Verified)</td></tr>
         </table>
         <div class="rcpt-amount-banner">
@@ -796,22 +794,22 @@
         <div class="eyebrow" style="color:#ffd88a">VOICE OF THE COMMUNITY</div>
         <h2 style="color:#ffffff;margin:2px 0 0;font-size:18px">Suggestion & Idea Box</h2>
       </div>
-      <button class="close" onclick="closeSuggestionModal()" style="color:#ffd88a">?</button>
+      <button class="close" onclick="closeSuggestionModal()" style="color:#ffd88a">✕</button>
     </div>
     <div class="sug-chat-container" id="sugChatContainer" style="flex:1;overflow-y:auto;padding:14px;background:#fbf9f6">
       <div id="sugChatFeed"></div>
     </div>
     <!-- Quick Topic Chips -->
     <div class="sug-prompt-chips" style="display:flex;gap:6px;padding:6px 12px;background:#f4ece0;overflow-x:auto">
-      <button type="button" class="sug-chip" onclick="selectSugTopic('Annadanam Menu')">?? Annadanam Menu</button>
-      <button type="button" class="sug-chip" onclick="selectSugTopic('Idol Size / Eco Ganesha')">?? Clay Ganesha</button>
-      <button type="button" class="sug-chip" onclick="selectSugTopic('DJ & Lighting')">?? Mandap Lighting</button>
-      <button type="button" class="sug-chip" onclick="selectSugTopic('Sports & Games')">?? Youth Games</button>
+      <button type="button" class="sug-chip" onclick="selectSugTopic('Annadanam Menu')">🍲 Annadanam Menu</button>
+      <button type="button" class="sug-chip" onclick="selectSugTopic('Idol Size / Eco Ganesha')">🐘 Clay Ganesha</button>
+      <button type="button" class="sug-chip" onclick="selectSugTopic('DJ & Lighting')">✨ Mandap Lighting</button>
+      <button type="button" class="sug-chip" onclick="selectSugTopic('Sports & Games')">🏆 Youth Games</button>
     </div>
     <!-- Bottom Chat Input Bar -->
     <form class="sug-chat-bar" onsubmit="sendCommunitySuggestion(event)">
-      <input type="text" id="sugInput" placeholder="Type your idea or suggestion... / ?? ??????? ????????..." maxlength="300" required style="font-size:16px">
-      <button type="submit" class="sug-send-btn" title="Submit Idea">?</button>
+      <input type="text" id="sugInput" placeholder="Type your idea or suggestion... / మీ ఆలోచనను పంచుకోండి..." maxlength="300" required style="font-size:16px">
+      <button type="submit" class="sug-send-btn" title="Submit Idea">➤</button>
     </form>
   </div>
 </div>
@@ -824,7 +822,7 @@
         <div class="eyebrow" style="color:#ffd88a">OFFICIAL COMMUNITY PASS</div>
         <h2 style="color:#ffffff;margin:2px 0 0;font-size:18px">Digital Member VIP Pass</h2>
       </div>
-      <button class="close" onclick="closeDigitalIdCardModal()" style="color:#ffd88a">?</button>
+      <button class="close" onclick="closeDigitalIdCardModal()" style="color:#ffd88a">✕</button>
     </div>
     <div class="digital-id-modal-body">
       <!-- 1. Form View (First-time setup or editing) -->
@@ -832,7 +830,7 @@
         <div class="id-form-header">
           <div class="id-form-icon">🪪</div>
           <h3>Generate Your Official VIP Pass</h3>
-          <p>Personalize your 2026�2027 Sri Vinayaka Yuvasena Smart ID Pass with your photo and details.</p>
+          <p>Personalize your 2026–2027 Sri Vinayaka Yuvasena Smart ID Pass with your photo and details.</p>
         </div>
         <div class="id-photo-upload-container" style="display:flex;gap:14px;align-items:center;background:var(--cream);padding:14px;border-radius:14px;margin-bottom:14px">
           <div id="idPhotoPreviewBox" style="width:72px;height:90px;background:#e2d4be;border:2px dashed #b8860b;border-radius:10px;display:grid;place-items:center;overflow:hidden">
@@ -861,7 +859,7 @@
         </button>
       </div>
 
-      <!-- 2. Display View (Royal VIP Devotee Pass Graphic - Balanced, No Voids, No Lanyard) -->
+      <!-- 2. Display View (Royal VIP Devotee Pass Graphic - Original Balanced Layout) -->
       <div id="idCardDisplayView" style="display:none">
         <div class="cid-vip-pass cid-smart-card" id="cidSmartCardGraphic">
           <!-- Top Sacred Ribbon -->
@@ -928,19 +926,11 @@
               </div>
             </div>
           </div>
-        </div>
-        <!-- Verification Bar (Dynamic QR + Barcode) -->
-          <div class="vip-verification-strip">
-            <div class="vip-qr-box" id="cidDisplayQrBox">
-              <!-- Dynamically populated QR Code -->
-            </div>
-            <div class="vip-barcode-col">
-              <div class="vip-barcode-lines">
-                <span>|||</span><span>|</span><span>||||</span><span>||</span><span>|||</span><span>|</span><span>||||</span><span>||</span><span>|||||</span>
-              </div>
-              <div class="vip-barcode-code" id="cidDisplayBarcodeText">SVYS-2026-759-AUTH</div>
-              <div class="vip-secure-auth">?? OFFICIAL ENCRYPTED PASS</div>
-            </div>
+
+          <!-- Pass Security Auth Bar -->
+          <div class="vip-auth-strip">
+            <div class="vip-barcode-pattern">||| | |||| || ||| | |||| || |||||</div>
+            <div class="vip-auth-code"><span id="cidDisplayBarcodeText">SVYS-2026-759-AUTH</span> • 🔒 ENCRYPTED PASS</div>
           </div>
 
           <!-- Pass Footer -->
@@ -951,7 +941,7 @@
             </div>
             <div class="vip-footer-seal">
               <span class="vip-seal-stamp">OFFICIAL SEAL</span>
-              <span class="vip-validity">Valid: 2026�2027 Utsav</span>
+              <span class="vip-validity">Valid: 2026–2027 Utsav</span>
             </div>
           </div>
         </div>
@@ -960,7 +950,7 @@
         <div class="vip-actions-toolbar">
           <button type="button" class="btn soft" onclick="editCollegeIdCard()">✏️ Edit</button>
           <button type="button" class="btn gold" onclick="downloadDigitalIdCard()">📥 Download</button>
-          <button type="button" class="btn primary" onclick="shareIdCardWhatsApp()">💬 WhatsApp</button>
+          <button type="button" class="btn primary" onclick="shareIdCardWhatsApp()" style="background:#25D366;border-color:#1EBE5D;color:#ffffff">💬 WhatsApp</button>
         </div>
       </div>
     </div>
@@ -969,6 +959,7 @@
 
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="assets/logo_data.js"></script>
 <script src="assets/qrcode.min.js"></script>
 <script src="config.js"></script>
 <script src="live-data.js"></script>
@@ -976,16 +967,16 @@
 const MONTHS=[['October',200],['November',200],['December',200],['January',250],['February',250],['March',250],['April',250],['May',300],['June',300],['July',300],['August',300],['September',300]];
 
 const EXPENSE_CATEGORIES = [
-  { name: 'Idol & Murti', icon: '???', cls: 'cat-idol' },
-  { name: 'Mandap & Lighting', icon: '??', cls: 'cat-mandap' },
-  { name: 'Sound & DJ', icon: '??', cls: 'cat-sound' },
-  { name: 'Daily Pooja & Flowers', icon: '??', cls: 'cat-pooja' },
-  { name: 'Annadanam & Prasadam', icon: '??', cls: 'cat-food' },
-  { name: 'Nimajjanam & Procession', icon: '??', cls: 'cat-immersion' },
-  { name: 'Crackers & Misc', icon: '??', cls: 'cat-misc' }
+  { name: 'Idol & Murti', icon: '🐘', cls: 'cat-idol' },
+  { name: 'Mandap & Lighting', icon: '✨', cls: 'cat-mandap' },
+  { name: 'Sound & DJ', icon: '🔊', cls: 'cat-sound' },
+  { name: 'Daily Pooja & Flowers', icon: '🌸', cls: 'cat-pooja' },
+  { name: 'Annadanam & Prasadam', icon: '🍲', cls: 'cat-food' },
+  { name: 'Nimajjanam & Procession', icon: '🚚', cls: 'cat-immersion' },
+  { name: 'Crackers & Misc', icon: '🎆', cls: 'cat-misc' }
 ];
 
-const money=n=>'?'+Number(n||0).toLocaleString('en-IN');
+const money=n=>'₹'+Number(n||0).toLocaleString('en-IN');
 const CONFIG=window.SVYS_CONFIG||{};
 
 // Load live data from live-data.js cache immediately or localStorage
@@ -1016,11 +1007,11 @@ function updateSyncStatus(status) {
   if (status === 'syncing') {
     badge.classList.add('syncing');
     badge.classList.remove('offline');
-    txt.textContent = currentLang === 'te' ? '????? ????????�' : 'Syncing�';
+    txt.textContent = currentLang === 'te' ? 'సింక్ అవుతోంది…' : 'Syncing…';
   } else if (status === 'offline') {
     badge.classList.remove('syncing');
     badge.classList.add('offline');
-    txt.textContent = currentLang === 'te' ? '???????? ??????????' : 'Offline / Cached';
+    txt.textContent = currentLang === 'te' ? 'ఆఫ్‌లైన్ / కాష్' : 'Offline / Cached';
   } else {
     badge.classList.remove('syncing', 'offline');
     lastSyncTime = new Date();
@@ -1032,22 +1023,22 @@ function formatSyncTime() {
   const txt = document.getElementById('syncText');
   if (!txt) return;
   if (!lastSyncTime) {
-    txt.textContent = currentLang === 'te' ? '????' : 'Live';
+    txt.textContent = currentLang === 'te' ? 'లైవ్' : 'Live';
     return;
   }
   const diffSec = Math.floor((Date.now() - lastSyncTime.getTime()) / 1000);
   let timeStr;
   if (diffSec < 20) {
-    timeStr = currentLang === 'te' ? '???????' : 'Just now';
+    timeStr = currentLang === 'te' ? 'ఇప్పుడే' : 'Just now';
   } else if (diffSec < 60) {
-    timeStr = `${diffSec}s ${currentLang === 'te' ? '??????' : 'ago'}`;
+    timeStr = `${diffSec}s ${currentLang === 'te' ? 'క్రితం' : 'ago'}`;
   } else if (diffSec < 3600) {
     const m = Math.floor(diffSec / 60);
-    timeStr = `${m}m ${currentLang === 'te' ? '??????' : 'ago'}`;
+    timeStr = `${m}m ${currentLang === 'te' ? 'క్రితం' : 'ago'}`;
   } else {
     timeStr = lastSyncTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   }
-  txt.textContent = `${currentLang === 'te' ? '????' : 'Live'} � ${timeStr}`;
+  txt.textContent = `${currentLang === 'te' ? 'లైవ్' : 'Live'} • ${timeStr}`;
 }
 
 setInterval(formatSyncTime, 30000);
@@ -1055,7 +1046,7 @@ setInterval(formatSyncTime, 30000);
 async function triggerManualSync() {
   updateSyncStatus('syncing');
   await loadData();
-  if (window.alert) alert(currentLang === 'te' ? '?????? ???? ????? ???? ???? ???????? ????????! ?' : 'Live data refreshed from Google Sheet! ?');
+  if (window.alert) alert(currentLang === 'te' ? 'గూగుల్ షీట్ నుండి తాజా సమాచారం అప్‌డేట్ అయింది! ✓' : 'Live data refreshed from Google Sheet! ✓');
 }
 
 async function loadData(){
@@ -1114,6 +1105,7 @@ function render(){
   const balance=total-totalExp;
 
   document.getElementById('totalMembers').textContent=state.members.length;
+  if(typeof updateChatSubtitle==='function') updateChatSubtitle();
   document.getElementById('totalCollected').textContent=money(total);
   document.getElementById('yearTarget').textContent=money(target);
   document.getElementById('extra').textContent=money(Math.max(0,total-target));
@@ -1216,11 +1208,11 @@ function renderMembers(){
       <div class="avatar">${initials(m.name)}</div>
       <div class="member-main">
         <b>${escapeHtml(m.name)}</b>
-        <div class="phone">?? ${escapeHtml(m.phone||'')}</div>
+        <div class="phone">📱 ${escapeHtml(m.phone||'')}</div>
       </div>
       <div class="member-money">
         <b>${money(total)}</b>
-        <small>${st} � ${diff>=0?'+'+money(diff):money(diff)}</small>
+  <small>${st} • ${diff>=0?'+'+money(diff):money(diff)}</small>
       </div>
     </article>`
   }).join('')||'<div class="empty">No member found.</div>';
@@ -1266,7 +1258,7 @@ function openMonth(name){
           const ps=state.payments.filter(p=>p.month===name&&String(p.memberId)===String(m.id)),
                 amount=ps.reduce((s,p)=>s+Number(p.amount||0),0),
                 latestPayment=ps.slice().sort((a,b)=>String(b.date).localeCompare(String(a.date)))[0],
-                latest=latestPayment?.date||'�';
+latest=latestPayment?.date||'—';
           return{m,amount,latest,latestPayment};
         }),
         collected=rows.reduce((s,r)=>s+r.amount,0),
@@ -1303,8 +1295,8 @@ function openMonth(name){
   if(adminBadgeEl){
     adminBadgeEl.innerHTML = isAdmin ? `
       <span style="display:inline-flex;align-items:center;gap:6px">
-        <span style="font-size:11px;background:#0f766e1f;color:#0f766e;border:1px solid #0f766e44;padding:3px 8px;border-radius:20px;font-weight:700">??? Admin Active</span>
-        <button type="button" class="btn soft" style="font-size:11px;padding:3px 8px;color:var(--red);border-color:rgba(217,83,79,0.3)" onclick="adminSignOut()">?? Logout</button>
+        <span style="font-size:11px;background:#0f766e1f;color:#0f766e;border:1px solid #0f766e44;padding:3px 8px;border-radius:20px;font-weight:700">🛡️ Admin Active</span>
+        <button type="button" class="btn soft" style="font-size:11px;padding:3px 8px;color:var(--red);border-color:rgba(217,83,79,0.3)" onclick="adminSignOut()">🚪 Logout</button>
       </span>
     ` : '';
   }
@@ -1326,8 +1318,7 @@ function openMonth(name){
       </button>
     ` : '';
     const receiptBtn=(isAdmin && r.amount>0 && r.m.phone)?`
-      <button type="button" class="btn-wa-receipt" title="Send WhatsApp receipt (Admin only)" onclick="event.stopPropagation();sendWhatsAppReceipt('${escapeHtml(r.m.name)}','${escapeHtml(r.m.phone)}','${escapeHtml(name)}',${r.amount},'${escapeHtml(r.latestPayment?.date||'')}')">
-        ?? Receipt
+      <button type="button" class="btn-wa-receipt" style="padding:3px 7px;font-size:10px" onclick="event.stopPropagation();openContributorReceipt('${escapeHtml(r.m.name)}','${escapeHtml(r.m.phone)}','${escapeHtml(name)}',${r.amount},'${escapeHtml(r.latestPayment?.date||'')}')">🧾 Receipt
       </button>
     ` : '';
 
@@ -1341,18 +1332,18 @@ function openMonth(name){
         <div class="mic-avatar">${init}</div>
         <div class="mic-info">
           <div class="mic-name">${escapeHtml(r.m.name)}</div>
-          <div class="mic-phone">${r.m.phone ? `?? ${escapeHtml(r.m.phone)}` : '<span style="color:var(--muted)">No phone</span>'}</div>
+          <div class="mic-phone">${r.m.phone ? `📱 ${escapeHtml(r.m.phone)}` : '<span style="color:var(--muted)">No phone</span>'}</div>
         </div>
       </div>
 
       <div class="mic-center">
         <div class="mic-amount-box">
-          <span class="mic-amt-val ${r.amount>=min?'paid-amt':''}">${r.amount?money(r.amount):'�'}</span>
+      <span class="mic-amt-val ${r.amount>=min?'paid-amt':''}">${r.amount?money(r.amount):'—'}</span>
           <span class="mic-min-lbl">${r.amount?`of ${money(min)}`:`Min ${money(min)}`}</span>
         </div>
         <div class="mic-progress-wrap">
           <div class="mic-progress-bar"><div class="mic-progress-fill ${r.amount>=min?'fill-full':''}" style="width:${pct}%"></div></div>
-          <div class="mic-date">${r.latestPayment?.date ? `?? ${escapeHtml(r.latestPayment.date)}` : (st==='PAID'?'Recorded':'Not yet paid')}</div>
+          <div class="mic-date">${r.latestPayment?.date ? `📅 ${escapeHtml(r.latestPayment.date)}` : (st==='PAID'?'Recorded':'Not yet paid')}</div>
         </div>
       </div>
 
@@ -1379,7 +1370,7 @@ function openMember(id){
   document.getElementById('pExpected').textContent=money(target);
   document.getElementById('pExtra').textContent=total>=target?'+'+money(total-target):money(total-target);
   document.getElementById('pCount').textContent=ps.length;
-  document.getElementById('pPhone').textContent=m.phone||'�';
+document.getElementById('pPhone').textContent=m.phone||'—';
 
   const isAdmin = isUserAdmin();
 
@@ -1387,8 +1378,8 @@ function openMember(id){
   if(adminBadgeEl){
     adminBadgeEl.innerHTML = isAdmin ? `
       <span style="display:inline-flex;align-items:center;gap:6px">
-        <span style="font-size:11px;background:#0f766e1f;color:#0f766e;border:1px solid #0f766e44;padding:3px 8px;border-radius:20px;font-weight:700">??? Admin Active</span>
-        <button type="button" class="btn soft" style="font-size:11px;padding:3px 8px;color:var(--red);border-color:rgba(217,83,79,0.3)" onclick="adminSignOut()">?? Logout</button>
+        <span style="font-size:11px;background:#0f766e1f;color:#0f766e;border:1px solid #0f766e44;padding:3px 8px;border-radius:20px;font-weight:700">🛡️ Admin Active</span>
+        <button type="button" class="btn soft" style="font-size:11px;padding:3px 8px;color:var(--red);border-color:rgba(217,83,79,0.3)" onclick="adminSignOut()">🚪 Logout</button>
       </span>
     ` : '';
   }
@@ -1399,7 +1390,7 @@ function openMember(id){
       <button class="btn-wa" style="padding:10px 14px;border-radius:12px;font-size:12px" onclick="sendMemberSummary('${escapeHtml(m.id)}')"><svg viewBox="0 0 24 24" style="width:16px;height:16px"><path fill="currentColor" d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c4.56 0 8.25 3.69 8.25 8.24 0 2.2-.86 4.28-2.42 5.83a8.196 8.196 0 0 1-5.83 2.41h-.01c-1.49 0-2.95-.39-4.23-1.15l-.3-.18-3.13.82.83-3.05-.2-.32a8.214 8.214 0 0 1-1.26-4.36c0-4.55 3.69-8.24 8.25-8.24m4.52 11.64c-.25-.13-1.48-.73-1.71-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.07-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.78 2.72 4.31 3.81.6.26 1.07.42 1.44.53.61.19 1.16.17 1.6.1.49-.07 1.48-.61 1.69-1.19.21-.59.21-1.09.15-1.19-.06-.11-.23-.17-.48-.3"/></svg> Send WhatsApp Statement</button>
     ` : '';
     actionsEl.innerHTML=`
-      <button class="btn gold" onclick="openUpiModal()">? Pay via UPI</button>
+      <button class="btn gold" onclick="openUpiModal()">⚡ Pay via UPI</button>
       ${statementBtn}
     `;
   }
@@ -1409,8 +1400,8 @@ function openMember(id){
           amt=payment?Number(payment.amount||0):0,
           st=amt>=min?'PAID':amt?'PARTIAL':'PENDING',
           shot=payment?.screenshotUrl?`<button class="btn-proof-modern" style="padding:3px 8px;font-size:10px" onclick="viewScreenshot('${String(payment.id).replace(/'/g,"\\'")}')"><svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2.2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> View Proof</button>`:'',
-          receiptBtn=(isAdmin && amt>0 && m.phone)?`<button class="btn-wa-receipt" style="padding:3px 7px;font-size:10px;margin-left:5px" onclick="sendWhatsAppReceipt('${escapeHtml(m.name)}','${escapeHtml(m.phone)}','${escapeHtml(month)}',${amt},'${escapeHtml(payment?.date||'')}')">?? Receipt</button>`:'';
-    return `<div class="month-row"><b>${month}</b><span>${amt?money(amt):'�'}</span><span>${amt?money(min)+' min':'Not paid'}</span><span class="status ${st.toLowerCase()}">${st}</span>${shot}${receiptBtn}</div>`
+          receiptBtn=(isAdmin && amt>0 && m.phone)?`<button class="btn-wa-receipt" style="padding:3px 7px;font-size:10px;margin-left:5px" onclick="openContributorReceipt('${escapeHtml(m.name)}','${escapeHtml(m.phone)}','${escapeHtml(month)}',${amt},'${escapeHtml(payment?.date||'')}')">🧾 Receipt</button>`:'';
+  return `<div class="month-row"><b>${month}</b><span>${amt?money(amt):'—'}</span><span>${amt?money(min)+' min':'Not paid'}</span><span class="status ${st.toLowerCase()}">${st}</span>${shot}${receiptBtn}</div>`
   }).join('');
   document.getElementById('memberModal').classList.add('open');
 }
@@ -1439,13 +1430,13 @@ function sendWhatsAppReceipt(name, phone, month, amount, date){
 
   const text=encodeURIComponent(
     `🚩 *SRI VINAYAKA YUVASENA - OFFICIAL RECEIPT* 🚩\n\n` +
-    `Dear *${name.trim()}*,\n` +
+    `Dear ${name.trim()},\n` +
     `Thank you for your pious contribution towards Ganesh Chaturthi 2026–2027!\n\n` +
-    `🧾 *Receipt No:* ${rcptId}\n` +
-    `📅 *Month:* ${month}\n` +
-    `💰 *Amount Paid:* ₹${formattedAmt}\n` +
-    `🗓️ *Date:* ${dateStr}\n` +
-    `🛡️ *Status:* Verified & Recorded in Live Google Sheet\n\n` +
+    `🧾 Receipt No: ${rcptId}\n` +
+    `📅 Month: ${month}\n` +
+    `💰 Amount Paid: ₹${formattedAmt}\n` +
+    `🗓️ Date: ${dateStr}\n` +
+    `🛡️ Status: Verified & Recorded in Live Google Sheet\n\n` +
     `🌐 View your live pass & statement: https://srivinayakayuvasena.vercel.app/\n\n` +
     `Ganapathi Bappa Morya! 🙏\n` +
     `*Sri Vinayaka Yuvasena Utsav Committee*`
@@ -1478,13 +1469,13 @@ function sendWhatsAppReminder(name, phone, month, dueAmount){
   }
   const formattedDue=Number(dueAmount||0).toLocaleString('en-IN');
   const text=encodeURIComponent(
-    `?? *???? ?????? ?????? - ???? ????????*\n\n` +
-    `?????? *${name.trim()}* ????,\n` +
-    `????? ????? ???? ????? ???????:\n\n` +
-    `� ???: *${month}*\n` +
-    `� ????? ??????: *?${formattedDue}*\n\n` +
-    `???? ??????? & QR: https://srivinayakayuvasena.vercel.app/\n` +
-    `????? ????? ??????! ??`
+    `🚩 *శ్రీ వినాయక యువసేన - చందా సమాచారం* 🚩\n\n` +
+    `నమస్తే *${name.trim()}* గారు,\n` +
+    `మీయొక్క నెలవారీ చందా వివరాలు:\n\n` +
+    `• నెల: *${month}*\n` +
+    `• చెల్లించవలసిన మొత్తం: *₹${formattedDue}*\n\n` +
+    `లైవ్ ట్రాకర్ & QR: https://srivinayakayuvasena.vercel.app/\n` +
+    `గణపతి బప్పా మోరియా! 🙏`
   );
   window.open(`https://wa.me/91${cleanPhone}?text=${text}`,'_blank');
 }
@@ -1507,13 +1498,13 @@ function sendMemberSummary(memberId){
   const balance=target-totalPaid;
 
   const text=encodeURIComponent(
-    `?? *???? ?????? ?????? - ???? ???????*\n\n` +
-    `???????: *${m.name.trim()}*\n` +
-    `� ?? ????? ??????: *?${totalPaid.toLocaleString('en-IN')}*\n` +
-    `� ??????? ???????: *?${target.toLocaleString('en-IN')}*\n` +
-    (balance>0?`� ?????: *?${balance.toLocaleString('en-IN')}*\n\n`:`� ??????: *?????????? (All Paid)* ??\n\n`) +
-    `???? ???????: https://srivinayakayuvasena.vercel.app/\n` +
-    `????? ????? ??????! ??`
+    `🚩 *శ్రీ వినాయక యువసేన - సభ్యుని వివరాలు* 🚩\n\n` +
+    `సభ్యుడు: *${m.name.trim()}*\n` +
+    `• ఇప్పటివరకు చెల్లించినది: *₹${totalPaid.toLocaleString('en-IN')}*\n` +
+    `• వార్షిక లక్ష్యం: *₹${target.toLocaleString('en-IN')}*\n` +
+    (balance>0?`• బ్యాలెన్స్: *₹${balance.toLocaleString('en-IN')}*\n\n`:`• స్థితి: *పూర్తయింది (All Paid)* ✓\n\n`) +
+    `లైవ్ ట్రాకర్: https://srivinayakayuvasena.vercel.app/\n` +
+    `గణపతి బప్పా మోరియా! 🙏`
   );
   window.open(`https://wa.me/91${cleanPhone}?text=${text}`,'_blank');
 }
@@ -1540,7 +1531,7 @@ function saveQrCodeLocal(){
       a.click();
       document.body.removeChild(a);
       setTimeout(()=>URL.revokeObjectURL(url),1000);
-      alert(currentLang==='te'?'QR ???? ?? ????????? ?????????? ???? ?????????! ??':'QR Code saved to your device gallery! ??');
+      alert(currentLang==='te'?'QR కోడ్ మీ గ్యాలరీలో సేవ్ చేయబడింది! ✓':'QR Code saved to your device gallery! ✓');
     })
     .catch(()=>{
       const a=document.createElement('a');
@@ -1560,7 +1551,7 @@ function offerFlowerShower() {
   const container = document.getElementById('logoFlowerContainer');
   if (!container) return;
 
-  const flowers = ['??', '??', '??', '???', '??', '?', '??'];
+  const flowers = ['🌸', '🌺', '🌼', '🪷', '🌻', '🏵️', '🌹'];
   const count = 22;
 
   for (let i = 0; i < count; i++) {
@@ -1653,7 +1644,6 @@ function showMemberGreetingPopup(user){
   if(!m)return;
 
   const firstName=m.name.split(' ')[0];
-  // Determine month check (current active cycle month: November)
   const now=new Date();
   const monthNames=['January','February','March','April','May','June','July','August','September','October','November','December'];
   const activeMonth=monthNames[now.getMonth()]||'November';
@@ -1671,21 +1661,20 @@ function showMemberGreetingPopup(user){
   if(paidCurrent<minAmt){
     const due=minAmt-paidCurrent;
     badgeEl.className='toast-status-pill pending';
-    badgeEl.textContent='NOVEMBER PENDING';
-    titleEl.textContent=`Hii ${firstName}, your ${activeMonth} payment is pending`;
-    msgEl.innerHTML=`Your contribution for <b>${activeMonth}</b> (<b>?${due}</b> pending) has not been recorded yet.<br><br>Scan the official QR code to complete payment and share your screenshot in the committee WhatsApp group.`;
-    actBtn.textContent=`Pay for ${activeMonth} via QR ?`;
+    badgeEl.textContent=currentLang==='te'?'నవంబర్ బకాయి':'NOVEMBER PENDING';
+    titleEl.textContent=currentLang==='te'?`నమస్కారం ${firstName}, మీ ${activeMonth} చందా పెండింగ్‌లో ఉంది`:`Hii ${firstName}, your ${activeMonth} payment is pending`;
+    msgEl.innerHTML=currentLang==='te'?`మీ <b>${activeMonth}</b> చందా (<b>₹${due}</b> పెండింగ్) ఇంకా రికార్డ్ కాలేదు.<br><br>దయచేసి అధికారిక QR కోడ్ స్కాన్ చేసి చెల్లించండి మరియు రశీదును WhatsApp గ్రూప్‌లో పంపండి.`:`Your contribution for <b>${activeMonth}</b> (<b>₹${due}</b> pending) has not been recorded yet.<br><br>Scan the official QR code to complete payment and share your screenshot in the committee WhatsApp group.`;
+    actBtn.textContent=currentLang==='te'?`₹${due} QR ద్వారా చెల్లించండి →`:`Pay for ${activeMonth} via QR →`;
   } else {
-    // Current month completed! Recommend next month
     const curIdx=MONTHS.findIndex(([name])=>name.toLowerCase()===activeMonth.toLowerCase());
     const nextIdx=(curIdx>=0&&curIdx<MONTHS.length-1)?curIdx+1:0;
     const [nextMonthName,nextMin]=MONTHS[nextIdx];
 
     badgeEl.className='toast-status-pill cleared';
-    badgeEl.textContent='PAYMENT COMPLETED';
-    titleEl.textContent=`Hii ${firstName}, pay for the next month`;
-    msgEl.innerHTML=`You have already completed your <b>${activeMonth}</b> contribution of <b>?${paidCurrent}</b>! Dhanyavadalu ??<br><br>You can now pay for the next month (<b>${nextMonthName}</b> - ?${nextMin}).`;
-    actBtn.textContent=`Pay for ${nextMonthName} via QR ?`;
+    badgeEl.textContent=currentLang==='te'?'చెల్లింపు పూర్తయింది':'PAYMENT COMPLETED';
+    titleEl.textContent=currentLang==='te'?`నమస్కారం ${firstName}, ధన్యవాదాలు!`:`Hii ${firstName}, pay for the next month`;
+    msgEl.innerHTML=currentLang==='te'?`మీరు <b>${activeMonth}</b> చందా <b>₹${paidCurrent}</b> విజయవంతంగా పూర్తి చేశారు! ధన్యవాదాలు 🙏<br><br>తదుపరి నెల (<b>${nextMonthName}</b> - ₹${nextMin}) చందాను చెల్లించవచ్చు.`:`You have already completed your <b>${activeMonth}</b> contribution of <b>₹${paidCurrent}</b>! Dhanyavadalu 🙏<br><br>You can now pay for the next month (<b>${nextMonthName}</b> - ₹${nextMin}).`;
+    actBtn.textContent=currentLang==='te'?`తదుపరి నెల (${nextMonthName}) చెల్లించండి →`:`Pay for ${nextMonthName} via QR →`;
   }
 
   document.getElementById('memberGreetingModal').classList.add('open');
@@ -1734,15 +1723,15 @@ function renderExpenses(){
   const rows=document.getElementById('expenseRows');
   if(rows){
     rows.innerHTML=filtered.length?filtered.map(e=>{
-      const catObj=EXPENSE_CATEGORIES.find(c=>c.name===e.category)||{icon:'??',cls:'cat-misc'};
-      const receipt=e.receiptUrl?`<a href="${escapeHtml(e.receiptUrl)}" target="_blank" class="view-shot">?? Bill</a>`:'';
-      const delBtn=window.isAdminLoggedIn?`<button class="btn-del" onclick="deleteExpenseItem('${escapeHtml(e.id)}')">? Delete</button>`:'';
+      const catObj=EXPENSE_CATEGORIES.find(c=>c.name===e.category)||{icon:'🎆',cls:'cat-misc'};
+      const receipt=e.receiptUrl?`<a href="${escapeHtml(e.receiptUrl)}" target="_blank" class="view-shot">🧾 Bill</a>`:'';
+      const delBtn=window.isAdminLoggedIn?`<button class="btn-del" onclick="deleteExpenseItem('${escapeHtml(e.id)}')">🗑️ Delete</button>`:'';
       return `
         <div class="month-row" style="grid-template-columns:1.4fr .7fr .6fr .5fr">
           <div>
             <span class="cat-pill ${catObj.cls}">${catObj.icon} ${escapeHtml(e.category)}</span>
             <b style="display:block;margin-top:5px;font-size:13px">${escapeHtml(e.title)}</b>
-            <div style="font-size:10px;color:var(--muted);margin-top:2px">Vendor: ${escapeHtml(e.paidTo||'�')} � ?? ${escapeHtml(e.date||'�')}</div>
+    <div style="font-size:10px;color:var(--muted);margin-top:2px">Vendor: ${escapeHtml(e.paidTo||'—')} • 📅 ${escapeHtml(e.date||'—')}</div>
           </div>
           <div><strong style="color:var(--burg);font-size:15px">${money(e.amount)}</strong></div>
           <div>${receipt}</div>
@@ -1844,16 +1833,16 @@ function exportFinancialReport(){
       <td>${escapeHtml(e.date)}</td>
       <td>${escapeHtml(e.category)}</td>
       <td>${escapeHtml(e.title)}</td>
-      <td>${escapeHtml(e.paidTo||'�')}</td>
-      <td>?${Number(e.amount||0).toLocaleString('en-IN')}</td>
+  <td>${escapeHtml(e.paidTo||'—')}</td>
+      <td>₹${Number(e.amount||0).toLocaleString('en-IN')}</td>
     </tr>
   `).join('');
 
   let html=`<html><head><meta charset="UTF-8"><style>table{border-collapse:collapse;width:100%}th,td{border:1px solid #ccc;padding:8px;text-align:left}th{background:#f4ebd9}</style></head><body>
     <h1>SRI VINAYAKA YUVASENA - FINANCIAL STATEMENT</h1>
-    <p><b>Total Collections:</b> ?${totalCol.toLocaleString('en-IN')}</p>
-    <p><b>Total Expenses:</b> ?${totalExp.toLocaleString('en-IN')}</p>
-    <p><b>Net Balance in Treasury:</b> ?${balance.toLocaleString('en-IN')}</p>
+    <p><b>Total Collections:</b> ₹${totalCol.toLocaleString('en-IN')}</p>
+    <p><b>Total Expenses:</b> ₹${totalExp.toLocaleString('en-IN')}</p>
+    <p><b>Net Balance in Treasury:</b> ₹${balance.toLocaleString('en-IN')}</p>
     <hr>
     <h2>Celebration Expenditures</h2>
     <table>
@@ -1888,7 +1877,7 @@ function viewScreenshot(paymentId){
   if(!p||!p.screenshotUrl){alert('Payment screenshot is not available.');return}
   const m=state.members.find(x=>String(x.id)===String(p.memberId));
   
-  document.getElementById('shotTitle').textContent=(m?.name||'Member')+' � '+p.month;
+document.getElementById('shotTitle').textContent=(m?.name||'Member')+' • '+p.month;
   
   const shotImg = document.getElementById('shotImage');
   const shotLoader = document.getElementById('shotLoader');
@@ -1906,10 +1895,10 @@ function viewScreenshot(paymentId){
   if (shotFallbackLink) shotFallbackLink.href = p.screenshotUrl;
 
   document.getElementById('shotMember').textContent=m?.name||'Member';
-  document.getElementById('shotPhone').textContent=m?.phone ? '?? ' + m.phone : '�';
+document.getElementById('shotPhone').textContent=m?.phone ? '📱 ' + m.phone : '—';
   document.getElementById('shotMonth').textContent=p.month;
   document.getElementById('shotAmount').textContent=money(p.amount);
-  document.getElementById('shotDate').textContent=p.date||'�';
+document.getElementById('shotDate').textContent=p.date||'—';
   document.getElementById('screenshotModal').classList.add('open');
 }
 
@@ -1940,8 +1929,8 @@ function updateAdminNavUI(){
   if(adminBadgeEl){
     adminBadgeEl.innerHTML = isAdmin ? `
       <span style="display:inline-flex;align-items:center;gap:6px">
-        <span style="font-size:11px;background:#0f766e1f;color:#0f766e;border:1px solid #0f766e44;padding:3px 8px;border-radius:20px;font-weight:700">??? Admin Active</span>
-        <button type="button" class="btn soft" style="font-size:11px;padding:3px 8px;color:var(--red);border-color:rgba(217,83,79,0.3)" onclick="adminSignOut()">?? Logout</button>
+        <span style="font-size:11px;background:#0f766e1f;color:#0f766e;border:1px solid #0f766e44;padding:3px 8px;border-radius:20px;font-weight:700">🛡️ Admin Active</span>
+        <button type="button" class="btn soft" style="font-size:11px;padding:3px 8px;color:var(--red);border-color:rgba(217,83,79,0.3)" onclick="adminSignOut()">🚪 Logout</button>
       </span>
     ` : '';
   }
@@ -1950,10 +1939,10 @@ function updateAdminNavUI(){
     if(isAdmin){
       topWrap.innerHTML = `
         <button type="button" class="btn gold" onclick="openAdmin()" title="Open Admin Center" style="font-size:12px;padding:6px 11px;display:inline-flex;align-items:center;gap:5px">
-          <span>???</span> <span>Admin: Tharun</span>
+          <span>👁️</span> <span>Admin: Tharun</span>
         </button>
         <button type="button" class="btn soft" onclick="adminSignOut()" title="Log out of Admin mode" style="font-size:12px;padding:6px 9px;color:var(--red);border-color:rgba(217,83,79,0.3)">
-          <span>?? Logout</span>
+          <span>🚪 Logout</span>
         </button>
       `;
     } else {
@@ -2047,18 +2036,18 @@ async function loadLoginActivity(btn){adminTab('loginActivity',btn);await refres
 
 async function refreshLoginActivity(){
   const status=document.getElementById('loginActivityStatus'),rows=document.getElementById('loginActivityRows');
-  status.textContent='Loading login history�';
+status.textContent='Loading login history…';
   try{
     const d=await postAction({action:'getLoginActivity',username:document.getElementById('adminUser').value.trim(),password:document.getElementById('adminPass').value});
     const items=Array.isArray(d.activity)?d.activity:[];
-    rows.innerHTML=items.length?items.map(x=>`<tr><td style="padding:10px;border-bottom:1px solid var(--line)">${escapeHtml(x.displayName||'�')}</td><td style="padding:10px;border-bottom:1px solid var(--line)">${escapeHtml(x.email||'�')}</td><td style="padding:10px;border-bottom:1px solid var(--line)">${escapeHtml(x.loginAt||'�')}</td><td style="padding:10px;border-bottom:1px solid var(--line)">${escapeHtml(x.method||'Email/Password')}</td></tr>`).join(''):'<tr><td colspan="4" style="padding:12px;color:var(--muted)">No successful logins recorded yet.</td></tr>';
+rows.innerHTML=items.length?items.map(x=>`<tr><td style="padding:10px;border-bottom:1px solid var(--line)">${escapeHtml(x.displayName||'—')}</td><td style="padding:10px;border-bottom:1px solid var(--line)">${escapeHtml(x.email||'—')}</td><td style="padding:10px;border-bottom:1px solid var(--line)">${escapeHtml(x.loginAt||'—')}</td><td style="padding:10px;border-bottom:1px solid var(--line)">${escapeHtml(x.method||'Email/Password')}</td></tr>`).join(''):'<tr><td colspan="4" style="padding:12px;color:var(--muted)">No successful logins recorded yet.</td></tr>';
     status.textContent='Showing '+items.length+' recent successful login(s).';
   }catch(e){status.textContent='Could not load login history: '+e.message;rows.innerHTML=''}
 }
 
 function fillAdminSelects(){
-  document.getElementById('conMember').innerHTML=state.members.map(m=>`<option value="${escapeHtml(m.id)}">${escapeHtml(m.name)}${m.phone?' � '+escapeHtml(m.phone):''}</option>`).join('');
-  document.getElementById('conMonth').innerHTML=MONTHS.map(([m,min])=>`<option value="${m}">${m} � minimum ${money(min)}</option>`).join('');
+document.getElementById('conMember').innerHTML=state.members.map(m=>`<option value="${escapeHtml(m.id)}">${escapeHtml(m.name)}${m.phone?' • '+escapeHtml(m.phone):''}</option>`).join('');
+document.getElementById('conMonth').innerHTML=MONTHS.map(([m,min])=>`<option value="${m}">${m} • minimum ${money(min)}</option>`).join('');
   const expCat=document.getElementById('expCategory');
   if(expCat){
     expCat.innerHTML=EXPENSE_CATEGORIES.map(c=>`<option value="${escapeHtml(c.name)}">${c.icon} ${escapeHtml(c.name)}</option>`).join('');
@@ -2143,6 +2132,7 @@ function exportExcel(){
 }
 
 /* Bilingual (English / Telugu) Dictionary */
+/* Bilingual (English / Telugu) Dictionary */
 const I18N = {
   en: {
     brandSubtitle: "SAVINGS TRACKER",
@@ -2157,7 +2147,7 @@ const I18N = {
     myStatus: "My Status",
     payQr: "Pay via UPI",
     admin: "Admin",
-    heroEyebrow: "Ganesh Chaturthi � Community Fund",
+    heroEyebrow: "Ganesh Chaturthi • Community Fund",
     heroTelugu: "Annual Ganesh Festival • 2026–2027",
     heroDesc: "Live community contribution tracker for SRI VINAYAKA YUVASENA. Displays all member contributions from the live Google Sheet and festival expenditure budget.",
     countdownBadge: "UTSAV COUNTDOWN",
@@ -2167,10 +2157,10 @@ const I18N = {
     hours: "Hours",
     mins: "Mins",
     secs: "Secs",
-    btnMonthly: "Monthly Collection ?",
+    btnMonthly: "Monthly Collection →",
     btnMembers: "Meet the Members",
     btnExpenses: "Festival Expenses",
-    btnPayQr: "? Pay via UPI",
+    btnPayQr: "⚡ Pay via UPI",
     statMembers: "Total Members",
     statMembersHint: "Live Sheet Members",
     statCollected: "Total Collected",
@@ -2182,7 +2172,7 @@ const I18N = {
     statPct: "Collection",
     statPctHint: "Against target",
     chartOverviewTitle: "Monthly savings overview",
-    chartOverviewSub: "Collected (colour) against expected (outline), October � September",
+    chartOverviewSub: "Collected (colour) against expected (outline), October – September",
     chartProgressTitle: "Collection progress",
     chartProgressSub: "Share of the yearly minimum collected",
     recentTitle: "Recent payment activity",
@@ -2191,19 +2181,19 @@ const I18N = {
     upiModalTitle: "Pay via UPI & QR Code",
     payeeNameLabel: "Official Payee",
     copyUpi: "Copy",
-    selectAmountLabel: "Select Contribution Amount (?):",
+    selectAmountLabel: "Select Contribution Amount (₹):",
     customAmount: "Or custom amount:",
-    payViaApps: "? 1-Click Pay with Mobile UPI Apps",
+    payViaApps: "⚡ 1-Click Pay with Mobile UPI Apps",
     payAnyUpi: "Pay via Any UPI App / BHIM",
-    qrScanCaption: "?? SRI VINAYAKA YUVASENA � Scan to pay from any app",
+    qrScanCaption: "🙏 SRI VINAYAKA YUVASENA • Scan to pay from any app",
     saveQrLocal: "Save QR to Device",
     copyMobile: "Copy Mobile",
     copyMobileAction: "Copy Mobile (9390266268)",
-    saveQrGallery: "?? Save QR to Gallery (Scan from Gallery)",
+    saveQrGallery: "📥 Save QR to Gallery (Scan from Gallery)",
     qrSafetyNoticeTitle: "Recommended: Scan QR Code or Pay to Mobile Number",
     qrSafetyNoticeDesc: "To avoid NPCI browser payment alerts in PhonePe / Paytm, scan the official QR code below (or save to gallery) or pay directly to mobile number 9390266268.",
-    galleryScanHint: "?? In PhonePe / GPay / Paytm: Tap Scan QR ? Gallery Photo to pay up to ?2,000 instantly without any alerts.",
-    upiAppsWarning: "?? Note: If PhonePe or Paytm shows a \"Payment Alert (UPI Risk Policy)\", simply dismiss it and use Scan QR or pay to 9390266268 above.",
+    galleryScanHint: "💡 In PhonePe / GPay / Paytm: Tap Scan QR → Gallery Photo to pay up to ₹2,000 instantly without any alerts.",
+    upiAppsWarning: "⚠️ Note: If PhonePe or Paytm shows a \"Payment Alert (UPI Risk Policy)\", simply dismiss it and use Scan QR or pay to 9390266268 above.",
     offerFlowers: "Offer Flowers",
     ringBell: "Ring Bell",
     howItWorks: "How It Works (Mandatory Process):",
@@ -2214,73 +2204,73 @@ const I18N = {
     close: "Close"
   },
   te: {
-    brandSubtitle: "????? ???????",
-    explore: "????????????",
-    navMonths: "??????? ??????",
-    navMembers: "?????? ??????",
-    navExpenses: "????? ???????",
-    navPay: "UPI ?????? ???????????",
-    navAdmin: "??????? ??????",
-    navSignOut: "???? ?????",
-    installApp: "???? ??????????",
-    myStatus: "?? ???????",
-    payQr: "UPI ?????????",
-    admin: "???????",
-    heroEyebrow: "?????? ????? � ??????? ????",
-    heroTelugu: "Annual Ganesh Festival • 2026–2027",
-    heroDesc: "???? ?????? ?????? ???? ????? ???????. ?????? ???? ????? ?????? ??????? ?????? ????? ????? ?????? ????? ???????.",
-    countdownBadge: "????? ??????????",
-    countdownSubtitle: "?????? ????????",
-    countdownFestName: "?????? ????? 2027",
-    days: "??????",
-    hours: "?????",
-    mins: "????????",
-    secs: "???????",
-    btnMonthly: "??????? ?????? ?",
-    btnMembers: "?????? ???????",
-    btnExpenses: "????? ???????",
-    btnPayQr: "? UPI ?????? ???????????",
-    statMembers: "?????? ???????",
-    statMembersHint: "???? ???? ???????",
-    statCollected: "?????? ??????",
-    statCollectedHint: "???????? ???? ???????????",
-    statTarget: "??????? ???????",
-    statTargetHint: "?????? ?????? ???????",
-    statExtra: "????? ????",
-    statExtraHint: "???? ?????? ???? ??????",
-    statPct: "????? ???????",
-    statPctHint: "??????????? ?????????",
-    chartOverviewTitle: "??????? ?????? ???????",
-    chartOverviewSub: "???????? ????? ??????? ??????, ???????? � ??????????",
-    chartProgressTitle: "?????? ???????",
-    chartProgressSub: "??????? ???? ????????? ?????? ????",
-    recentTitle: "?????? ???????????",
-    recentSub: "?????? ???? ????? ???? ?????????? ??????????",
-    upiModalEyebrow: "???????? ????? ??????",
-    upiModalTitle: "UPI ???? & QR ????",
-    payeeNameLabel: "???????? ??????",
-    copyUpi: "????",
-    selectAmountLabel: "???? ?????????? ????????? (?):",
-    customAmount: "???? ?? ????? ??????:",
-    payViaApps: "? 1-?????? ?????? UPI ???? ?????????",
-    payAnyUpi: "????? UPI ???? / BHIM ?????? ???????????",
-    qrScanCaption: "?? ???? ?????? ?????? � ????? ???? ?????? ?????? ??????",
-    saveQrLocal: "QR ??????? ???? ?????????",
-    copyMobile: "?????? ????",
-    copyMobileAction: "?????? ????? ???? (9390266268)",
-    saveQrGallery: "?? ????????? QR ???? ?????????",
-    qrSafetyNoticeTitle: "???????? ??????? ??????: QR ???? ???? ?????? ?????",
-    qrSafetyNoticeDesc: "PhonePe / Paytm ?? ??????? ?????? ?????????? ???????, ???? ???? ???????? QR ??????? ?????? ?????? (???? ????????? ???? ??????) ???? 9390266268 ???????? ???????????.",
-    galleryScanHint: "?? PhonePe / GPay / Paytm ??: ??????? ????? ???? ? ??????? ???? ?????? ?2,000 ???? ??????? ????????? ??????? ???????????.",
-    upiAppsWarning: "?? ????? PhonePe ???? Paytm ?? \"Payment Alert\" ?????, ????? ???? ?? QR ???? ?????? ?????? ???? 9390266268 ?? ???????????.",
-    offerFlowers: "??? ?????",
-    ringBell: "??? ????",
-    howItWorks: "????????? ?????? (????????? ????????):",
-    step1: "?? QR ??????? ?????? ?????? ???? ???? ????? 9390266268 ???????? ?????? ???????????.",
-    step2: "???????? ID ?????????? ?????????? ????????? ???????????????? ??????????.",
-    step3: "? ???????????????? ????? WhatsApp ????????? ???? ?????????? ??????.",
-    step4: "??????? ????????????? ?????????? ???????????? ???????? ????????.",
-    close: "????????"
+    brandSubtitle: "చందాల ట్రాకర్",
+    explore: "అన్వేషించండి",
+    navMonths: "నెలవారీ చందాలు",
+    navMembers: "సభ్యుల జాబితా",
+    navExpenses: "ఉత్సవ ఖర్చులు",
+    navPay: "UPI ద్వారా చెల్లించండి",
+    navAdmin: "అడ్మిన్ సెంటర్",
+    navSignOut: "లాగ్ అవుట్",
+    installApp: "యాప్ ఇన్‌స్టాల్",
+    myStatus: "నా వివరాలు",
+    payQr: "UPI చెల్లింపు",
+    admin: "అడ్మిన్",
+    heroEyebrow: "వినాయక చవితి • సామూహిక నిధి",
+    heroTelugu: "శ్రీ వినాయక యువసేన",
+    heroDesc: "శ్రీ వినాయక యువసేన లైవ్ చందాల ట్రాకర్. గూగుల్ షీట్ నుండి సభ్యుల నెలవారీ చందాలు మరియు ఉత్సవ ఖర్చుల సమగ్ర వివరాలు.",
+    countdownBadge: "ఉత్సవ కౌంట్‌డౌన్",
+    countdownSubtitle: "తదుపరి మహోత్సవం",
+    countdownFestName: "వినాయక చవితి 2027",
+    days: "రోజులు",
+    hours: "గంటలు",
+    mins: "నిమిషాలు",
+    secs: "సెకన్లు",
+    btnMonthly: "నెలవారీ చందాలు →",
+    btnMembers: "సభ్యుల వివరాలు",
+    btnExpenses: "ఉత్సవ ఖర్చులు",
+    btnPayQr: "⚡ UPI ద్వారా చెల్లించండి",
+    statMembers: "మొత్తం సభ్యులు",
+    statMembersHint: "లైవ్ షీట్ సభ్యులు",
+    statCollected: "వసూలైన మొత్తం",
+    statCollectedHint: "రికార్డ్ అయిన చెల్లింపులు",
+    statTarget: "వార్షిక లక్ష్యం",
+    statTargetHint: "మొత్తం గ్రూప్ లక్ష్యం",
+    statExtra: "అదనపు నిధి",
+    statExtraHint: "కనీస మొత్తం కంటే ఎక్కువ",
+    statPct: "చందాల పురోగతి",
+    statPctHint: "లక్ష్యానికి అనుగుణంగా",
+    chartOverviewTitle: "నెలవారీ పొదుపు సారాంశం",
+    chartOverviewSub: "వసూలైనది మరియు ఆశించిన మొత్తం, అక్టోబర్ – సెప్టెంబర్",
+    chartProgressTitle: "వసూళ్ల పురోగతి",
+    chartProgressSub: "వార్షిక కనీస లక్ష్యంలో వసూలైన వాటా",
+    recentTitle: "ఇటీవలి చెల్లింపులు",
+    recentSub: "గూగుల్ షీట్ నుండి తాజా చెల్లింపుల రికార్డులు",
+    upiModalEyebrow: "అధికారిక ఉత్సవ చందాలు",
+    upiModalTitle: "UPI చందా & QR కోడ్",
+    payeeNameLabel: "అధికారిక గ్రహీత",
+    copyUpi: "కాపీ",
+    selectAmountLabel: "చందా మొత్తాన్ని ఎంచుకోండి (₹):",
+    customAmount: "లేదా మీ స్వంత మొత్తం:",
+    payViaApps: "⚡ 1-క్లిక్ మొబైల్ UPI యాప్ చెల్లింపు",
+    payAnyUpi: "ఏదైనా UPI యాప్ / BHIM ద్వారా చెల్లించండి",
+    qrScanCaption: "🙏 శ్రీ వినాయక యువసేన • ఏదైనా యాప్ ద్వారా స్కాన్ చేయండి",
+    saveQrLocal: "QR కోడ్‌ను సేవ్ చేసుకోండి",
+    copyMobile: "మొబైల్ కాపీ",
+    copyMobileAction: "మొబైల్ నంబర్ కాపీ (9390266268)",
+    saveQrGallery: "📥 గ్యాలరీలో QR సేవ్ చేసుకోండి",
+    qrSafetyNoticeTitle: "సిఫార్సు చేయబడిన విధానం: QR కోడ్ లేదా మొబైల్ నంబర్",
+    qrSafetyNoticeDesc: "PhonePe / Paytm లో బ్యాంక్ రిస్క్ హెచ్చరికలు రాకుండా, కింద ఉన్న అధికారిక QR కోడ్‌ను స్కాన్ చేయండి (లేదా గ్యాలరీలో సేవ్ చేయండి) లేదా 9390266268 నంబర్‌కు చెల్లించండి.",
+    galleryScanHint: "💡 PhonePe / GPay / Paytm లో: స్కానర్ ఓపెన్ చేసి → గ్యాలరీ ఫోటో ద్వారా ₹2,000 వరకు ఎటువంటి అడ్డంకులు లేకుండా చెల్లించండి.",
+    upiAppsWarning: "⚠️ ఒకవేళ PhonePe లేదా Paytm లో \"Payment Alert\" వస్తే, రద్దు చేసి పై QR కోడ్ స్కాన్ చేయండి లేదా 9390266268 కు చెల్లించండి.",
+    offerFlowers: "పూల వర్షం",
+    ringBell: "గంట నాదం",
+    howItWorks: "చెల్లింపు విధానం (తప్పనిసరి ప్రక్రియ):",
+    step1: "పై QR కోడ్‌ను స్కాన్ చేయండి లేదా కాపీ చేసిన 9390266268 నంబర్‌కు నేరుగా చెల్లించండి.",
+    step2: "లావాదేవీ ID కనిపించేలా విజయవంతమైన చెల్లింపు స్క్రీన్‌షాట్‌ను భద్రపరచండి.",
+    step3: "ఆ స్క్రీన్‌షాట్‌ను కమిటీ WhatsApp గ్రూప్‌లో లేదా అడ్మిన్‌కు పంపండి.",
+    step4: "అడ్మిన్ స్క్రీన్‌షాట్ ధృవీకరించి వెబ్‌సైట్‌లో రికార్డ్ చేస్తారు.",
+    close: "మూసివేయి"
   }
 };
 
@@ -2302,7 +2292,7 @@ function applyLanguage(lang) {
 
   const btnText = document.getElementById('langBtnText');
   if (btnText) {
-    btnText.textContent = lang === 'en' ? '??????' : 'English';
+    btnText.textContent = lang === 'en' ? 'తెలుగు' : 'English';
   }
 }
 
@@ -2356,7 +2346,7 @@ function copyUpiId() {
   const upiId = (CONFIG.UPI_ID || '9390266268@upi').trim();
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(upiId).then(() => {
-      alert('?? Copied UPI ID: ' + upiId);
+      alert('✓ Copied UPI ID: ' + upiId);
     }).catch(() => prompt('Copy UPI ID:', upiId));
   } else {
     prompt('Copy UPI ID:', upiId);
@@ -2367,7 +2357,7 @@ function copyMobileNumber() {
   const phone = (CONFIG.UPI_PHONE || '9390266268').trim();
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(phone).then(() => {
-      alert(currentLang === 'te' ? '?? ?????? ????? ???? ?????????: ' + phone : '?? Copied Mobile Number: ' + phone);
+      alert(currentLang === 'te' ? '✓ మొబైల్ నంబర్ కాపీ చేయబడింది: ' + phone : '✓ Copied Mobile Number: ' + phone);
     }).catch(() => prompt('Copy Mobile Number:', phone));
   } else {
     prompt('Copy Mobile Number:', phone);
@@ -2479,7 +2469,7 @@ function renderAdminReminders() {
   }
 
   if (!filtered.length) {
-    listEl.innerHTML = `<div class="empty" style="padding:32px;text-align:center;color:var(--muted)">?? No members found for this filter. All up to date!</div>`;
+    listEl.innerHTML = `<div class="empty" style="padding:32px;text-align:center;color:var(--muted)">✓ No members found for this filter. All up to date!</div>`;
     return;
   }
 
@@ -2489,8 +2479,8 @@ function renderAdminReminders() {
   if(adminBadgeEl){
     adminBadgeEl.innerHTML = isAdmin ? `
       <span style="display:inline-flex;align-items:center;gap:6px">
-        <span style="font-size:11px;background:#0f766e1f;color:#0f766e;border:1px solid #0f766e44;padding:3px 8px;border-radius:20px;font-weight:700">??? Admin Active</span>
-        <button type="button" class="btn soft" style="font-size:11px;padding:3px 8px;color:var(--red);border-color:rgba(217,83,79,0.3)" onclick="adminSignOut()">?? Logout</button>
+        <span style="font-size:11px;background:#0f766e1f;color:#0f766e;border:1px solid #0f766e44;padding:3px 8px;border-radius:20px;font-weight:700">🛡️ Admin Active</span>
+        <button type="button" class="btn soft" style="font-size:11px;padding:3px 8px;color:var(--red);border-color:rgba(217,83,79,0.3)" onclick="adminSignOut()">🚪 Logout</button>
       </span>
     ` : '';
   }
@@ -2500,8 +2490,8 @@ function renderAdminReminders() {
 
     // Compose polite WhatsApp text listing past & current months
     let duesText = '';
-    if (item.hasPrevDue) duesText += `� ???????? (?? ???): ?${item.octDue}\n`;
-    if (item.hasCurDue) duesText += `� ?????? (???????? ???): ?${item.novDue}\n`;
+    if (item.hasPrevDue) duesText += `• October (Past Month Due): ₹${item.octDue}\n`;
+    if (item.hasCurDue) duesText += `• November (Current Month Due): ₹${item.novDue}\n`;
 
     const cleanPhone = String(item.m.phone||'').replace(/\D/g,'').slice(-10);
     const msg = encodeURIComponent(
@@ -2520,24 +2510,24 @@ function renderAdminReminders() {
         <div class="reminder-member-info">
           <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
             <b>${escapeHtml(item.m.name)}</b>
-            ${item.hasPrevDue ? `<span class="badge-prev-due">?? October Unpaid (?${item.octDue})</span>` : ''}
-            ${item.hasCurDue ? `<span class="badge-cur-due">? November Unpaid (?${item.novDue})</span>` : ''}
-            ${(!item.hasPrevDue && !item.hasCurDue) ? `<span class="badge-ok">? Up-to-Date (?${item.totalPaid})</span>` : ''}
+            ${item.hasPrevDue ? `<span class="badge-prev-due">⏳ October Unpaid (₹${item.octDue})</span>` : ''}
+            ${item.hasCurDue ? `<span class="badge-cur-due">⏳ November Unpaid (₹${item.novDue})</span>` : ''}
+            ${(!item.hasPrevDue && !item.hasCurDue) ? `<span class="badge-ok">✓ Up-to-Date (₹${item.totalPaid})</span>` : ''}
           </div>
-          <small>?? ${escapeHtml(item.m.phone || '�')} � Paid so far: ?${item.totalPaid}</small>
+          <small>📱 ${escapeHtml(item.m.phone || '—')} • Paid so far: ₹${item.totalPaid}</small>
           <div style="margin-top:4px;font-size:12px;font-weight:700;color:var(--maroon)">
-            ${isDue ? `Total Due (Oct + Nov): ?${item.totalElapsedDue}` : 'All past & current dues cleared'}
+            ${isDue ? `Total Due (Oct + Nov): ₹${item.totalElapsedDue}` : 'All past & current dues cleared'}
           </div>
         </div>
         <div>
           ${(isAdmin && isDue && item.m.phone) ? `
             <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="btn-wa-direct">
               <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c4.56 0 8.25 3.69 8.25 8.24 0 2.2-.86 4.28-2.42 5.83a8.196 8.196 0 0 1-5.83 2.41h-.01c-1.49 0-2.95-.39-4.23-1.15l-.3-.18-3.13.82.83-3.05-.2-.32a8.214 8.214 0 0 1-1.26-4.36c0-4.55 3.69-8.24 8.25-8.24m4.52 11.64c-.25-.13-1.48-.73-1.71-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.07-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.39.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.78 2.72 4.31 3.81.6.26 1.07.42 1.44.53.61.19 1.16.17 1.6.1.49-.07 1.48-.61 1.69-1.19.21-.59.21-1.09.15-1.19-.06-.11-.23-.17-.48-.3"/></svg>
-              <span>Remind (?${item.totalElapsedDue})</span>
+              <span>Remind (₹${item.totalElapsedDue})</span>
             </a>
           ` : (isAdmin && item.m.phone && item.totalPaid > 0) ? `
             <button onclick="sendMemberLatestReceipt('${escapeHtml(item.m.id)}')" class="btn-wa-receipt" title="Send official payment receipt on WhatsApp">
-              ?? Send Receipt
+              🧾 Send Receipt
             </button>
           ` : ''}
         </div>
@@ -2567,7 +2557,7 @@ function copyPendingGroupSummary() {
   }).filter(x => x.due > 0);
 
   if (!octUnpaid.length && !novUnpaid.length) {
-    alert('All members are fully up to date for October and November! ??');
+    alert('All members are fully up to date for October and November! 🎉');
     return;
   }
 
@@ -2591,7 +2581,7 @@ function copyPendingGroupSummary() {
 
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(text).then(() => {
-      alert('?? Copied full pending report (Previous & Current months) to clipboard! You can paste it into the WhatsApp group.');
+      alert('📋 Copied full pending report (Previous & Current months) to clipboard! You can paste it into the WhatsApp group.');
     }).catch(() => prompt('Copy pending summary:', text));
   } else {
     prompt('Copy pending summary:', text);
@@ -2629,7 +2619,7 @@ function installPwa() {
       deferredPrompt = null;
     });
   } else {
-    alert('To install the SVYS App on your phone:\n\n� On Android (Chrome): Tap the three dots (?) and select "Add to Home screen" or "Install app".\n� On iPhone (Safari): Tap the Share button (?) and select "Add to Home Screen".');
+  alert('To install the SVYS App on your phone:\n\n• On Android (Chrome): Tap the three dots (⋮) and select "Add to Home screen" or "Install app".\n• On iPhone (Safari): Tap the Share button (⎙) and select "Add to Home Screen".');
   }
 }
 
@@ -2718,7 +2708,7 @@ function openSelfProfileModal() {
   const phoneEl = document.getElementById('selfSheetPhone');
   if (avatarEl) avatarEl.textContent = initials(m.name);
   if (nameEl) nameEl.textContent = m.name;
-  if (phoneEl) phoneEl.textContent = '?? ' + (m.phone || '9392618109');
+  if (phoneEl) phoneEl.textContent = '📱 ' + (m.phone || '9392618109');
 
   const pBar = document.getElementById('selfProgressBar');
   const pPct = document.getElementById('selfProgressPct');
@@ -2739,7 +2729,7 @@ function openSelfProfileModal() {
       let stText = 'Pending';
       if (amt >= minAmt) {
         cls = 'cleared';
-        stText = 'Paid ?';
+        stText = 'Paid ✓';
         clearedMonths++;
       } else if (amt > 0) {
         cls = 'partial';
@@ -2758,8 +2748,43 @@ function openSelfProfileModal() {
   const pCnt = document.getElementById('selfPaidMonthsCount');
   if (pCnt) pCnt.textContent = `${clearedMonths}/12 Months Paid`;
 
+  updateSelfProfileIdBtn();
+
   const modal = document.getElementById('selfProfileModal');
   if (modal) modal.classList.add('open');
+}
+
+function updateSelfProfileIdBtn() {
+  const btn = document.getElementById('selfProfileIdBtn');
+  if (!btn) return;
+  const savedId = localStorage.getItem('SVYS_DIGITAL_ID');
+  if (savedId) {
+    btn.innerHTML = '🪪 Download ID';
+    btn.style.background = 'linear-gradient(135deg, #1b5e20, #0d3810)';
+    btn.style.borderColor = '#2ecc71';
+    btn.style.color = '#ffffff';
+    btn.title = 'Download your Official VIP ID Pass';
+  } else {
+    btn.innerHTML = '🪪 Create ID';
+    btn.style.background = 'linear-gradient(135deg, #762b36, #420f18)';
+    btn.style.borderColor = '#ffd700';
+    btn.style.color = '#ffd88a';
+    btn.title = 'Create your Official VIP ID Pass';
+  }
+}
+
+function handleSelfProfileIdClick() {
+  closeSelfProfileModal();
+  const savedId = localStorage.getItem('SVYS_DIGITAL_ID');
+  if (savedId) {
+    openDigitalIdCardModal();
+    try {
+      const card = JSON.parse(savedId);
+      showGeneratedIdCard(card);
+    } catch(e){}
+  } else {
+    openDigitalIdCardModal();
+  }
 }
 
 function closeSelfProfileModal() {
@@ -2781,17 +2806,17 @@ function downloadCurrentMemberStatement() {
     th,td{padding:10px;border-bottom:1px solid #ddd;text-align:left}
     th{background:#fdf6e9;color:#762B36}
   </style></head><body>
-    <h2>?? SRI VINAYAKA YUVASENA - MEMBER CONTRIBUTION STATEMENT</h2>
-    <p><b>Member Name:</b> ${escapeHtml(m.name)}<br><b>Mobile:</b> ${escapeHtml(m.phone || '�')}<br><b>Generated:</b> ${new Date().toLocaleDateString()}</p>
+    <h2>🚩 SRI VINAYAKA YUVASENA - MEMBER CONTRIBUTION STATEMENT</h2>
+  <p><b>Member Name:</b> ${escapeHtml(m.name)}<br><b>Mobile:</b> ${escapeHtml(m.phone || '—')}<br><b>Generated:</b> ${new Date().toLocaleDateString()}</p>
     <p><b>Total Contributed:</b> ${money(total)} / <b>Annual Target:</b> ${money(target)}</p>
     <table><tr><th>Month</th><th>Amount</th><th>Date</th><th>Status</th></tr>
     ${MONTHS.map(([name, min]) => {
       const p = ps.find(x => x.month === name);
       const amt = p ? Number(p.amount || 0) : 0;
-      return `<tr><td>${name}</td><td>${money(amt)}</td><td>${p ? (p.date || '�') : '�'}</td><td>${amt >= min ? 'Paid ?' : 'Pending'}</td></tr>`;
+  return `<tr><td>${name}</td><td>${money(amt)}</td><td>${p ? (p.date || '—') : '—'}</td><td>${amt >= min ? 'Paid ✓' : 'Pending'}</td></tr>`;
     }).join('')}
     </table>
-    <p style="font-size:12px;color:#666">Sri Vinayaka Yuvasena Annual Utsav celebrations � 100% Transparent Financial Accounting</p>
+  <p style="font-size:12px;color:#666">Sri Vinayaka Yuvasena Annual Utsav celebrations • 100% Transparent Financial Accounting</p>
     <scr' + 'ipt>window.print();<\/scr' + 'ipt></body></html>`;
 
   const w = window.open('', '_blank');
@@ -2800,7 +2825,7 @@ function downloadCurrentMemberStatement() {
 }
 
 async function handleUniversalLogout() {
-  if (confirm(currentLang === 'te' ? '???? ????????? ???? ????? ???????????????????' : 'Are you sure you want to sign out?')) {
+  if (confirm(currentLang === 'te' ? 'మీరు ఖచ్చితంగా లాగ్ అవుట్ చేయాలనుకుంటున్నారా?' : 'Are you sure you want to sign out?')) {
     localStorage.removeItem('SVYS_GUEST_BYPASS');
     if (typeof adminSignOut === 'function') adminSignOut();
     if (window.svysSignOut) {
@@ -2814,20 +2839,16 @@ async function handleUniversalLogout() {
    GROUP CHAT & COMMUNITY DISCUSSIONS (WHATSAPP STYLE)
    ============================================================ */
 let communityChatMessages = [];
-const DEFAULT_CHAT_MESSAGES = [
-  { id: '1', sender: 'Tharun Gutta', text: '🚩 Welcome everyone! Sri Vinayaka Yuvasena live contributions website and group chat is now live. Ganapathi Bappa Morya! 🙏', time: '6:30 PM', isAnnouncement: true },
-  { id: '2', sender: 'Thammineni Revanth', text: '🙏 Requesting all members to pay their monthly contributions on time. Thank you for your support!', time: '7:00 PM' },
-  { id: '3', sender: 'Babu Pathakamuri', text: 'Jai Vinayaka! Let us make this year\'s mandap decoration even more grand and beautiful.', time: '7:15 PM' },
-  { id: '4', sender: 'Sai Kumar', text: '🌸 Any volunteers for prasadam distribution and lighting arrangements? Please contact the committee.', time: '7:30 PM' },
-  { id: '5', sender: 'Committee Admin', text: '📢 Special community meeting this Sunday at 7:00 PM at the Mandap. All members are requested to attend.', time: '8:00 PM', isAnnouncement: true }
-];
+const DEFAULT_CHAT_MESSAGES = [];
 
 function initCommunityChat() {
   try {
-    const saved = localStorage.getItem('SVYS_CHAT_MESSAGES');
-    communityChatMessages = saved ? JSON.parse(saved) : [...DEFAULT_CHAT_MESSAGES];
+    // Clear legacy/previous dummy messages from cache
+    localStorage.removeItem('SVYS_CHAT_MESSAGES');
+    const saved = localStorage.getItem('SVYS_CHAT_MESSAGES_V2');
+    communityChatMessages = saved ? JSON.parse(saved) : [];
   } catch(e) {
-    communityChatMessages = [...DEFAULT_CHAT_MESSAGES];
+    communityChatMessages = [];
   }
 }
 
@@ -2848,15 +2869,27 @@ function requestChatLaunchNotification() {
     btn.classList.remove('primary');
     btn.classList.add('soft');
   }
-  if (btnText) btnText.textContent = '? Notification Requested (????????????????)';
+  if (btnText) btnText.textContent = '🔔 Notification Requested (త్వరలో ప్రారంభం)';
   // Bell chime removed per user request
-  alert(currentLang === 'te' ? '?? ???? ???? ???????? ?????? ???? ?????????????!' : '?? Thank you! You will be notified as soon as Group Chat is launched.');
+  alert(currentLang === 'te' ? '🔔 ధన్యవాదాలు! గ్రూప్ చాట్ ప్రారంభం కాగానే మీకు సమాచారం అందుతుంది.' : '🔔 Thank you! You will be notified as soon as Group Chat is launched.');
 }
 
 function openGroupChatModal() {
   const modal = document.getElementById('groupChatModal');
   if (modal) modal.classList.add('open');
+  updateChatSubtitle();
   renderChatMessages();
+}
+
+function updateChatSubtitle() {
+  const countEl = document.getElementById('chatDevoteeCount');
+  const subTitle = document.getElementById('chatSubTitle');
+  const count = (typeof state !== 'undefined' && state.members && state.members.length) ? state.members.length : 17;
+  if (countEl) {
+    countEl.textContent = count;
+  } else if (subTitle) {
+    subTitle.innerHTML = `<span id="chatDevoteeCount">${count}</span> Devotees &amp; Youth • 🟢 Active`;
+  }
 }
 
 function closeGroupChatModal() {
@@ -2886,6 +2919,19 @@ function renderChatMessages() {
   if (!list) return;
   const currentUserName = (window.svysCurrentUser && window.svysCurrentUser.name) || localStorage.getItem('SVYS_USER_NAME') || 'Tharun Gutta';
   
+  if (!communityChatMessages || communityChatMessages.length === 0) {
+    list.innerHTML = `
+      <div style="text-align:center;padding:50px 20px 30px;color:#7a6b63">
+        <div style="font-size:38px;margin-bottom:8px">💬</div>
+        <div style="font-weight:800;font-size:14.5px;color:#5a232b;margin-bottom:4px">Sri Vinayaka Yuvasena Group Chat</div>
+        <div style="font-size:12px;color:#856e65;max-width:280px;margin:0 auto;line-height:1.4">No previous messages. Devotees and youth can send greetings, festival updates, or discussions here!</div>
+      </div>
+    `;
+    const box = document.getElementById('chatMessagesContainer');
+    if (box) box.scrollTop = box.scrollHeight;
+    return;
+  }
+  
   list.innerHTML = communityChatMessages.map(m => {
     const isMe = m.sender && currentUserName && m.sender.toLowerCase().trim() === currentUserName.toLowerCase().trim();
     const initial = (m.sender || 'M').charAt(0).toUpperCase();
@@ -2895,9 +2941,9 @@ function renderChatMessages() {
       return `
         <div class="chat-msg-row announcement-row" style="align-self:center;max-width:92%;width:100%;margin:6px 0">
           <div style="background:linear-gradient(135deg, #fff9e6, #fff2cc);border:1.5px solid #d4a017;border-radius:14px;padding:10px 14px;box-shadow:0 2px 8px rgba(0,0,0,0.08);text-align:center">
-            <div style="font-size:10px;font-weight:900;color:#8a4b08;letter-spacing:0.5px;margin-bottom:4px">?? OFFICIAL COMMITTEE ANNOUNCEMENT</div>
+            <div style="font-size:10px;font-weight:900;color:#8a4b08;letter-spacing:0.5px;margin-bottom:4px">📢 OFFICIAL COMMITTEE ANNOUNCEMENT</div>
             <div style="font-size:13px;color:#2c1505;line-height:1.4;font-weight:600">${escapeHtml(m.text)}</div>
-            <div style="font-size:9.5px;color:#8a6d3b;margin-top:4px">${escapeHtml(m.sender)} � ${escapeHtml(m.time || 'Today')}</div>
+    <div style="font-size:9.5px;color:#8a6d3b;margin-top:4px">${escapeHtml(m.sender)} • ${escapeHtml(m.time || 'Today')}</div>
           </div>
         </div>
       `;
@@ -2910,7 +2956,7 @@ function renderChatMessages() {
             <div style="font-size:13.5px;color:#111b21;line-height:1.4;word-break:break-word">${escapeHtml(m.text)}</div>
             <div style="display:flex;align-items:center;justify-content:flex-end;gap:4px;font-size:10px;color:#667781;margin-top:2px">
               <span>${escapeHtml(m.time || 'Now')}</span>
-              <span style="color:#53bdeb;font-weight:bold;font-size:11px">??</span>
+              <span style="color:#53bdeb;font-weight:bold;font-size:11px">✓✓</span>
             </div>
           </div>
         </div>
@@ -2935,6 +2981,110 @@ function renderChatMessages() {
   if (box) box.scrollTop = box.scrollHeight;
 }
 
+// Universal WhatsApp-style Push and In-App Notifications
+let svysNotificationChannel;
+try {
+  svysNotificationChannel = new BroadcastChannel('svys_notifications_channel');
+  svysNotificationChannel.onmessage = (event) => {
+    const data = event.data;
+    if (data && data.title && data.text) {
+      displayInAppBanner(data.title, data.text, data.tag);
+      showSystemNotification(data.title, data.text, data.tag);
+      if (data.tag === 'svys-chat') {
+        const saved = localStorage.getItem('SVYS_CHAT_MESSAGES_V2');
+        if (saved) communityChatMessages = JSON.parse(saved);
+        renderChatMessages();
+      } else if (data.tag === 'svys-suggestion') {
+        renderSuggestionChat();
+      }
+    }
+  };
+} catch(e){}
+
+window.addEventListener('storage', (event) => {
+  if (event.key === 'SVYS_CROSS_TAB_NOTIF' && event.newValue) {
+    try {
+      const data = JSON.parse(event.newValue);
+      displayInAppBanner(data.title, data.text, data.tag);
+      showSystemNotification(data.title, data.text, data.tag);
+      if (data.tag === 'svys-chat') {
+        const saved = localStorage.getItem('SVYS_CHAT_MESSAGES_V2');
+        if (saved) communityChatMessages = JSON.parse(saved);
+        renderChatMessages();
+      } else if (data.tag === 'svys-suggestion') {
+        renderSuggestionChat();
+      }
+    } catch(e){}
+  }
+});
+
+function showSystemNotification(title, body, tag) {
+  if (!('Notification' in window) || Notification.permission !== 'granted') return;
+  if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+    navigator.serviceWorker.ready.then(reg => {
+      reg.showNotification(title, {
+        body: body,
+        icon: 'assets/logo.png',
+        badge: 'assets/logo.png',
+        vibrate: [200, 100, 200],
+        tag: tag || 'svys-general',
+        renotify: true,
+        data: { tag: tag }
+      });
+    }).catch(() => {
+      try { new Notification(title, { body: body, icon: 'assets/logo.png', tag: tag }); } catch(e){}
+    });
+  } else {
+    try {
+      new Notification(title, { body: body, icon: 'assets/logo.png', tag: tag });
+    } catch(e){}
+  }
+}
+
+function displayInAppBanner(title, body, tag) {
+  let banner = document.getElementById('svysInAppBanner');
+  if (!banner) {
+    banner = document.createElement('div');
+    banner.id = 'svysInAppBanner';
+    banner.style.cssText = 'position:fixed;top:-100px;left:50%;transform:translateX(-50%);z-index:999999;width:92%;max-width:420px;background:#2b070f;color:#ffffff;border:1.5px solid #d6a64f;border-radius:18px;padding:12px 16px;box-shadow:0 12px 35px rgba(0,0,0,0.5);display:flex;align-items:center;gap:12px;transition:top .35s ease;cursor:pointer;box-sizing:border-box';
+    document.body.appendChild(banner);
+  }
+  
+  banner.innerHTML = `
+    <div style="width:38px;height:38px;border-radius:50%;overflow:hidden;flex-shrink:0;border:1.5px solid #ffd700">
+      <img src="assets/logo.png" style="width:100%;height:100%;object-fit:cover" alt="SVYS">
+    </div>
+    <div style="flex:1;min-width:0">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <b style="font-size:13px;color:#ffd700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${escapeHtml(title)}</b>
+        <span style="font-size:10px;color:#ffd88a">Just now</span>
+      </div>
+      <div style="font-size:12px;color:#ffeed0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px">${escapeHtml(body)}</div>
+    </div>
+  `;
+  
+  banner.onclick = () => {
+    banner.style.top = '-100px';
+    if (tag === 'svys-suggestion') openSuggestionModal();
+    else openGroupChatModal();
+  };
+
+  banner.style.top = '16px';
+  clearTimeout(banner._timeout);
+  banner._timeout = setTimeout(() => {
+    banner.style.top = '-100px';
+  }, 4500);
+}
+
+function triggerUniversalNotification(title, text, tag) {
+  showSystemNotification(title, text, tag);
+  displayInAppBanner(title, text, tag);
+  try {
+    if (svysNotificationChannel) svysNotificationChannel.postMessage({ title, text, tag });
+    localStorage.setItem('SVYS_CROSS_TAB_NOTIF', JSON.stringify({ title, text, tag, ts: Date.now() }));
+  } catch(e){}
+}
+
 function handleChatSubmit(e) {
   if (e) e.preventDefault();
   const input = document.getElementById('chatInput');
@@ -2949,10 +3099,14 @@ function handleChatSubmit(e) {
     time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
   };
   communityChatMessages.push(newMsg);
-  try { localStorage.setItem('SVYS_CHAT_MESSAGES', JSON.stringify(communityChatMessages)); } catch(e){}
+  try { 
+    localStorage.setItem('SVYS_CHAT_MESSAGES_V2', JSON.stringify(communityChatMessages));
+    localStorage.removeItem('SVYS_CHAT_MESSAGES');
+  } catch(e){}
   input.value = '';
   renderChatMessages();
-  // NO bell sound on sending messages per user request!
+  // Trigger WhatsApp-style push notification & in-app banner for all members
+  triggerUniversalNotification('💬 ' + currentUserName + ' (SVYS Group)', text, 'svys-chat');
 }
 
 function quickDevotionalChat(text) {
@@ -2966,10 +3120,10 @@ function quickDevotionalChat(text) {
 function toggleChatNotifications() {
   if ('Notification' in window) {
     Notification.requestPermission().then(p => {
-      alert(p === 'granted' ? '?? Chat Notifications Enabled!' : 'Notifications are not granted.');
+      alert(p === 'granted' ? '🔔 WhatsApp-Style Push Notifications Enabled!' : 'Notifications were not enabled.');
     });
   } else {
-    alert('Browser notifications not supported.');
+    alert('Browser notifications not supported on this device.');
   }
 }
 
@@ -3048,6 +3202,7 @@ function sendCommunitySuggestion(e) {
   input.value = '';
   renderSuggestionChat();
   updateAdminSugCountBadge();
+  triggerUniversalNotification('💡 Suggestion from ' + currentUserName, text, 'svys-suggestion');
 }
 
 function renderSuggestionChat() {
@@ -3145,20 +3300,7 @@ function openDigitalIdCardModal() {
   const modal = document.getElementById('digitalIdCardModal');
   if (modal) modal.classList.add('open');
 
-  const savedCard = JSON.parse(localStorage.getItem('SVYS_DIGITAL_ID') || 'null');
-  if (savedCard) {
-    showGeneratedIdCard(savedCard);
-  } else {
-    const m = getActiveMemberRecord();
-    const nameInput = document.getElementById('idCardNameInput');
-    const phoneInput = document.getElementById('idCardPhoneInput');
-    const emailInput = document.getElementById('idCardEmailInput');
-    if (nameInput && m) nameInput.value = m.name;
-    if (phoneInput && m) phoneInput.value = m.phone || '9392618109';
-    if (emailInput) emailInput.value = (window.svysCurrentUser && window.svysCurrentUser.email) || localStorage.getItem('SVYS_USER_EMAIL') || 'tharungutta@gmail.com';
-    document.getElementById('idCardFormView').style.display = 'block';
-    document.getElementById('idCardDisplayView').style.display = 'none';
-  }
+  showGeneratedIdCard();
 }
 
 function closeDigitalIdCardModal() {
@@ -3190,7 +3332,7 @@ function generateCollegeIdCard() {
   const phone = (document.getElementById('idCardPhoneInput')?.value || '9392618109').trim();
   const blood = document.getElementById('idCardBloodInput')?.value || 'O+';
   const email = (document.getElementById('idCardEmailInput')?.value || localStorage.getItem('SVYS_USER_EMAIL') || 'tharungutta@gmail.com').trim();
-  const photo = window.__tempIdCardPhoto || 'assets/logo.png';
+  const photo = window.__tempIdCardPhoto || (window.SVYS_LOGO_DATA_URL || '');
   const idCode = 'SVYS-2026-' + String(Math.floor(Math.random() * 900 + 100));
 
   const cardData = { name, phone, blood, email, photo, idCode };
@@ -3202,6 +3344,8 @@ function showGeneratedIdCard(card) {
   document.getElementById('idCardFormView').style.display = 'none';
   document.getElementById('idCardDisplayView').style.display = 'block';
 
+  card = card || JSON.parse(localStorage.getItem('SVYS_DIGITAL_ID') || '{}');
+
   const nameEl = document.getElementById('cidDisplayName');
   const idEl = document.getElementById('cidDisplayId');
   const phoneEl = document.getElementById('cidDisplayPhone');
@@ -3209,37 +3353,17 @@ function showGeneratedIdCard(card) {
   const emailEl = document.getElementById('cidDisplayEmail');
   const photoEl = document.getElementById('cidDisplayPhoto');
   const barcodeTextEl = document.getElementById('cidDisplayBarcodeText');
-  const qrBox = document.getElementById('cidDisplayQrBox');
 
-  if (nameEl) nameEl.textContent = card.name;
-  if (idEl) idEl.textContent = 'ID: ' + card.idCode;
-  if (phoneEl) phoneEl.textContent = card.phone;
-  if (bloodEl) bloodEl.textContent = card.blood;
+  if (nameEl) nameEl.textContent = card.name || 'Tharun Gutta';
+  if (idEl) idEl.textContent = 'ID: ' + (card.idCode || 'SVYS-2026-759');
+  if (phoneEl) phoneEl.textContent = card.phone || '9392618109';
+  if (bloodEl) bloodEl.textContent = card.blood || 'O+';
   if (emailEl) emailEl.textContent = card.email || localStorage.getItem('SVYS_USER_EMAIL') || 'tharungutta@gmail.com';
-  if (photoEl) photoEl.src = card.photo || 'assets/logo.png';
-  if (barcodeTextEl) barcodeTextEl.textContent = card.idCode + '-AUTH';
+  
+  const photoSrc = (card.photo && card.photo.startsWith('data:')) ? card.photo : (window.SVYS_LOGO_DATA_URL || 'assets/logo.png');
+  if (photoEl) photoEl.src = photoSrc;
 
-  // Generate dynamic verified QR code
-  if (qrBox) {
-    qrBox.innerHTML = '';
-    const verifyUrl = 'https://srivinayakayuvasena.vercel.app/?verify=' + encodeURIComponent(card.idCode);
-    if (typeof QRCode !== 'undefined') {
-      try {
-        new QRCode(qrBox, {
-          text: verifyUrl,
-          width: 50,
-          height: 50,
-          colorDark: '#20070b',
-          colorLight: '#ffffff',
-          correctLevel: QRCode.CorrectLevel.M
-        });
-      } catch(err) {
-        qrBox.innerHTML = `<img src="assets/upi-qr.png" style="width:50px;height:50px;object-fit:contain" alt="QR">`;
-      }
-    } else {
-      qrBox.innerHTML = `<img src="assets/upi-qr.png" style="width:50px;height:50px;object-fit:contain" alt="QR">`;
-    }
-  }
+  if (barcodeTextEl) barcodeTextEl.textContent = (card.idCode || 'SVYS-2026-759') + '-AUTH';
 }
 
 function editCollegeIdCard() {
@@ -3247,22 +3371,324 @@ function editCollegeIdCard() {
   document.getElementById('idCardFormView').style.display = 'block';
 }
 
-function downloadDigitalIdCard() {
-  window.print();
+function drawIdCardToCanvas(cardData) {
+  return new Promise((resolve) => {
+    cardData = cardData || JSON.parse(localStorage.getItem('SVYS_DIGITAL_ID') || '{}');
+    const canvas = document.createElement('canvas');
+    canvas.width = 540;
+    canvas.height = 660;
+    const ctx = canvas.getContext('2d');
+
+    // Rounded rectangle card boundary
+    const r = 24;
+    ctx.beginPath();
+    ctx.moveTo(r, 0);
+    ctx.lineTo(canvas.width - r, 0);
+    ctx.quadraticCurveTo(canvas.width, 0, canvas.width, r);
+    ctx.lineTo(canvas.width, canvas.height - r);
+    ctx.quadraticCurveTo(canvas.width, canvas.height, canvas.width - r, canvas.height);
+    ctx.lineTo(r, canvas.height);
+    ctx.quadraticCurveTo(0, canvas.height, 0, canvas.height - r);
+    ctx.lineTo(0, r);
+    ctx.quadraticCurveTo(0, 0, r, 0);
+    ctx.closePath();
+    ctx.clip();
+
+    // Rich Maroon Royal Gradient Background
+    const bgGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+    bgGrad.addColorStop(0, '#380d15');
+    bgGrad.addColorStop(0.5, '#24060c');
+    bgGrad.addColorStop(1, '#150307');
+    ctx.fillStyle = bgGrad;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Ornate Gold Outer Border
+    ctx.strokeStyle = '#ffd700';
+    ctx.lineWidth = 4;
+    ctx.strokeRect(6, 6, canvas.width - 12, canvas.height - 12);
+
+    // Header Invocation
+    ctx.fillStyle = '#ffd88a';
+    ctx.font = 'bold 14px "Segoe UI", Arial, sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText('॥ Sri Vinayaka Prasanna ॥', 28, 36);
+
+    // VIP Pass Gold Badge
+    ctx.fillStyle = '#ffd700';
+    ctx.fillRect(canvas.width - 122, 18, 94, 24);
+    ctx.fillStyle = '#2b0910';
+    ctx.font = 'bold 12px "Segoe UI", Arial, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('⭐ VIP PASS', canvas.width - 75, 35);
+
+    // Main Titles
+    ctx.fillStyle = '#ffd700';
+    ctx.font = 'bold 22px "Segoe UI", Arial, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('SRI VINAYAKA YUVASENA', canvas.width / 2, 74);
+    ctx.fillStyle = '#ffeed0';
+    ctx.font = 'bold 12px "Segoe UI", Arial, sans-serif';
+    ctx.fillText('ANNUAL GANESH FESTIVAL • 2026–2027', canvas.width / 2, 96);
+
+    // Thin Gold Divider Line with Om symbol
+    ctx.strokeStyle = '#d6a64f';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(36, 114);
+    ctx.lineTo(canvas.width / 2 - 20, 114);
+    ctx.moveTo(canvas.width / 2 + 20, 114);
+    ctx.lineTo(canvas.width - 36, 114);
+    ctx.stroke();
+
+    ctx.fillStyle = '#ffd700';
+    ctx.font = 'bold 18px "Segoe UI", Arial, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('ॐ', canvas.width / 2, 120);
+
+    // Photo Area
+    const photoSrc = (cardData.photo && cardData.photo.startsWith('data:')) ? cardData.photo : (window.SVYS_LOGO_DATA_URL || '');
+    
+    function drawPhotoBorder() {
+      ctx.strokeStyle = '#ffd700';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(28, 134, 146, 184);
+
+      ctx.fillStyle = '#2ecc71';
+      ctx.fillRect(28, 318, 146, 26);
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 12px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText('✓ VERIFIED', 101, 335);
+    }
+
+    function drawDefaultAvatar() {
+      ctx.fillStyle = '#420f18';
+      ctx.fillRect(28, 134, 146, 184);
+      ctx.fillStyle = '#ffd700';
+      ctx.font = 'bold 42px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText('🚩', 101, 230);
+      drawPhotoBorder();
+    }
+
+    function renderDetails() {
+      // Smart IC Pass Chip
+      ctx.fillStyle = '#b8860b';
+      ctx.fillRect(196, 134, 46, 32);
+      ctx.strokeStyle = '#f3ddba';
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(196, 134, 46, 32);
+
+      // VIP ID Code Pill
+      ctx.fillStyle = '#420a13';
+      ctx.fillRect(256, 136, canvas.width - 284, 28);
+      ctx.strokeStyle = '#ffd700';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(256, 136, canvas.width - 284, 28);
+      ctx.fillStyle = '#ffd700';
+      ctx.font = 'bold 13px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText('ID: ' + (cardData.idCode || 'SVYS-2026-759'), 256 + (canvas.width - 284)/2, 155);
+
+      // Member Name
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 22px "Segoe UI", Arial, sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText((cardData.name || 'Tharun Gutta').toUpperCase(), 196, 206);
+
+      // Info Table Box
+      ctx.fillStyle = 'rgba(0,0,0,0.3)';
+      ctx.fillRect(196, 222, canvas.width - 224, 96);
+      ctx.strokeStyle = 'rgba(214,166,79,0.4)';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(196, 222, canvas.width - 224, 96);
+
+      // Info Rows
+      ctx.fillStyle = '#ffdfa0';
+      ctx.font = 'bold 12px Arial';
+      ctx.textAlign = 'left';
+      ctx.fillText('📱 Mobile:', 206, 248);
+      ctx.fillStyle = '#ffffff';
+      ctx.fillText(cardData.phone || '9392618109', 276, 248);
+
+      ctx.fillStyle = '#ffdfa0';
+      ctx.fillText('🩸 Blood:', 206, 274);
+      ctx.fillStyle = '#ff6b6b';
+      ctx.fillText(cardData.blood || 'O+', 276, 274);
+
+      ctx.fillStyle = '#ffdfa0';
+      ctx.fillText('✉️ Email:', 206, 300);
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '11px Arial';
+      const mailStr = cardData.email || localStorage.getItem('SVYS_USER_EMAIL') || 'tharungutta123@gmail.com';
+      ctx.fillText(mailStr.length > 24 ? mailStr.substring(0, 22) + '…' : mailStr, 276, 300);
+
+      // Barcode / Auth Strip
+      ctx.fillStyle = '#0a0204';
+      ctx.fillRect(28, 334, canvas.width - 56, 44);
+      ctx.strokeStyle = '#ffd700';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(28, 334, canvas.width - 56, 44);
+
+      // Simulated Barcode Lines
+      ctx.strokeStyle = '#ffd700';
+      ctx.lineWidth = 2;
+      for (let x = 46; x < canvas.width - 60; x += 7) {
+        ctx.beginPath();
+        ctx.moveTo(x, 342);
+        ctx.lineTo(x, 360);
+        ctx.stroke();
+      }
+
+      ctx.fillStyle = '#2ecc71';
+      ctx.font = 'bold 11px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText((cardData.idCode || 'SVYS-2026-759') + '-AUTH • 🔒 ENCRYPTED PASS', canvas.width / 2, 372);
+
+      // Card Footer
+      ctx.fillStyle = '#d6a64f';
+      ctx.font = '10px Arial';
+      ctx.textAlign = 'left';
+      ctx.fillText('ISSUING COMMITTEE', 28, 620);
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 12px Arial';
+      ctx.fillText('SVYS Utsav Committee', 28, 638);
+
+      ctx.textAlign = 'right';
+      ctx.fillStyle = '#2ecc71';
+      ctx.font = 'bold 11px Arial';
+      ctx.fillText('OFFICIAL SEAL', canvas.width - 44, 620);
+      ctx.fillStyle = '#ffd700';
+      ctx.font = '11px Arial';
+      ctx.fillText('Valid: 2026–2027 Utsav', canvas.width - 44, 638);
+
+      resolve(canvas);
+    }
+
+    if (photoSrc && photoSrc.startsWith('data:')) {
+      const photoImg = new Image();
+      photoImg.onload = () => {
+        try {
+          ctx.drawImage(photoImg, 28, 134, 146, 184);
+        } catch(e) {}
+        drawPhotoBorder();
+        renderDetails();
+      };
+      photoImg.onerror = () => {
+        drawDefaultAvatar();
+        renderDetails();
+      };
+      photoImg.src = photoSrc;
+    } else {
+      drawDefaultAvatar();
+      renderDetails();
+    }
+  });
 }
 
-function shareIdCardWhatsApp() {
-  const card = JSON.parse(localStorage.getItem('SVYS_DIGITAL_ID') || '{}');
-  const text = `🚩 *SRI VINAYAKA YUVASENA - OFFICIAL VIP DEVOTEE PASS* 🚩%0A%0A` +
-    `👤 *Name:* ${encodeURIComponent(card.name || 'Member')}%0A` +
-    `🔢 *Pass ID:* ${encodeURIComponent(card.idCode || 'SVYS-2026')}%0A` +
-    `📱 *Mobile:* ${encodeURIComponent(card.phone || '9392618109')}%0A` +
-    `🩸 *Blood Group:* ${encodeURIComponent(card.blood || 'O+')}%0A` +
-    `✉️ *Email:* ${encodeURIComponent(card.email || 'tharungutta@gmail.com')}%0A` +
-    `📅 *Validity:* 2026–2027 Utsav%0A%0A` +
-    `🙏 *Ganapathi Bappa Morya!* Official verified VIP devotee pass of Sri Vinayaka Yuvasena celebrations.%0A` +
-    `🌐 Verify online: https://srivinayakayuvasena.vercel.app`;
-  window.open(`https://wa.me/?text=${text}`, '_blank');
+async function getCardCanvas() {
+  const cardData = JSON.parse(localStorage.getItem('SVYS_DIGITAL_ID') || '{}');
+  return await drawIdCardToCanvas(cardData);
+}
+
+async function downloadDigitalIdCard() {
+  const btn = event?.currentTarget || document.querySelector('.vip-actions-toolbar .btn.gold');
+  const origText = btn ? btn.innerHTML : '';
+  if (btn) btn.innerHTML = '⏳ Downloading Image…';
+
+  try {
+    let canvas = await getCardCanvas();
+    const cardData = JSON.parse(localStorage.getItem('SVYS_DIGITAL_ID') || '{}');
+    const safeName = (cardData.name || 'Member').replace(/\s+/g, '_');
+    
+    let dataUrl;
+    try {
+      dataUrl = canvas.toDataURL('image/png');
+    } catch(taintErr) {
+      console.warn('Recovering with pure canvas vector renderer...', taintErr);
+      canvas = await drawIdCardToCanvas(cardData);
+      dataUrl = canvas.toDataURL('image/png');
+    }
+
+    const link = document.createElement('a');
+    link.download = `SVYS_VIP_Pass_${safeName}.png`;
+    link.href = dataUrl;
+    document.body.appendChild(link);
+    link.click();
+    setTimeout(() => {
+      try { document.body.removeChild(link); } catch(e){}
+    }, 400);
+  } catch(err) {
+    alert('Error generating pass image: ' + err.message);
+  } finally {
+    if (btn) btn.innerHTML = origText || '📥 Download';
+  }
+}
+
+async function shareIdCardWhatsApp() {
+  const cardData = JSON.parse(localStorage.getItem('SVYS_DIGITAL_ID') || '{}');
+  const safeName = (cardData.name || 'Member').replace(/\s+/g, '_');
+  const shareText = `🚩 *SRI VINAYAKA YUVASENA - OFFICIAL VIP DEVOTEE PASS* 🚩\n\n` +
+    `👤 *Name:* ${cardData.name || 'Member'}\n` +
+    `🔢 *Pass ID:* ${cardData.idCode || 'SVYS-2026'}\n` +
+    `📱 *Mobile:* ${cardData.phone || '9392618109'}\n` +
+    `🩸 *Blood Group:* ${cardData.blood || 'O+'}\n` +
+    `✉️ *Email:* ${cardData.email || 'tharungutta@gmail.com'}\n` +
+    `📅 *Validity:* 2026–2027 Utsav\n\n` +
+    `🙏 *Ganapathi Bappa Morya!* Official verified VIP devotee pass.\n` +
+    `🌐 Verify live: https://srivinayakayuvasena.vercel.app`;
+
+  try {
+    let canvas = await getCardCanvas();
+    let dataUrl;
+    try {
+      dataUrl = canvas.toDataURL('image/png');
+    } catch(e) {
+      canvas = await drawIdCardToCanvas(cardData);
+      dataUrl = canvas.toDataURL('image/png');
+    }
+
+    // Automatically trigger local image download as well
+    const link = document.createElement('a');
+    link.download = `SVYS_VIP_Pass_${safeName}.png`;
+    link.href = dataUrl;
+    document.body.appendChild(link);
+    link.click();
+    setTimeout(() => {
+      try { document.body.removeChild(link); } catch(e){}
+    }, 400);
+
+    // Try Web Share API (native share on mobile to WhatsApp with the image file attached)
+    if (navigator.canShare) {
+      try {
+        const byteString = atob(dataUrl.split(',')[1]);
+        const mimeString = dataUrl.split(',')[0].split(':')[1].split(';')[0];
+        const ab = new ArrayBuffer(byteString.length);
+        const ia = new Uint8Array(ab);
+        for (let i = 0; i < byteString.length; i++) {
+          ia[i] = byteString.charCodeAt(i);
+        }
+        const blob = new Blob([ab], { type: mimeString });
+        const file = new File([blob], `SVYS_VIP_Pass_${safeName}.png`, { type: 'image/png' });
+
+        if (navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            files: [file],
+            title: 'Sri Vinayaka Yuvasena VIP Pass',
+            text: shareText
+          });
+          return;
+        }
+      } catch(shareErr) {}
+    }
+
+    // Open WhatsApp chat directly
+    const waUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+    window.open(waUrl, '_blank');
+  } catch(e) {
+    const waUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+    window.open(waUrl, '_blank');
+  }
 }
 
 /* ============================================================
@@ -3279,9 +3705,61 @@ function autoFillContributionEmail() {
   }
 }
 
+const SHEET_VERIFIED_EMAILS = {
+  '9398674933': 'balachandrapathakamuri@gmail.com',
+  'bala chandra pathakamuri': 'balachandrapathakamuri@gmail.com',
+  '9392401793': 'chowdarybhuvanesh2@gmail.com',
+  'bhuvanesh challa': 'chowdarybhuvanesh2@gmail.com',
+  '6363551192': 'gowthamgowtham8659@gmail.com',
+  'gowtham madipatla': 'gowthamgowtham8659@gmail.com',
+  '9182041179': 'chowdaryjashwanth02@gmail.com',
+  'jashwanth pathakamuri': 'chowdaryjashwanth02@gmail.com',
+  '9346860578': 'praneethpraneeth627@gmail.com',
+  'praneeth madipatala': 'praneethpraneeth627@gmail.com',
+  '9390266268': 'revanththammineni@gmail.com',
+  'revanth thammineni': 'revanththammineni@gmail.com',
+  '9381396041': 'guttateja92@gmail.com',
+  'teja gutta': 'guttateja92@gmail.com',
+  '9392618109': 'tharungutta123@gmail.com',
+  'tharun gutta': 'tharungutta123@gmail.com',
+  '7483146429': 'challavishnuteja2006@gmail.com',
+  'vishnu challa': 'challavishnuteja2006@gmail.com',
+  '9676913397': 'challayogesh9989@gmail.com',
+  'yogesh challa': 'challayogesh9989@gmail.com'
+};
+
 function findMemberEmailLocally(name, phone) {
-  if (name && name.toLowerCase().includes('tharun')) return 'tharungutta@gmail.com';
-  return (window.svysCurrentUser && window.svysCurrentUser.email) || localStorage.getItem('SVYS_USER_EMAIL') || (name ? name.toLowerCase().replace(/\s+/g,'') + '@gmail.com' : 'devotee@gmail.com');
+  const cleanPhone = String(phone||'').replace(/\D/g, '').slice(-10);
+  const cleanName = String(name||'').trim().toLowerCase();
+  const liveMember = (state.members||[]).find(m => 
+    (cleanPhone && String(m.phone||'').replace(/\D/g, '').slice(-10) === cleanPhone) ||
+    (cleanName && String(m.name||'').trim().toLowerCase() === cleanName)
+  );
+  if (liveMember && liveMember.email && liveMember.email.includes('@')) {
+    return liveMember.email.trim();
+  }
+  if (cleanPhone && SHEET_VERIFIED_EMAILS[cleanPhone]) return SHEET_VERIFIED_EMAILS[cleanPhone];
+  if (cleanName && SHEET_VERIFIED_EMAILS[cleanName]) return SHEET_VERIFIED_EMAILS[cleanName];
+  if (window.svysCurrentUser && window.svysCurrentUser.name && window.svysCurrentUser.name.trim().toLowerCase() === cleanName) {
+    return window.svysCurrentUser.email || '';
+  }
+  return '';
+}
+
+function openContributorReceipt(name, phone, month, amount, date) {
+  const dateStr = date || new Date().toISOString().slice(0, 10);
+  const rcptId = 'SVYS-RCPT-' + dateStr.replace(/-/g, '') + '-' + String(Math.floor(Math.random() * 900 + 100));
+  const contributorEmail = findMemberEmailLocally(name, phone);
+  const receiptData = {
+    receiptId: rcptId,
+    memberName: name || 'Contributor',
+    phone: phone || '',
+    email: contributorEmail,
+    month: month || 'Current Month',
+    amount: amount || 0,
+    date: dateStr
+  };
+  openReceiptModal(receiptData);
 }
 
 function numberToEnglishWords(num) {
@@ -3331,13 +3809,13 @@ function sendActiveReceiptWhatsApp() {
 
   const text = encodeURIComponent(
     `🚩 *SRI VINAYAKA YUVASENA - OFFICIAL DONATION RECEIPT* 🚩\n\n` +
-    `Dear *${r.memberName}*,\n` +
+    `Dear ${r.memberName},\n` +
     `We gratefully acknowledge your pious contribution towards Ganesh Chaturthi Utsav 2026–2027.\n\n` +
-    `🧾 *Receipt No:* ${rcptNo}\n` +
-    `📅 *Month:* ${r.month}\n` +
-    `💰 *Amount Paid:* ₹${formattedAmt}\n` +
-    `🗓️ *Date:* ${r.date}\n` +
-    `🛡️ *Status:* Verified & Recorded in Live Google Sheet\n\n` +
+    `🧾 Receipt No: ${rcptNo}\n` +
+    `📅 Month: ${r.month}\n` +
+    `💰 Amount Paid: ₹${formattedAmt}\n` +
+    `🗓️ Date: ${r.date}\n` +
+    `🛡️ Status: Verified & Recorded in Live Google Sheet\n\n` +
     `🌐 Download PDF & View Live Pass: https://srivinayakayuvasena.vercel.app/\n\n` +
     `May Lord Sri Vinayaka shower peace, prosperity, and joy on you and your family! 🙏\n\n` +
     `*Sri Vinayaka Yuvasena Utsav Committee*`
@@ -3372,7 +3850,7 @@ function sendActiveReceiptSms() {
   const r = currentActiveReceipt;
   const cleanPhone = String(r.phone || '').replace(/\D/g, '').slice(-10);
   const text = encodeURIComponent(
-    `SVYS Receipt: Dear ${r.memberName}, received Rs.${r.amount} for ${r.month} towards Ganesh Chaturthi 2026-2027. Rcpt# ${r.receiptId || 'SVYS-AUTH'}. Track live: https://srivinayakayuvasena.vercel.app/ - Sri Vinayaka Yuvasena`
+    `Thank you, ${r.memberName}! Sri Vinayaka Yuvasena has received your contribution of ₹${Number(r.amount||0).toLocaleString('en-IN')} for ${r.month} in support of Ganesh Chaturthi Utsav.\n\nReceipt No.: ${r.receiptId || ('SVYS-RCPT-' + Date.now().toString().slice(-6))}\n\nTrack your contribution here: https://srivinayakayuvasena.vercel.app/`
   );
   window.location.href = `sms:+91${cleanPhone}?body=${text}`;
 }
