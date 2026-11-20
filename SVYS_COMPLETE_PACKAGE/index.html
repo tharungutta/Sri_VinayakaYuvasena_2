@@ -40,10 +40,10 @@
 
 <!-- Logged-in User Profile Section (Name & Account) -->
 <div class="side-profile-card" id="sideProfileCard" onclick="openSelfProfileModal()" role="button" tabindex="0" title="Click to view your contribution statement">
-  <div class="side-profile-avatar" id="sideProfileAvatar">TG</div>
+  <div class="side-profile-avatar" id="sideProfileAvatar">SV</div>
   <div class="side-profile-info">
-    <div class="side-profile-name" id="sideProfileName">Tharun Gutta</div>
-    <div class="side-profile-email" id="sideProfileEmail">tharungutta@gmail.com</div>
+    <div class="side-profile-name" id="sideProfileName">Devotee / Member</div>
+    <div class="side-profile-email" id="sideProfileEmail">Sign in to view status</div>
     <div class="side-profile-role" id="sideProfileRole">
       <span class="role-dot"></span>
       <span id="sideProfileRoleText">Active Member</span>
@@ -558,12 +558,12 @@
   <div class="modal-card self-profile-sheet">
     <div class="modal-head" style="background:#281016;color:#ffffff;padding:16px 20px">
       <div class="self-sheet-user-wrap">
-        <div class="self-sheet-avatar" id="selfSheetAvatar">TG</div>
+        <div class="self-sheet-avatar" id="selfSheetAvatar">SV</div>
         <div>
           <div class="eyebrow" style="color:#ffd88a;font-size:10px">OFFICIAL MEMBER PORTAL</div>
-          <h2 id="selfSheetName" style="color:#ffffff;margin:2px 0 0;font-size:19px;font-weight:900">Tharun Gutta</h2>
+          <h2 id="selfSheetName" style="color:#ffffff;margin:2px 0 0;font-size:19px;font-weight:900">Member Portal</h2>
           <div style="display:flex;gap:8px;align-items:center;margin-top:3px">
-            <span id="selfSheetPhone" style="font-size:11.5px;color:#f5d6a4">📱 9392618109</span>
+            <span id="selfSheetPhone" style="font-size:11.5px;color:#f5d6a4">📱 Member Status</span>
             <span class="side-profile-role" style="margin-top:0"><span class="role-dot"></span> <span id="selfSheetRoleText">Active Member</span></span>
           </div>
         </div>
@@ -908,12 +908,12 @@
                 <span class="vip-id-pill" id="cidDisplayId">ID: SVYS-2026-759</span>
               </div>
 
-              <div class="vip-member-name" id="cidDisplayName">Tharun Gutta</div>
+              <div class="vip-member-name" id="cidDisplayName">Member Name</div>
 
               <div class="vip-info-grid">
                 <div class="vip-info-item">
                   <span class="vip-lbl">📱 Mobile</span>
-                  <span class="vip-val" id="cidDisplayPhone">9392618109</span>
+                  <span class="vip-val" id="cidDisplayPhone">—</span>
                 </div>
                 <div class="vip-info-item">
                   <span class="vip-lbl">🩸 Blood</span>
@@ -921,7 +921,7 @@
                 </div>
                 <div class="vip-info-item full-width">
                   <span class="vip-lbl">✉️ Email</span>
-                  <span class="vip-val email-pill" id="cidDisplayEmail" style="word-break:break-all;font-size:11.5px">tharungutta@gmail.com</span>
+                  <span class="vip-val email-pill" id="cidDisplayEmail" style="word-break:break-all;font-size:11.5px">devotee@gmail.com</span>
                 </div>
               </div>
             </div>
@@ -978,6 +978,104 @@ const EXPENSE_CATEGORIES = [
 
 const money=n=>'₹'+Number(n||0).toLocaleString('en-IN');
 const CONFIG=window.SVYS_CONFIG||{};
+
+const SHEET_VERIFIED_EMAILS = {
+  '9398674933': 'balachandrapathakamuri@gmail.com',
+  'bala chandra pathakamuri': 'balachandrapathakamuri@gmail.com',
+  '9392401793': 'chowdarybhuvanesh2@gmail.com',
+  'bhuvanesh challa': 'chowdarybhuvanesh2@gmail.com',
+  '6363551192': 'gowthamgowtham8659@gmail.com',
+  'gowtham madipatla': 'gowthamgowtham8659@gmail.com',
+  '9182041179': 'chowdaryjashwanth02@gmail.com',
+  'jashwanth pathakamuri': 'chowdaryjashwanth02@gmail.com',
+  '9346860578': 'praneethpraneeth627@gmail.com',
+  'praneeth madipatala': 'praneethpraneeth627@gmail.com',
+  '9390266268': 'revanththammineni@gmail.com',
+  'revanth thammineni': 'revanththammineni@gmail.com',
+  '9381396041': 'guttateja92@gmail.com',
+  'teja gutta': 'guttateja92@gmail.com',
+  '9392618109': 'tharungutta123@gmail.com',
+  'tharun gutta': 'tharungutta123@gmail.com',
+  '7483146429': 'challavishnuteja2006@gmail.com',
+  'vishnu challa': 'challavishnuteja2006@gmail.com',
+  '9676913397': 'challayogesh9989@gmail.com',
+  'yogesh challa': 'challayogesh9989@gmail.com'
+};
+
+function getActiveMemberRecord() {
+  const u = window.svysCurrentUser;
+  const rawEmail = ((u && u.email) || localStorage.getItem('SVYS_USER_EMAIL') || '').trim().toLowerCase();
+  const rawName = ((u && u.displayName) || localStorage.getItem('SVYS_USER_NAME') || '').trim().toLowerCase();
+  const members = (typeof state !== 'undefined' && Array.isArray(state.members)) ? state.members : [];
+
+  if (!members.length) return null;
+
+  // 1. Direct Email Match in state.members (Column D of Google Sheet)
+  if (rawEmail) {
+    const byEmail = members.find(m => m.email && m.email.trim().toLowerCase() === rawEmail);
+    if (byEmail) return byEmail;
+  }
+
+  // 2. Email Match via SHEET_VERIFIED_EMAILS dictionary
+  if (rawEmail) {
+    const byDict = members.find(m => {
+      const p = String(m.phone || '').replace(/\D/g, '').slice(-10);
+      const n = String(m.name || '').trim().toLowerCase();
+      return (p && SHEET_VERIFIED_EMAILS[p] === rawEmail) ||
+             (n && SHEET_VERIFIED_EMAILS[n] === rawEmail);
+    });
+    if (byDict) return byDict;
+  }
+
+  // 3. Name Match from user's account registration name
+  if (rawName && rawName !== 'tharun gutta' && rawName !== 'tharun') {
+    const byName = members.find(m => {
+      const n = String(m.name || '').trim().toLowerCase();
+      return n === rawName || n.includes(rawName) || rawName.includes(n.split(' ')[0]);
+    });
+    if (byName) return byName;
+  }
+
+  // 4. Email handle matching member name (e.g. balachandrapathakamuri -> BALA CHANDRA PATHAKAMURI)
+  if (rawEmail) {
+    const handle = rawEmail.split('@')[0].replace(/[^a-z]/g, '');
+    if (handle.length >= 4) {
+      const byHandle = members.find(m => {
+        const n = String(m.name || '').toLowerCase().replace(/[^a-z]/g, '');
+        return n.includes(handle) || handle.includes(n.slice(0, 5));
+      });
+      if (byHandle) return byHandle;
+    }
+  }
+
+  // If user is logged in as Tharun Gutta:
+  if (rawEmail === 'tharungutta123@gmail.com' || rawName === 'tharun gutta' || rawName === 'tharun') {
+    return members.find(m => String(m.name).toLowerCase().includes('tharun')) || null;
+  }
+
+  return null;
+}
+
+function getCurrentDevoteeName() {
+  const m = getActiveMemberRecord();
+  if (m && m.name) return m.name;
+  const u = window.svysCurrentUser;
+  if (u && u.displayName) return u.displayName;
+  if (u && u.email) return u.email.split('@')[0];
+  const local = localStorage.getItem('SVYS_USER_NAME');
+  if (local && local.toLowerCase() !== 'tharun gutta' && local.toLowerCase() !== 'tharun') return local;
+  return 'Devotee';
+}
+
+function getCurrentDevoteeEmail() {
+  const u = window.svysCurrentUser;
+  if (u && u.email) return u.email;
+  const m = getActiveMemberRecord();
+  if (m && m.email) return m.email;
+  const local = localStorage.getItem('SVYS_USER_EMAIL');
+  if (local && local.toLowerCase() !== 'tharungutta@gmail.com') return local;
+  return '';
+}
 
 // Load live data from live-data.js cache immediately or localStorage
 const initialData=window.SVYS_INITIAL_DATA||{members:[],payments:[]};
@@ -1073,12 +1171,23 @@ async function loadData(){
       state.members = d.members;
       state.payments = d.payments;
       if(Array.isArray(d.expenses)) state.expenses = d.expenses;
+      if(Array.isArray(d.chatMessages)) {
+        communityChatMessages = d.chatMessages;
+        try { localStorage.setItem('SVYS_CHAT_MESSAGES_V2', JSON.stringify(communityChatMessages)); } catch(e){}
+        if(typeof renderChatMessages === 'function') renderChatMessages();
+      }
+      if(Array.isArray(d.suggestions)) {
+        try { localStorage.setItem('SVYS_SUGGESTIONS', JSON.stringify(d.suggestions)); } catch(e){}
+        if(typeof updateAdminSugCountBadge === 'function') updateAdminSugCountBadge();
+        if(typeof renderSuggestionChat === 'function') renderSuggestionChat();
+      }
       try {
         localStorage.setItem('SVYS_EXPENSES', JSON.stringify(state.expenses));
         localStorage.setItem('SVYS_CACHED_MEMBERS', JSON.stringify(state.members));
         localStorage.setItem('SVYS_CACHED_PAYMENTS', JSON.stringify(state.payments));
       } catch (storageErr) {}
       render();
+      if(typeof updateProfileCardUI === 'function') updateProfileCardUI();
       updateSyncStatus('live');
       console.info('SVYS tracker data synced from Google Sheet:', state.members.length, 'members,', state.payments.length, 'payments');
     } else {
@@ -1627,31 +1736,21 @@ function ringTempleBell() {
   }
 }
 function showMemberGreetingPopup(user){
-  const u=user||window.svysCurrentUser;
-  const rawName=(u&&(u.displayName||(u.email||'').split('@')[0]))||'';
-  
-  let m=null;
-  if(rawName){
-    m=state.members.find(x=>
-      x.name.toLowerCase()===rawName.toLowerCase() ||
-      x.name.toLowerCase().includes(rawName.toLowerCase()) ||
-      rawName.toLowerCase().includes(x.name.toLowerCase().split(' ')[0])
-    );
-  }
-  if(!m&&state.members.length){
-    m=state.members.find(x=>x.name.toLowerCase().includes('tharun'))||state.members[0];
-  }
-  if(!m)return;
+  const u = user || window.svysCurrentUser;
+  const m = getActiveMemberRecord();
 
-  const firstName=m.name.split(' ')[0];
-  const now=new Date();
-  const monthNames=['January','February','March','April','May','June','July','August','September','October','November','December'];
-  const activeMonth=monthNames[now.getMonth()]||'November';
-  const monthDef=MONTHS.find(([name])=>name.toLowerCase()===activeMonth.toLowerCase())||['November',200];
-  const minAmt=monthDef[1];
+  const fullName = (m && m.name) || (u && u.displayName) || (u && u.email ? u.email.split('@')[0] : '') || getCurrentDevoteeName();
+  const rawFirst = fullName.split(' ')[0] || 'Devotee';
+  const firstName = rawFirst.charAt(0).toUpperCase() + rawFirst.slice(1).toLowerCase();
 
-  const ps=memberPayments(m);
-  const paidCurrent=ps.filter(p=>p.month.toLowerCase()===activeMonth.toLowerCase()).reduce((s,p)=>s+Number(p.amount||0),0);
+  const now = new Date();
+  const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const activeMonth = monthNames[now.getMonth()] || 'November';
+  const monthDef = MONTHS.find(([name]) => name.toLowerCase() === activeMonth.toLowerCase()) || ['November', 200];
+  const minAmt = monthDef[1];
+
+  const ps = m ? memberPayments(m) : [];
+  const paidCurrent = ps.filter(p => p.month.toLowerCase() === activeMonth.toLowerCase()).reduce((s, p) => s + Number(p.amount || 0), 0);
 
   const badgeEl=document.getElementById('greetBadge');
   const titleEl=document.getElementById('greetTitle');
@@ -1685,6 +1784,7 @@ function closeGreetingModal(){
 }
 
 window.svysOnUserLogin=function(user){
+  updateProfileCardUI(user);
   showMemberGreetingPopup(user);
 };
 
@@ -2633,30 +2733,36 @@ function installPwa() {
 function updateProfileCardUI(user) {
   const u = user || window.svysCurrentUser;
   const isAdmin = isUserAdmin();
+  const m = getActiveMemberRecord();
 
   let name = '';
   let email = '';
 
-  if (u) {
-    name = u.displayName || (u.email ? u.email.split('@')[0] : '');
+  if (m) {
+    name = m.name;
+    email = (u && u.email) || m.email || '';
+    localStorage.setItem('SVYS_USER_NAME', name);
+    if (email) localStorage.setItem('SVYS_USER_EMAIL', email);
+  } else if (u) {
+    name = u.displayName || (u.email ? u.email.split('@')[0] : 'Devotee');
     email = u.email || '';
     if (name) localStorage.setItem('SVYS_USER_NAME', name);
     if (email) localStorage.setItem('SVYS_USER_EMAIL', email);
   } else {
-    name = localStorage.getItem('SVYS_USER_NAME') || 'Tharun Gutta';
-    email = localStorage.getItem('SVYS_USER_EMAIL') || 'tharungutta@gmail.com';
+    const savedName = localStorage.getItem('SVYS_USER_NAME');
+    const savedEmail = localStorage.getItem('SVYS_USER_EMAIL');
+    if (savedName && savedName.toLowerCase() !== 'tharun gutta' && savedName.toLowerCase() !== 'tharun') {
+      name = savedName;
+      email = savedEmail || '';
+    } else {
+      name = 'Devotee / Member';
+      email = 'Sign in to view status';
+    }
   }
 
-  let initialsText = 'TG';
-  if (name) {
-    const parts = name.trim().split(/\s+/);
-    if (parts.length >= 2) {
-      initialsText = (parts[0][0] + parts[1][0]).toUpperCase();
-    } else if (parts[0].length >= 2) {
-      initialsText = parts[0].slice(0, 2).toUpperCase();
-    } else {
-      initialsText = parts[0].toUpperCase();
-    }
+  let initialsText = 'SV';
+  if (name && name !== 'Devotee / Member') {
+    initialsText = initials(name);
   }
 
   const avatarEl = document.getElementById('sideProfileAvatar');
@@ -2680,39 +2786,24 @@ function updateProfileCardUI(user) {
   }
 }
 
-function getActiveMemberRecord() {
-  const u = window.svysCurrentUser;
-  const rawName = (u && (u.displayName || (u.email || '').split('@')[0])) || 
-    localStorage.getItem('SVYS_USER_NAME') || '';
-  let m = null;
-  if (rawName && state.members.length) {
-    m = state.members.find(x => 
-      x.name.toLowerCase() === rawName.toLowerCase() ||
-      x.name.toLowerCase().includes(rawName.toLowerCase()) ||
-      rawName.toLowerCase().includes(x.name.toLowerCase().split(' ')[0])
-    );
-  }
-  if (!m && state.members.length) {
-    m = state.members.find(x => x.name.toLowerCase().includes('tharun')) || state.members[0];
-  }
-  return m;
-}
-
 function openSelfProfileModal() {
   const m = getActiveMemberRecord();
-  if (!m) return;
+  const u = window.svysCurrentUser;
 
   const target = expectedYear();
-  const ps = memberPayments(m);
+  const ps = m ? memberPayments(m) : [];
   const totalPaid = ps.reduce((s, p) => s + Number(p.amount || 0), 0);
   const pct = target > 0 ? Math.min(100, Math.round((totalPaid / target) * 100)) : 0;
+
+  const displayName = (m && m.name) || (u && u.displayName) || getCurrentDevoteeName();
+  const displayPhone = (m && m.phone) || (u && u.email) || getCurrentDevoteeEmail() || 'Member Status';
 
   const avatarEl = document.getElementById('selfSheetAvatar');
   const nameEl = document.getElementById('selfSheetName');
   const phoneEl = document.getElementById('selfSheetPhone');
-  if (avatarEl) avatarEl.textContent = initials(m.name);
-  if (nameEl) nameEl.textContent = m.name;
-  if (phoneEl) phoneEl.textContent = '📱 ' + (m.phone || '9392618109');
+  if (avatarEl) avatarEl.textContent = initials(displayName);
+  if (nameEl) nameEl.textContent = displayName;
+  if (phoneEl) phoneEl.textContent = displayPhone.startsWith('9') ? ('📱 ' + displayPhone) : displayPhone;
 
   const pBar = document.getElementById('selfProgressBar');
   const pPct = document.getElementById('selfProgressPct');
@@ -2727,7 +2818,7 @@ function openSelfProfileModal() {
   const grid = document.getElementById('selfMonthsGrid');
   if (grid) {
     grid.innerHTML = MONTHS.map(([monthName, minAmt]) => {
-      const row = ps.find(p => p.month === monthName);
+      const row = ps.find(p => p.month.toLowerCase() === monthName.toLowerCase());
       const amt = row ? Number(row.amount || 0) : 0;
       let cls = 'pending';
       let stText = 'Pending';
@@ -2878,11 +2969,29 @@ function requestChatLaunchNotification() {
   alert(currentLang === 'te' ? '🔔 ధన్యవాదాలు! గ్రూప్ చాట్ ప్రారంభం కాగానే మీకు సమాచారం అందుతుంది.' : '🔔 Thank you! You will be notified as soon as Group Chat is launched.');
 }
 
+let chatPollingTimer = null;
+
+async function fetchLiveChatMessages() {
+  try {
+    const d = await postAction({ action: 'getChatMessages' });
+    if (d && Array.isArray(d.messages)) {
+      communityChatMessages = d.messages;
+      try { localStorage.setItem('SVYS_CHAT_MESSAGES_V2', JSON.stringify(communityChatMessages)); } catch(e){}
+      renderChatMessages();
+    }
+  } catch(err) {
+    console.warn('Live chat fetch note:', err.message);
+  }
+}
+
 function openGroupChatModal() {
   const modal = document.getElementById('groupChatModal');
   if (modal) modal.classList.add('open');
   updateChatSubtitle();
   renderChatMessages();
+  fetchLiveChatMessages();
+  clearInterval(chatPollingTimer);
+  chatPollingTimer = setInterval(fetchLiveChatMessages, 5000);
 }
 
 function updateChatSubtitle() {
@@ -2899,6 +3008,7 @@ function updateChatSubtitle() {
 function closeGroupChatModal() {
   const modal = document.getElementById('groupChatModal');
   if (modal) modal.classList.remove('open');
+  clearInterval(chatPollingTimer);
 }
 
 function togglePinnedChatNotice() {
@@ -2921,7 +3031,7 @@ function getSenderColor(name) {
 function renderChatMessages() {
   const list = document.getElementById('chatMessageList');
   if (!list) return;
-  const currentUserName = (window.svysCurrentUser && window.svysCurrentUser.name) || localStorage.getItem('SVYS_USER_NAME') || 'Tharun Gutta';
+  const currentUserName = getCurrentDevoteeName();
   
   if (!communityChatMessages || communityChatMessages.length === 0) {
     list.innerHTML = `
@@ -3095,10 +3205,12 @@ function handleChatSubmit(e) {
   if (!input) return;
   const text = input.value.trim();
   if (!text) return;
-  const currentUserName = (window.svysCurrentUser && window.svysCurrentUser.name) || localStorage.getItem('SVYS_USER_NAME') || 'Tharun Gutta';
+  const currentUserName = getCurrentDevoteeName();
+  const currentUserEmail = getCurrentDevoteeEmail();
   const newMsg = {
     id: 'msg_' + Date.now(),
     sender: currentUserName,
+    email: currentUserEmail,
     text: text,
     time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
   };
@@ -3109,6 +3221,20 @@ function handleChatSubmit(e) {
   } catch(e){}
   input.value = '';
   renderChatMessages();
+
+  // Send to Apps Script to sync with all members
+  postAction({
+    action: 'sendChatMessage',
+    text: text,
+    sender: currentUserName,
+    email: currentUserEmail,
+    time: newMsg.time
+  }).then(res => {
+    if (res && res.message && res.message.id) newMsg.id = res.message.id;
+  }).catch(err => {
+    console.warn('Could not sync chat message to sheet:', err.message);
+  });
+
   // Trigger WhatsApp-style push notification & in-app banner for all members
   triggerUniversalNotification('💬 ' + currentUserName + ' (SVYS Group)', text, 'svys-chat');
 }
@@ -3168,15 +3294,34 @@ function getStoredSuggestions() {
   } catch(e) { return []; }
 }
 
+let sugPollingTimer = null;
+
+async function fetchLiveSuggestions() {
+  try {
+    const d = await postAction({ action: 'getSuggestions' });
+    if (d && Array.isArray(d.suggestions)) {
+      try { localStorage.setItem('SVYS_SUGGESTIONS', JSON.stringify(d.suggestions)); } catch(e){}
+      renderSuggestionChat();
+      updateAdminSugCountBadge();
+    }
+  } catch(err) {
+    console.warn('Live suggestions fetch note:', err.message);
+  }
+}
+
 function openSuggestionModal() {
   const modal = document.getElementById('suggestionModal');
   if (modal) modal.classList.add('open');
   renderSuggestionChat();
+  fetchLiveSuggestions();
+  clearInterval(sugPollingTimer);
+  sugPollingTimer = setInterval(fetchLiveSuggestions, 6000);
 }
 
 function closeSuggestionModal() {
   const modal = document.getElementById('suggestionModal');
   if (modal) modal.classList.remove('open');
+  clearInterval(sugPollingTimer);
 }
 
 function selectSugTopic(topic) {
@@ -3193,19 +3338,35 @@ function sendCommunitySuggestion(e) {
   if (!input) return;
   const text = input.value.trim();
   if (!text) return;
-  const currentUserName = (window.svysCurrentUser && window.svysCurrentUser.name) || localStorage.getItem('SVYS_USER_NAME') || 'Tharun Gutta';
+  const currentUserName = getCurrentDevoteeName();
+  const currentUserEmail = getCurrentDevoteeEmail();
   const list = getStoredSuggestions();
-  list.unshift({
-    id: Date.now(),
+  const newSug = {
+    id: 'S' + Date.now(),
     sender: currentUserName,
+    email: currentUserEmail,
     text: text,
     timeStr: new Date().toLocaleDateString([], { month: 'short', day: 'numeric' }) + ' ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     likes: 0
-  });
-  localStorage.setItem('SVYS_SUGGESTIONS', JSON.stringify(list));
+  };
+  list.unshift(newSug);
+  try { localStorage.setItem('SVYS_SUGGESTIONS', JSON.stringify(list)); } catch(e){}
   input.value = '';
   renderSuggestionChat();
   updateAdminSugCountBadge();
+
+  // Sync with Google Sheet in background
+  postAction({
+    action: 'sendSuggestion',
+    id: newSug.id,
+    text: text,
+    sender: currentUserName,
+    email: currentUserEmail,
+    timeStr: newSug.timeStr
+  }).catch(err => {
+    console.warn('Could not sync suggestion to sheet:', err.message);
+  });
+
   triggerUniversalNotification('💡 Suggestion from ' + currentUserName, text, 'svys-suggestion');
 }
 
@@ -3222,7 +3383,7 @@ function renderSuggestionChat() {
       </div>`;
     return;
   }
-  const currentUserName = (window.svysCurrentUser && window.svysCurrentUser.name) || localStorage.getItem('SVYS_USER_NAME') || 'Tharun Gutta';
+  const currentUserName = getCurrentDevoteeName();
   feed.innerHTML = list.map(item => {
     const isMe = item.sender && currentUserName && item.sender.toLowerCase().trim() === currentUserName.toLowerCase().trim();
     return `
@@ -3233,7 +3394,7 @@ function renderSuggestionChat() {
         </div>
         <div style="font-size:13px;line-height:1.45;color:#333;margin-bottom:8px">${escapeHtml(item.text)}</div>
         <div style="display:flex;justify-content:flex-end">
-          <button type="button" class="btn ghost" onclick="toggleSugLike(${item.id})" style="font-size:11px;padding:3px 8px">❤️ ${item.likes || 0}</button>
+          <button type="button" class="btn ghost" onclick="toggleSugLike('${escapeHtml(item.id)}')" style="font-size:11px;padding:3px 8px">❤️ ${item.likes || 0}</button>
         </div>
       </div>
     `;
@@ -3242,11 +3403,12 @@ function renderSuggestionChat() {
 
 function toggleSugLike(id) {
   const list = getStoredSuggestions();
-  const item = list.find(x => x.id === id);
+  const item = list.find(x => String(x.id) === String(id));
   if (item) {
     item.likes = (item.likes || 0) + 1;
-    localStorage.setItem('SVYS_SUGGESTIONS', JSON.stringify(list));
+    try { localStorage.setItem('SVYS_SUGGESTIONS', JSON.stringify(list)); } catch(e){}
     renderSuggestionChat();
+    postAction({ action: 'likeSuggestion', id: id }).catch(e => console.warn(e));
   }
 }
 
@@ -3332,10 +3494,15 @@ function handlePhotoSelect(e) {
 function drawCollegeCardBody() { return generateCollegeIdCard(); }
 
 function generateCollegeIdCard() {
-  const name = (document.getElementById('idCardNameInput')?.value || 'Tharun Gutta').trim();
-  const phone = (document.getElementById('idCardPhoneInput')?.value || '9392618109').trim();
+  const m = getActiveMemberRecord();
+  const defaultName = (m && m.name) || getCurrentDevoteeName();
+  const defaultPhone = (m && m.phone) || '9392618109';
+  const defaultEmail = (m && m.email) || getCurrentDevoteeEmail() || 'devotee@svys.org';
+
+  const name = (document.getElementById('idCardNameInput')?.value || defaultName).trim();
+  const phone = (document.getElementById('idCardPhoneInput')?.value || defaultPhone).trim();
   const blood = document.getElementById('idCardBloodInput')?.value || 'O+';
-  const email = (document.getElementById('idCardEmailInput')?.value || localStorage.getItem('SVYS_USER_EMAIL') || 'tharungutta@gmail.com').trim();
+  const email = (document.getElementById('idCardEmailInput')?.value || defaultEmail).trim();
   const photo = window.__tempIdCardPhoto || (window.SVYS_LOGO_DATA_URL || '');
   const idCode = 'SVYS-2026-' + String(Math.floor(Math.random() * 900 + 100));
 
@@ -3348,6 +3515,11 @@ function showGeneratedIdCard(card) {
   document.getElementById('idCardFormView').style.display = 'none';
   document.getElementById('idCardDisplayView').style.display = 'block';
 
+  const m = getActiveMemberRecord();
+  const defaultName = (m && m.name) || getCurrentDevoteeName();
+  const defaultPhone = (m && m.phone) || '9392618109';
+  const defaultEmail = (m && m.email) || getCurrentDevoteeEmail() || 'devotee@svys.org';
+
   card = card || JSON.parse(localStorage.getItem('SVYS_DIGITAL_ID') || '{}');
 
   const nameEl = document.getElementById('cidDisplayName');
@@ -3358,11 +3530,11 @@ function showGeneratedIdCard(card) {
   const photoEl = document.getElementById('cidDisplayPhoto');
   const barcodeTextEl = document.getElementById('cidDisplayBarcodeText');
 
-  if (nameEl) nameEl.textContent = card.name || 'Tharun Gutta';
+  if (nameEl) nameEl.textContent = card.name || defaultName;
   if (idEl) idEl.textContent = 'ID: ' + (card.idCode || 'SVYS-2026-759');
-  if (phoneEl) phoneEl.textContent = card.phone || '9392618109';
+  if (phoneEl) phoneEl.textContent = card.phone || defaultPhone;
   if (bloodEl) bloodEl.textContent = card.blood || 'O+';
-  if (emailEl) emailEl.textContent = card.email || localStorage.getItem('SVYS_USER_EMAIL') || 'tharungutta@gmail.com';
+  if (emailEl) emailEl.textContent = card.email || defaultEmail;
   
   const photoSrc = (card.photo && card.photo.startsWith('data:')) ? card.photo : (window.SVYS_LOGO_DATA_URL || 'assets/logo.png');
   if (photoEl) photoEl.src = photoSrc;
@@ -3498,7 +3670,7 @@ function drawIdCardToCanvas(cardData) {
       ctx.fillStyle = '#ffffff';
       ctx.font = 'bold 22px "Segoe UI", Arial, sans-serif';
       ctx.textAlign = 'left';
-      ctx.fillText((cardData.name || 'Tharun Gutta').toUpperCase(), 196, 206);
+      ctx.fillText((cardData.name || getCurrentDevoteeName() || 'DEVOTEE').toUpperCase(), 196, 206);
 
       // Info Table Box
       ctx.fillStyle = 'rgba(0,0,0,0.3)';
@@ -3513,7 +3685,7 @@ function drawIdCardToCanvas(cardData) {
       ctx.textAlign = 'left';
       ctx.fillText('📱 Mobile:', 206, 248);
       ctx.fillStyle = '#ffffff';
-      ctx.fillText(cardData.phone || '9392618109', 276, 248);
+      ctx.fillText(cardData.phone || '—', 276, 248);
 
       ctx.fillStyle = '#ffdfa0';
       ctx.fillText('🩸 Blood:', 206, 274);
@@ -3524,7 +3696,7 @@ function drawIdCardToCanvas(cardData) {
       ctx.fillText('✉️ Email:', 206, 300);
       ctx.fillStyle = '#ffffff';
       ctx.font = '11px Arial';
-      const mailStr = cardData.email || localStorage.getItem('SVYS_USER_EMAIL') || 'tharungutta123@gmail.com';
+      const mailStr = cardData.email || getCurrentDevoteeEmail() || 'devotee@gmail.com';
       ctx.fillText(mailStr.length > 24 ? mailStr.substring(0, 22) + '…' : mailStr, 276, 300);
 
       // Barcode / Auth Strip
@@ -3631,13 +3803,15 @@ async function downloadDigitalIdCard() {
 
 async function shareIdCardWhatsApp() {
   const cardData = JSON.parse(localStorage.getItem('SVYS_DIGITAL_ID') || '{}');
-  const safeName = (cardData.name || 'Member').replace(/\s+/g, '_');
+  const dName = cardData.name || getCurrentDevoteeName() || 'Member';
+  const dEmail = cardData.email || getCurrentDevoteeEmail() || 'devotee@gmail.com';
+  const safeName = dName.replace(/\s+/g, '_');
   const shareText = `🚩 *SRI VINAYAKA YUVASENA - OFFICIAL VIP DEVOTEE PASS* 🚩\n\n` +
-    `👤 *Name:* ${cardData.name || 'Member'}\n` +
+    `👤 *Name:* ${dName}\n` +
     `🔢 *Pass ID:* ${cardData.idCode || 'SVYS-2026'}\n` +
-    `📱 *Mobile:* ${cardData.phone || '9392618109'}\n` +
+    `📱 *Mobile:* ${cardData.phone || '—'}\n` +
     `🩸 *Blood Group:* ${cardData.blood || 'O+'}\n` +
-    `✉️ *Email:* ${cardData.email || 'tharungutta@gmail.com'}\n` +
+    `✉️ *Email:* ${dEmail}\n` +
     `📅 *Validity:* 2026–2027 Utsav\n\n` +
     `🙏 *Ganapathi Bappa Morya!* Official verified VIP devotee pass.\n` +
     `🌐 Verify live: https://srivinayakayuvasena.vercel.app`;
@@ -3724,29 +3898,6 @@ function autoFillContributionEmail() {
     if (sourceLabel) sourceLabel.textContent = '';
   }
 }
-
-const SHEET_VERIFIED_EMAILS = {
-  '9398674933': 'balachandrapathakamuri@gmail.com',
-  'bala chandra pathakamuri': 'balachandrapathakamuri@gmail.com',
-  '9392401793': 'chowdarybhuvanesh2@gmail.com',
-  'bhuvanesh challa': 'chowdarybhuvanesh2@gmail.com',
-  '6363551192': 'gowthamgowtham8659@gmail.com',
-  'gowtham madipatla': 'gowthamgowtham8659@gmail.com',
-  '9182041179': 'chowdaryjashwanth02@gmail.com',
-  'jashwanth pathakamuri': 'chowdaryjashwanth02@gmail.com',
-  '9346860578': 'praneethpraneeth627@gmail.com',
-  'praneeth madipatala': 'praneethpraneeth627@gmail.com',
-  '9390266268': 'revanththammineni@gmail.com',
-  'revanth thammineni': 'revanththammineni@gmail.com',
-  '9381396041': 'guttateja92@gmail.com',
-  'teja gutta': 'guttateja92@gmail.com',
-  '9392618109': 'tharungutta123@gmail.com',
-  'tharun gutta': 'tharungutta123@gmail.com',
-  '7483146429': 'challavishnuteja2006@gmail.com',
-  'vishnu challa': 'challavishnuteja2006@gmail.com',
-  '9676913397': 'challayogesh9989@gmail.com',
-  'yogesh challa': 'challayogesh9989@gmail.com'
-};
 
 function findMemberEmailLocally(name, phone) {
   const cleanPhone = String(phone||'').replace(/\D/g, '').slice(-10);

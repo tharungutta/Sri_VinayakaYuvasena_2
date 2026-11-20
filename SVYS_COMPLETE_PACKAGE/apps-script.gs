@@ -20,6 +20,8 @@ function authorizePermissions(){
 const SHEET_MEMBERS = 'Members';
 const SHEET_PAYMENTS = 'Payments';
 const SHEET_EXPENSES = 'Expenses';
+const SHEET_CHAT = 'Chat';
+const SHEET_SUGGESTIONS = 'Suggestions';
 const DRIVE_ROOT = 'SRI VINAYAKA YUVA SENA';
 
 function setupSheets(){
@@ -27,11 +29,15 @@ function setupSheets(){
   let m=ss.getSheetByName(SHEET_MEMBERS)||ss.insertSheet(SHEET_MEMBERS);
   let p=ss.getSheetByName(SHEET_PAYMENTS)||ss.insertSheet(SHEET_PAYMENTS);
   let e=ss.getSheetByName(SHEET_EXPENSES)||ss.insertSheet(SHEET_EXPENSES);
-  if(m.getLastRow()===0)m.appendRow(['Member ID','Name','Mobile No']);
+  if(m.getLastRow()===0)m.appendRow(['Member ID','Name','Mobile No','Mail ID']);
   if(p.getLastRow()===0)p.appendRow(['Payment ID','Member ID','Member Name','Mobile No','Month','Amount','Payment Date','Screenshot URL','Screenshot File','Created At']);
   if(e.getLastRow()===0)e.appendRow(['Expense ID','Category','Title','Amount','Date','Paid To','Receipt URL','Receipt File','Created At']);
   let a=ss.getSheetByName('Login Activity')||ss.insertSheet('Login Activity');
   if(a.getLastRow()===0)a.appendRow(['Login ID','Firebase UID','Display Name','Email','Login At','Method']);
+  let c=ss.getSheetByName(SHEET_CHAT)||ss.insertSheet(SHEET_CHAT);
+  if(c.getLastRow()===0)c.appendRow(['Message ID','Sender','Sender Email','Message Text','Time','Is Announcement','Created At']);
+  let s=ss.getSheetByName(SHEET_SUGGESTIONS)||ss.insertSheet(SHEET_SUGGESTIONS);
+  if(s.getLastRow()===0)s.appendRow(['Suggestion ID','Sender','Sender Email','Suggestion Text','Time Str','Likes','Created At']);
 }
 function doGet(){
   return jsonOut(getData_());
@@ -46,6 +52,11 @@ function doPost(e){
     if(body.action==='addMember') return jsonOut(addMember_(body));
     if(body.action==='addExpense') return jsonOut(addExpense_(body));
     if(body.action==='deleteExpense') return jsonOut(deleteExpense_(body));
+    if(body.action==='sendChatMessage') return jsonOut(sendChatMessage_(body));
+    if(body.action==='getChatMessages') return jsonOut(getChatMessages_());
+    if(body.action==='sendSuggestion') return jsonOut(sendSuggestion_(body));
+    if(body.action==='likeSuggestion') return jsonOut(likeSuggestion_(body));
+    if(body.action==='getSuggestions') return jsonOut(getSuggestions_());
     return jsonOut({ok:false,error:'Unknown action'});
   }catch(err){return jsonOut({ok:false,error:String(err.message||err)})}
 }
@@ -378,7 +389,91 @@ function getData_(){
   const members=mv.slice(1).filter(r=>r[0]).map(r=>({id:String(r[0]),name:String(r[1]||''),phone:String(r[2]||''),email:String(r[3]||'').trim()}));
   const payments=pv.slice(1).filter(r=>r[0]).map(r=>({id:String(r[0]),memberId:String(r[1]),memberName:String(r[2]||''),phone:String(r[3]||''),month:String(r[4]||''),amount:Number(r[5]||0),date:r[6] instanceof Date?Utilities.formatDate(r[6],Session.getScriptTimeZone(),'yyyy-MM-dd'):String(r[6]||''),screenshotUrl:String(r[7]||''),screenshotName:String(r[8]||'')}));
   const expenses=ev.slice(1).filter(r=>r[0]).map(r=>({id:String(r[0]),category:String(r[1]||'Miscellaneous'),title:String(r[2]||''),amount:Number(r[3]||0),date:r[4] instanceof Date?Utilities.formatDate(r[4],Session.getScriptTimeZone(),'yyyy-MM-dd'):String(r[4]||''),paidTo:String(r[5]||''),receiptUrl:String(r[6]||''),receiptName:String(r[7]||'')}));
-  return {ok:true,members,payments,expenses};
+  const chatMessages=getChatMessages_().messages || [];
+  const suggestions=getSuggestions_().suggestions || [];
+  return {ok:true,members,payments,expenses,chatMessages,suggestions};
+}
+
+function sendChatMessage_(b){
+  const ss=SpreadsheetApp.getActive();
+  let c=ss.getSheetByName(SHEET_CHAT);
+  if(!c){setupSheets();c=ss.getSheetByName(SHEET_CHAT);}
+  const id='C'+Date.now();
+  const sender=String(b.sender||'Devotee').trim();
+  const email=String(b.email||'').trim();
+  const text=String(b.text||'').trim();
+  const time=String(b.time||'').trim();
+  const isAnnounce=b.isAnnouncement?true:false;
+  if(!text)throw new Error('Message text is required.');
+  c.appendRow([id,sender,email,text,time,isAnnounce,new Date()]);
+  return {ok:true,message:{id,sender,email,text,time,isAnnouncement:isAnnounce}};
+}
+
+function getChatMessages_(){
+  try{
+    const ss=SpreadsheetApp.getActive();
+    const c=ss.getSheetByName(SHEET_CHAT);
+    if(!c)return {ok:true,messages:[]};
+    const vals=c.getDataRange().getValues();
+    const rows=vals.slice(1).filter(r=>r[0]).slice(-150).map(r=>({
+      id:String(r[0]),
+      sender:String(r[1]||'Devotee'),
+      email:String(r[2]||''),
+      text:String(r[3]||''),
+      time:String(r[4]||''),
+      isAnnouncement:r[5]===true||String(r[5]).toLowerCase()==='true'
+    }));
+    return {ok:true,messages:rows};
+  }catch(e){return {ok:true,messages:[]};}
+}
+
+function sendSuggestion_(b){
+  const ss=SpreadsheetApp.getActive();
+  let s=ss.getSheetByName(SHEET_SUGGESTIONS);
+  if(!s){setupSheets();s=ss.getSheetByName(SHEET_SUGGESTIONS);}
+  const id=b.id || ('S'+Date.now());
+  const sender=String(b.sender||'Devotee').trim();
+  const email=String(b.email||'').trim();
+  const text=String(b.text||'').trim();
+  const timeStr=String(b.timeStr||'').trim();
+  if(!text)throw new Error('Suggestion text is required.');
+  s.appendRow([id,sender,email,text,timeStr,0,new Date()]);
+  return {ok:true,suggestion:{id,sender,email,text,timeStr,likes:0}};
+}
+
+function likeSuggestion_(b){
+  try{
+    const ss=SpreadsheetApp.getActive();
+    const s=ss.getSheetByName(SHEET_SUGGESTIONS);
+    if(!s)return {ok:false,error:'Sheet not found'};
+    const vals=s.getDataRange().getValues();
+    for(let i=1;i<vals.length;i++){
+      if(String(vals[i][0])===String(b.id)){
+        const curLikes=Number(vals[i][5]||0)+1;
+        s.getRange(i+1,6).setValue(curLikes);
+        return {ok:true,likes:curLikes};
+      }
+    }
+  }catch(e){}
+  return {ok:false,error:'Suggestion not found'};
+}
+
+function getSuggestions_(){
+  try{
+    const ss=SpreadsheetApp.getActive();
+    const s=ss.getSheetByName(SHEET_SUGGESTIONS);
+    if(!s)return {ok:true,suggestions:[]};
+    const vals=s.getDataRange().getValues();
+    const rows=vals.slice(1).filter(r=>r[0]).slice(-100).reverse().map(r=>({
+      id:r[0],
+      sender:String(r[1]||'Devotee'),
+      email:String(r[2]||''),
+      text:String(r[3]||''),
+      timeStr:String(r[4]||''),
+      likes:Number(r[5]||0)
+    }));
+    return {ok:true,suggestions:rows};
+  }catch(e){return {ok:true,suggestions:[]};}
 }
 function jsonOut(obj){return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);}
 
