@@ -22,6 +22,7 @@ const SHEET_PAYMENTS = 'Payments';
 const SHEET_EXPENSES = 'Expenses';
 const SHEET_CHAT = 'Chat';
 const SHEET_SUGGESTIONS = 'Suggestions';
+const SHEET_ID_CARDS = 'ID_Cards';
 const DRIVE_ROOT = 'SRI VINAYAKA YUVA SENA';
 
 function setupSheets(){
@@ -38,6 +39,8 @@ function setupSheets(){
   if(c.getLastRow()===0)c.appendRow(['Message ID','Sender','Sender Email','Message Text','Time','Is Announcement','Created At']);
   let s=ss.getSheetByName(SHEET_SUGGESTIONS)||ss.insertSheet(SHEET_SUGGESTIONS);
   if(s.getLastRow()===0)s.appendRow(['Suggestion ID','Sender','Sender Email','Suggestion Text','Time Str','Likes','Created At']);
+  let ic=ss.getSheetByName(SHEET_ID_CARDS)||ss.insertSheet(SHEET_ID_CARDS);
+  if(ic.getLastRow()===0)ic.appendRow(['Email','Name','Mobile No','Blood Group','Photo URL','Pass ID','Created At']);
 }
 function doGet(){
   return jsonOut(getData_());
@@ -57,6 +60,8 @@ function doPost(e){
     if(body.action==='sendSuggestion') return jsonOut(sendSuggestion_(body));
     if(body.action==='likeSuggestion') return jsonOut(likeSuggestion_(body));
     if(body.action==='getSuggestions') return jsonOut(getSuggestions_());
+    if(body.action==='saveIdCard') return jsonOut(saveIdCard_(body));
+    if(body.action==='getIdCard') return jsonOut(getIdCard_(body));
     return jsonOut({ok:false,error:'Unknown action'});
   }catch(err){return jsonOut({ok:false,error:String(err.message||err)})}
 }
@@ -391,7 +396,8 @@ function getData_(){
   const expenses=ev.slice(1).filter(r=>r[0]).map(r=>({id:String(r[0]),category:String(r[1]||'Miscellaneous'),title:String(r[2]||''),amount:Number(r[3]||0),date:r[4] instanceof Date?Utilities.formatDate(r[4],Session.getScriptTimeZone(),'yyyy-MM-dd'):String(r[4]||''),paidTo:String(r[5]||''),receiptUrl:String(r[6]||''),receiptName:String(r[7]||'')}));
   const chatMessages=getChatMessages_().messages || [];
   const suggestions=getSuggestions_().suggestions || [];
-  return {ok:true,members,payments,expenses,chatMessages,suggestions};
+  const idCards=getAllIdCards_();
+  return {ok:true,members,payments,expenses,chatMessages,suggestions,idCards};
 }
 
 function sendChatMessage_(b){
@@ -476,6 +482,91 @@ function getSuggestions_(){
   }catch(e){return {ok:true,suggestions:[]};}
 }
 function jsonOut(obj){return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);}
+
+function saveIdCard_(b){
+  const ss=SpreadsheetApp.getActive();
+  let ic=ss.getSheetByName(SHEET_ID_CARDS);
+  if(!ic){setupSheets();ic=ss.getSheetByName(SHEET_ID_CARDS);}
+  const email=String(b.email||'').trim().toLowerCase();
+  const name=String(b.name||'').trim();
+  const phone=String(b.phone||'').trim();
+  const blood=String(b.blood||'O+').trim();
+  const photo=String(b.photo||'').trim();
+  const idCode=String(b.idCode||('SVYS-2026-'+Math.floor(Math.random()*900+100))).trim();
+  if(!email)throw new Error('Email is required.');
+  if(!name)throw new Error('Name is required.');
+
+  const vals=ic.getDataRange().getValues();
+  let foundRow=-1;
+  for(let i=1;i<vals.length;i++){
+    if(String(vals[i][0]||'').trim().toLowerCase()===email){
+      foundRow=i+1;
+      break;
+    }
+  }
+  if(foundRow>0){
+    ic.getRange(foundRow,2).setValue(name);
+    ic.getRange(foundRow,3).setValue(phone);
+    ic.getRange(foundRow,4).setValue(blood);
+    if(photo)ic.getRange(foundRow,5).setValue(photo);
+    ic.getRange(foundRow,6).setValue(idCode);
+    ic.getRange(foundRow,7).setValue(new Date());
+  }else{
+    ic.appendRow([email,name,phone,blood,photo,idCode,new Date()]);
+  }
+  return {ok:true,card:{email,name,phone,blood,photo,idCode}};
+}
+
+function getIdCard_(b){
+  try{
+    const ss=SpreadsheetApp.getActive();
+    const ic=ss.getSheetByName(SHEET_ID_CARDS);
+    if(!ic)return {ok:true,card:null};
+    const email=String(b.email||'').trim().toLowerCase();
+    if(!email)return {ok:true,card:null};
+    const vals=ic.getDataRange().getValues();
+    for(let i=1;i<vals.length;i++){
+      if(String(vals[i][0]||'').trim().toLowerCase()===email){
+        return {
+          ok:true,
+          card:{
+            email:String(vals[i][0]),
+            name:String(vals[i][1]||''),
+            phone:String(vals[i][2]||''),
+            blood:String(vals[i][3]||'O+'),
+            photo:String(vals[i][4]||''),
+            idCode:String(vals[i][5]||'')
+          }
+        };
+      }
+    }
+    return {ok:true,card:null};
+  }catch(e){return {ok:false,error:e.message};}
+}
+
+function getAllIdCards_(){
+  try{
+    const ss=SpreadsheetApp.getActive();
+    const ic=ss.getSheetByName(SHEET_ID_CARDS);
+    if(!ic)return {};
+    const vals=ic.getDataRange().getValues();
+    const map={};
+    for(let i=1;i<vals.length;i++){
+      const em=String(vals[i][0]||'').trim().toLowerCase();
+      if(em){
+        map[em]={
+          email:em,
+          name:String(vals[i][1]||''),
+          phone:String(vals[i][2]||''),
+          blood:String(vals[i][3]||'O+'),
+          photo:String(vals[i][4]||''),
+          idCode:String(vals[i][5]||'')
+        };
+      }
+    }
+    return map;
+  }catch(e){return {};}
+}
 
 // ==========================================================================
 // ZERO-MANUAL-EFFORT AUTOMATED DISPATCH (WHATSAPP & SMS WEBHOOK GATEWAYS)

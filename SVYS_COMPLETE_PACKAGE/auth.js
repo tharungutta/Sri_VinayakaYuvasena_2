@@ -50,6 +50,11 @@ function finishLogin(user){
   document.body.style.overflow='';
   window.svysCurrentUser=user;
   if(user){
+    var prevEmail = localStorage.getItem('SVYS_USER_EMAIL');
+    if(prevEmail && prevEmail.toLowerCase() !== (user.email||'').toLowerCase()){
+      localStorage.removeItem('SVYS_USER_NAME');
+      localStorage.removeItem('SVYS_DIGITAL_ID');
+    }
     if(user.displayName) localStorage.setItem('SVYS_USER_NAME', user.displayName);
     if(user.email) localStorage.setItem('SVYS_USER_EMAIL', user.email);
     try { sessionStorage.setItem('SVYS_BROWSER_SESSION_AUTHENTICATED', 'true'); } catch(e){}
