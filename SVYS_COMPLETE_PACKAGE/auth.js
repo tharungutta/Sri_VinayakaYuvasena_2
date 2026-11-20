@@ -1,9 +1,48 @@
 (function(){
 function byId(id){return document.getElementById(id)}
+function isDownloadedApp(){
+  try {
+    var isStandalone = (window.matchMedia && (
+      window.matchMedia('(display-mode: standalone)').matches ||
+      window.matchMedia('(display-mode: fullscreen)').matches ||
+      window.matchMedia('(display-mode: minimal-ui)').matches
+    )) || navigator.standalone === true;
+
+    var isPwaParam = window.location.search.indexOf('source=pwa') !== -1;
+    var isAndroidApp = document.referrer && document.referrer.indexOf('android-app://') !== -1;
+
+    if (isStandalone || isPwaParam || isAndroidApp) {
+      try { localStorage.setItem('SVYS_IS_DOWNLOADED_APP', 'true'); } catch(e){}
+      return true;
+    }
+  } catch(e){}
+  return false;
+}
+window.isSvysDownloadedApp = isDownloadedApp;
+
 function show(view){['login','signup','reset'].forEach(function(n){byId('svys'+n[0].toUpperCase()+n.slice(1)+'View').classList.toggle('active',n===view)});byId('authLoginTab').classList.toggle('active',view==='login');byId('authSignupTab').classList.toggle('active',view==='signup');byId('authLoginTab').style.display=view==='reset'?'none':'';byId('authSignupTab').style.display=view==='reset'?'none':''}
 window.svysShowAuth=show;
 window.svysTogglePassword=function(id,button){var f=byId(id);f.type=f.type==='password'?'text':'password';button.textContent=f.type==='password'?'◉':'◎'};
-window.svysSignOut=async function(){try{var service=authService();if(!service)throw Error('Firebase authentication is unavailable.');await service.signOut();window.svysCurrentUser=null;localStorage.removeItem('SVYS_USER_NAME');localStorage.removeItem('SVYS_USER_EMAIL');localStorage.removeItem('SVYS_GUEST_BYPASS');byId('authGate').classList.remove('auth-hidden');document.body.style.overflow='hidden';show('login');feedback('svysLoginFeedback','You have been signed out successfully.',true);if(typeof window.updateProfileCardUI==='function'){window.updateProfileCardUI(null);}}catch(err){console.error('Sign out failed:',err);alert('Could not sign out: '+(err.message||err));}};
+window.svysSignOut=async function(){
+  try{
+    var service=authService();
+    if(service) await service.signOut();
+    window.svysCurrentUser=null;
+    localStorage.removeItem('SVYS_USER_NAME');
+    localStorage.removeItem('SVYS_USER_EMAIL');
+    localStorage.removeItem('SVYS_GUEST_BYPASS');
+    try { sessionStorage.removeItem('SVYS_BROWSER_SESSION_AUTHENTICATED'); } catch(e){}
+    var gate=byId('authGate');
+    if(gate) gate.classList.remove('auth-hidden');
+    document.body.style.overflow='hidden';
+    show('login');
+    feedback('svysLoginFeedback','You have been signed out successfully.',true);
+    if(typeof window.updateProfileCardUI==='function'){window.updateProfileCardUI(null);}
+  }catch(err){
+    console.error('Sign out failed:',err);
+    alert('Could not sign out: '+(err.message||err));
+  }
+};
 function feedback(id,msg,good){var el=byId(id);el.textContent=msg;el.classList.toggle('good',!!good)}
 function authService(){var c=window.SVYS_CONFIG||{};if(!window.firebase||!c.FIREBASE_API_KEY||!c.FIREBASE_AUTH_DOMAIN||!c.FIREBASE_PROJECT_ID)return null;if(!window.__svysAuthApp){window.__svysAuthApp=window.firebase.initializeApp({apiKey:c.FIREBASE_API_KEY,authDomain:c.FIREBASE_AUTH_DOMAIN,projectId:c.FIREBASE_PROJECT_ID,appId:c.FIREBASE_APP_ID,messagingSenderId:c.FIREBASE_MESSAGING_SENDER_ID});}return window.__svysAuthApp.auth()}
 function finishLogin(user){
@@ -13,6 +52,7 @@ function finishLogin(user){
   if(user){
     if(user.displayName) localStorage.setItem('SVYS_USER_NAME', user.displayName);
     if(user.email) localStorage.setItem('SVYS_USER_EMAIL', user.email);
+    try { sessionStorage.setItem('SVYS_BROWSER_SESSION_AUTHENTICATED', 'true'); } catch(e){}
   }
   if(typeof window.updateProfileCardUI==='function'){try{window.updateProfileCardUI(user);}catch(e){}}
   if(typeof window.svysLoadTrackerData==='function'){window.svysLoadTrackerData();}
@@ -23,29 +63,64 @@ byId('svysSignupForm').addEventListener('submit',async function(e){e.preventDefa
 byId('svysLoginForm').addEventListener('submit',async function(e){e.preventDefault();var f=e.currentTarget,id=byId('svysLoginId').value.trim(),p=byId('svysLoginPassword').value;feedback('svysLoginFeedback','',false);if(!id.includes('@')){feedback('svysLoginFeedback','Mobile sign-in is not enabled yet. It requires Firebase Phone Authentication and SMS verification.',false);return}var b=f.querySelector('[type=submit]');b.disabled=true;try{var u=await emailAction('login',id,p);finishLogin(u);if(window.__svysLoginAuditSaved){feedback('svysLoginFeedback','Signed in successfully. Login activity was saved.',true)}else if(window.__svysLoginAuditError){feedback('svysLoginFeedback','Signed in, but login activity was NOT saved: '+window.__svysLoginAuditError,false);alert('Signed in, but login activity was not saved: '+window.__svysLoginAuditError)}}catch(err){feedback('svysLoginFeedback',err.message,false)}finally{b.disabled=false}});
 byId('svysResetForm').addEventListener('submit',async function(e){e.preventDefault();var f=e.currentTarget,id=byId('svysResetId').value.trim();feedback('svysResetFeedback','',false);if(!id.includes('@')){feedback('svysResetFeedback','Mobile recovery is not enabled yet. It requires an SMS OTP recovery flow.',false);return}var b=f.querySelector('[type=submit]');b.disabled=true;try{await emailAction('reset',id);feedback('svysResetFeedback','Password reset link sent. Check your email inbox.',true)}catch(err){feedback('svysResetFeedback',err.message,false)}finally{b.disabled=false}});
 window.svysBypassAuthGate=function(){var gate=byId('authGate');if(gate)gate.classList.add('auth-hidden');document.body.style.overflow='';localStorage.setItem('SVYS_GUEST_BYPASS','true');if(typeof window.svysLoadTrackerData==='function'){window.svysLoadTrackerData();}};
+
 window.addEventListener('load',function(){
+  var isApp = isDownloadedApp();
+
   if(localStorage.getItem('SVYS_GUEST_BYPASS')==='true'){
     var g=byId('authGate');if(g)g.classList.add('auth-hidden');document.body.style.overflow='';
   }
   var a=authService();if(!a){feedback('svysLoginFeedback','Setup required: configure Firebase in config.js to enable sign-in.',false);return}
-  a.setPersistence(firebase.auth.Auth.Persistence.SESSION).then(function(){
-    a.onAuthStateChanged(function(user){
-      if(user&&user.emailVerified){
-        finishLogin(user);
-      } else {
-        if(localStorage.getItem('SVYS_GUEST_BYPASS')==='true'){
-          var g=byId('authGate');if(g)g.classList.add('auth-hidden');document.body.style.overflow='';
+
+  if (isApp) {
+    // ----------------------------------------------------
+    // DOWNLOADED MOBILE APP MODE (STANDALONE PWA)
+    // ----------------------------------------------------
+    // Permanent login persistence! Never ask for password/email again unless they tap Sign Out!
+    a.setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(function(){
+      a.onAuthStateChanged(function(user){
+        if(user&&user.emailVerified){
+          finishLogin(user);
         } else {
+          if(localStorage.getItem('SVYS_GUEST_BYPASS')==='true'){
+            var g=byId('authGate');if(g)g.classList.add('auth-hidden');document.body.style.overflow='';
+          } else {
+            byId('authGate').classList.remove('auth-hidden');document.body.style.overflow='hidden';
+          }
+        }
+      });
+    }).catch(function(err){
+      console.warn('Local auth persistence warning:',err);
+      a.onAuthStateChanged(function(user){
+        if(user&&user.emailVerified) finishLogin(user);
+        else {
           byId('authGate').classList.remove('auth-hidden');document.body.style.overflow='hidden';
         }
-      }
-    })
-  }).catch(function(err){
-    console.error('Firebase session setup failed:',err);
-    if(localStorage.getItem('SVYS_GUEST_BYPASS')!=='true'){
+      });
+    });
+  } else {
+    // ----------------------------------------------------
+    // REGULAR BROWSER MODE (CHROME / SAFARI / EDGE TABS)
+    // ----------------------------------------------------
+    // Always ask for email and password for every fresh browser visit!
+    var hasBrowserSession = sessionStorage.getItem('SVYS_BROWSER_SESSION_AUTHENTICATED') === 'true';
+
+    a.setPersistence(firebase.auth.Auth.Persistence.SESSION).then(function(){
+      a.onAuthStateChanged(function(user){
+        if(user && user.emailVerified && hasBrowserSession){
+          finishLogin(user);
+        } else {
+          if(localStorage.getItem('SVYS_GUEST_BYPASS')==='true'){
+            var g=byId('authGate');if(g)g.classList.add('auth-hidden');document.body.style.overflow='';
+          } else {
+            byId('authGate').classList.remove('auth-hidden');document.body.style.overflow='hidden';
+          }
+        }
+      });
+    }).catch(function(err){
+      console.warn('Browser session setup note:',err);
       byId('authGate').classList.remove('auth-hidden');document.body.style.overflow='hidden';
-    }
-    feedback('svysLoginFeedback','Unable to start a secure login session. Please refresh and try again.',false);
-  });
+    });
+  }
 });
 })();

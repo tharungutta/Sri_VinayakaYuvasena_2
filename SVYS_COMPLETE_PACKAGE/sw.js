@@ -1,4 +1,4 @@
-const CACHE_NAME = 'svys-cache-v5';
+const CACHE_NAME = 'svys-cache-v6';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
