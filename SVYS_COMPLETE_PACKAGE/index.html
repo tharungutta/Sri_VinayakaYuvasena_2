@@ -65,6 +65,8 @@
 <button class="nav-item" id="navGallery" onclick="openGalleryComingSoon()"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span data-i18n="navGallery">Photo Gallery</span><span class="nav-soon-pill" style="font-size:10px;background:rgba(214,166,79,0.25);color:#d6a64f;padding:2px 7px;border-radius:10px;font-weight:800;margin-left:auto">Coming Soon</span></button>
 <!-- Option: Suggestion Box -->
 <button class="nav-item" id="navSuggestions" onclick="openSuggestionModal()"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><line x1="9" y1="10" x2="15" y2="10"/><line x1="12" y1="7" x2="12" y2="13"/></svg><span data-i18n="navSuggestions">Suggestion Box</span></button>
+<!-- Option: Contributors (Face Cards & Devotee Profiles) -->
+<button class="nav-item" id="navContributors" onclick="openContributorsModal()"><svg viewBox="0 0 24 24" aria-hidden="true" style="stroke:currentColor;fill:none;stroke-width:2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span data-i18n="navContributors">Contributors</span><span class="nav-soon-pill" id="navContribCount" style="font-size:10px;background:rgba(214,166,79,0.25);color:#d6a64f;padding:2px 7px;border-radius:10px;font-weight:800;margin-left:auto">👥 17</span></button>
 </nav>
 <div class="side-foot">
 <button class="nav-item" onclick="openUpiModal()"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg><span data-i18n="navPay">Pay via UPI</span></button>
@@ -814,6 +816,94 @@
   </div>
 </div>
 
+<!-- Modal: Devotee Contributors Showcase & Face Cards -->
+<div class="modal" id="contributorsModal">
+  <div class="modal-card contributors-modal-card">
+    <!-- Header -->
+    <div class="contributors-modal-head">
+      <div>
+        <h2>Devotee Contributors &amp; Face Cards</h2>
+        <p>Official member showcase, verified VIP passes &amp; contribution tracker</p>
+      </div>
+      <button class="close" onclick="closeContributorsModal()" aria-label="Close">✕</button>
+    </div>
+
+    <!-- 2. Modern Compact Statistics Cards -->
+    <div class="contrib-stats-banner">
+      <div class="contrib-stat-box stat-members">
+        <div class="stat-icon-wrap icon-members">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+          </svg>
+        </div>
+        <div class="stat-content">
+          <div class="stat-label">TOTAL MEMBERS</div>
+          <div class="stat-value" id="contribTotalMembers">0 Devotees</div>
+        </div>
+      </div>
+
+      <div class="contrib-stat-box stat-collected">
+        <div class="stat-icon-wrap icon-collected">
+          <span style="font-size:24px;line-height:1">💰</span>
+        </div>
+        <div class="stat-content">
+          <div class="stat-label">TOTAL COLLECTED</div>
+          <div class="stat-value" id="contribTotalAmount">₹0</div>
+        </div>
+      </div>
+
+      <div class="contrib-stat-box stat-vip">
+        <div class="stat-icon-wrap icon-vip">
+          <span style="font-size:24px;line-height:1">🪪</span>
+        </div>
+        <div class="stat-content">
+          <div class="stat-label">VIP PASSES</div>
+          <div class="stat-value" id="contribVipCount">0 Issued</div>
+        </div>
+      </div>
+
+      <div class="contrib-stat-box stat-paid">
+        <div class="stat-icon-wrap icon-paid">
+          <span style="font-size:24px;line-height:1;color:#f39c12">⚡</span>
+        </div>
+        <div class="stat-content">
+          <div class="stat-label">PAID THIS MONTH</div>
+          <div class="stat-value" id="contribPaidThisMonth">0 Cleared</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Filter & Modern Search Toolbar -->
+    <div class="contrib-filter-bar">
+      <div class="contrib-search-box">
+        <svg class="search-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input id="contribSearchInput" type="text" placeholder="Search by name, mobile, blood group, or pass ID..." oninput="filterContributors()" autocomplete="off">
+      </div>
+      <div class="contrib-segmented-nav">
+        <button type="button" class="contrib-filter-chip active" data-filter="all" onclick="setContribFilter('all', this)">All (<span id="chipCountAll">0</span>)</button>
+        <button type="button" class="contrib-filter-chip" data-filter="vip" onclick="setContribFilter('vip', this)">✨ VIP Pass (<span id="chipCountVip">0</span>)</button>
+        <button type="button" class="contrib-filter-chip" data-filter="paid" onclick="setContribFilter('paid', this)">✓ Paid This Month (<span id="chipCountPaid">0</span>)</button>
+        <button type="button" class="contrib-filter-chip" data-filter="pending" onclick="setContribFilter('pending', this)">⏳ Pending (<span id="chipCountPending">0</span>)</button>
+      </div>
+    </div>
+
+    <!-- Contributors Face Cards Grid Scroll View -->
+    <div class="contrib-body-scroll" id="contribBodyScroll">
+      <div class="contributors-grid" id="contributorsGrid">
+        <!-- Face cards dynamically injected here -->
+      </div>
+      <div id="contributorsEmptyState" style="display:none;text-align:center;padding:50px 20px;color:#888">
+        <div style="font-size:42px;margin-bottom:8px">🔍</div>
+        <h4 style="margin:0 0 4px;color:var(--maroon)">No Contributors Found</h4>
+        <p style="margin:0;font-size:13px">Try clearing your search query or switching filters.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Modal: Official Digital Member ID Card (VIP Community Festival Pass Style) -->
 <div class="modal" id="digitalIdCardModal">
   <div class="modal-card digital-id-modal-card">
@@ -1267,6 +1357,7 @@ function render(){
   renderMembers();
   renderExpenses();
   fillAdminSelects();
+  if (typeof renderContributors === 'function') renderContributors();
 }
 
 function renderMonths(){
@@ -2279,6 +2370,7 @@ const I18N = {
     explore: "EXPLORE",
     navMonths: "Monthly Collection",
     navMembers: "Members",
+    navContributors: "Contributors",
     navExpenses: "Festival Expenses",
     navPay: "Pay via UPI",
     navAdmin: "Admin Center",
@@ -2348,6 +2440,7 @@ const I18N = {
     explore: "అన్వేషించండి",
     navMonths: "నెలవారీ చందాలు",
     navMembers: "సభ్యుల జాబితా",
+    navContributors: "చందాదారులు",
     navExpenses: "ఉత్సవ ఖర్చులు",
     navPay: "UPI ద్వారా చెల్లించండి",
     navAdmin: "అడ్మిన్ సెంటర్",
@@ -3647,6 +3740,353 @@ function deleteAdminSuggestion(id) {
 }
 
 /* ============================================================
+   CONTRIBUTORS & DEVOTEE FACE CARDS SHOWCASE
+   ============================================================ */
+let currentContribFilter = 'all';
+
+function getMemberIdCard(m) {
+  if (!m) return null;
+  const cleanPhone = String(m.phone || '').replace(/\D/g, '').slice(-10);
+  const cleanName = String(m.name || '').trim().toLowerCase();
+  const mEmail = String(m.email || '').trim().toLowerCase();
+
+  // 1. Direct email match in state.idCards
+  if (mEmail && state.idCards && state.idCards[mEmail] && state.idCards[mEmail].name) {
+    return state.idCards[mEmail];
+  }
+
+  // 2. Scan all cards in state.idCards by 10-digit phone or name
+  if (state.idCards) {
+    for (const k in state.idCards) {
+      const c = state.idCards[k];
+      if (c && c.name) {
+        const cPhone = String(c.phone || '').replace(/\D/g, '').slice(-10);
+        const cName = String(c.name || '').trim().toLowerCase();
+        if ((cleanPhone && cPhone === cleanPhone) || (cleanName && cName === cleanName)) {
+          return c;
+        }
+      }
+    }
+  }
+
+  // 3. Check current user's locally saved VIP pass
+  const curEmail = (getCurrentDevoteeEmail() || '').trim().toLowerCase();
+  if (curEmail) {
+    try {
+      const localCard = JSON.parse(localStorage.getItem('SVYS_CARD_' + curEmail) || 'null');
+      if (localCard && localCard.name) {
+        const lcPhone = String(localCard.phone || '').replace(/\D/g, '').slice(-10);
+        const lcName = String(localCard.name || '').trim().toLowerCase();
+        if ((cleanPhone && lcPhone === cleanPhone) || (cleanName && lcName === cleanName) || (mEmail && mEmail === curEmail)) {
+          return localCard;
+        }
+      }
+    } catch(e){}
+  }
+
+  // 4. Also check verified emails dictionary
+  if (cleanPhone && SHEET_VERIFIED_EMAILS[cleanPhone] && state.idCards) {
+    const vEmail = SHEET_VERIFIED_EMAILS[cleanPhone].toLowerCase();
+    if (state.idCards[vEmail] && state.idCards[vEmail].name) return state.idCards[vEmail];
+  }
+
+  return null;
+}
+
+function openContributorsModal() {
+  const modal = document.getElementById('contributorsModal');
+  if (modal) modal.classList.add('open');
+  renderContributors();
+}
+
+function closeContributorsModal() {
+  const modal = document.getElementById('contributorsModal');
+  if (modal) modal.classList.remove('open');
+}
+
+function setContribFilter(filter, btn) {
+  currentContribFilter = filter;
+  document.querySelectorAll('.contrib-filter-chip').forEach(c => c.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderContributors();
+}
+
+function filterContributors() {
+  renderContributors();
+}
+
+function renderSingleFaceCard(m, idCard, payments, activeMonth, minAmt) {
+  const memberId = m.id;
+  const name = m.name || 'Devotee';
+  const phone = m.phone || '';
+  const cleanPhone = String(phone).replace(/\D/g, '').slice(-10);
+  const formattedPhone = cleanPhone ? (cleanPhone.length === 10 ? '+91 ' + cleanPhone.slice(0, 5) + ' ' + cleanPhone.slice(5) : cleanPhone) : '—';
+
+  // Email from ID Card, sheet Column D, or verified dictionary
+  const email = (idCard && idCard.email) || m.email || (cleanPhone && SHEET_VERIFIED_EMAILS[cleanPhone]) || '—';
+
+  // Blood group from ID Card
+  const blood = (idCard && idCard.blood) ? idCard.blood : null;
+
+  // Photo from ID Card (if created)
+  const photo = (idCard && idCard.photo && (idCard.photo.startsWith('data:') || idCard.photo.startsWith('http') || idCard.photo.startsWith('assets/'))) ? idCard.photo : null;
+
+  // Pass ID code (if created)
+  const idCode = (idCard && idCard.idCode) ? idCard.idCode : null;
+
+  // Contributions
+  const ps = payments || [];
+  const totalPaid = ps.reduce((s, p) => s + Number(p.amount || 0), 0);
+  const distinctMonths = [...new Set(ps.map(p => p.month.toLowerCase()))];
+  const monthsCount = distinctMonths.length;
+
+  const paidCurrent = ps.filter(p => p.month.toLowerCase() === activeMonth.toLowerCase()).reduce((s, p) => s + Number(p.amount || 0), 0);
+  const isPaidThisMonth = paidCurrent >= minAmt;
+  const pendingDue = isPaidThisMonth ? 0 : (minAmt - paidCurrent);
+
+  const expYear = expectedYear();
+  const pct = Math.min(100, Math.round((totalPaid / expYear) * 100));
+
+  const hasIdCard = !!(idCard && idCard.name && (idCard.photo || idCard.idCode));
+  const myEmail = (getCurrentDevoteeEmail() || '').trim().toLowerCase();
+  const isCurrentUser = (myEmail && email && email.toLowerCase() === myEmail) ||
+                        (cleanPhone && getCurrentDevoteeName() && m.name.toLowerCase().includes(getCurrentDevoteeName().toLowerCase()));
+
+  return `
+    <div class="devotee-profile-card ${hasIdCard ? 'is-vip' : ''}" data-name="${escapeHtml(name.toLowerCase())}" data-phone="${cleanPhone}">
+      
+      <!-- Card Meta Ribbon Bar -->
+      <div class="card-meta-bar">
+        <div class="devotee-id-badge">
+          <span class="devotee-num-hash">Devotee #</span>${escapeHtml(memberId)}
+        </div>
+        ${hasIdCard ? `
+          <div class="vip-status-badge">
+            <span class="vip-sparkle">✨</span> VIP PASS: <span class="vip-code">${escapeHtml(idCode || 'ACTIVE')}</span>
+          </div>
+        ` : `
+          <div class="sheet-status-badge">
+            <svg class="sheet-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+            </svg>
+            <span>SHEET MEMBER</span>
+          </div>
+        `}
+      </div>
+
+      <!-- Profile Identity Header (Square Photo Frame as seen on VIP ID Card) -->
+      <div class="card-profile-header">
+        <div class="avatar-square-frame">
+          ${photo ? `
+            <img src="${photo}" class="avatar-photo" alt="${escapeHtml(name)}" loading="lazy">
+            <div class="avatar-verified-strip">✓ VERIFIED</div>
+          ` : `
+            <div class="avatar-initials-box" title="${escapeHtml(name)}">
+              <span>${initials(name)}</span>
+              <div class="avatar-no-photo-tag">NO PHOTO</div>
+            </div>
+          `}
+        </div>
+
+        <div class="profile-meta-col">
+          <h3 class="profile-name" title="${escapeHtml(name)}">${escapeHtml(name)}</h3>
+          <div class="profile-pill-tags">
+            ${blood ? `
+              <span class="blood-group-pill">
+                <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:#c0392b;vertical-align:-1px;flex-shrink:0" aria-hidden="true">
+                  <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+                </svg>
+                ${escapeHtml(blood)}
+              </span>
+            ` : ''}
+            ${isPaidThisMonth ? `
+              <span class="status-pill status-paid">
+                <span class="status-dot"></span>✓ ${escapeHtml(activeMonth)} Paid
+              </span>
+            ` : `
+              <span class="status-pill status-due">
+                <span class="status-dot"></span>⏳ ₹${pendingDue} Due
+              </span>
+            `}
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Info Section -->
+      <div class="card-contact-section">
+        <div class="contact-info-row">
+          <span class="contact-icon-cell" style="color:#d9534f">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+            </svg>
+          </span>
+          <span class="contact-text-val">${escapeHtml(formattedPhone)}</span>
+          ${cleanPhone ? `
+            <a href="https://wa.me/91${cleanPhone}?text=Namaste%20${encodeURIComponent(name)},%20greetings%20from%20Sri%20Vinayaka%20Yuvasena!" target="_blank" rel="noopener noreferrer" class="contact-whatsapp-btn" title="Chat on WhatsApp">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.16 12.04 20.16C10.56 20.16 9.12 19.76 7.85 19.01L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 14.99 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67Z"/>
+              </svg>
+            </a>
+          ` : ''}
+        </div>
+        <div class="contact-info-row">
+          <span class="contact-icon-cell" style="color:#9b59b6">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+          </span>
+          <span class="contact-text-val email-val" title="${escapeHtml(email)}">${escapeHtml(email)}</span>
+        </div>
+      </div>
+
+      <!-- Contribution Summary Box -->
+      <div class="card-summary-card">
+        <div class="summary-stat-row">
+          <div>
+            <div class="summary-stat-label">TOTAL CONTRIBUTION</div>
+            <div class="summary-stat-amount">₹${totalPaid.toLocaleString('en-IN')}</div>
+          </div>
+          <div style="text-align:right">
+            <div class="summary-stat-label">ANNUAL STATUS</div>
+            <div class="summary-stat-months">${monthsCount} / 12 Months <span class="pct-badge">(${pct}%)</span></div>
+          </div>
+        </div>
+
+        <!-- Modern Gradient Progress Bar -->
+        <div class="summary-progress-track">
+          <div class="summary-progress-bar" style="width:${pct}%"></div>
+        </div>
+      </div>
+
+      <!-- Card Action Footer Buttons -->
+      <div class="card-action-footer">
+        <button type="button" class="action-btn-primary" onclick="openMember('${String(memberId).replace(/'/g, "\\'")}')">
+          <span>📑</span> Statement →
+        </button>
+        ${!hasIdCard && isCurrentUser ? `
+          <button type="button" class="action-btn-vip-create" onclick="openDigitalIdCardModal()">
+            <span>✨</span> Create VIP Pass
+          </button>
+        ` : (hasIdCard && isCurrentUser ? `
+          <button type="button" class="action-btn-vip-view" onclick="openDigitalIdCardModal()">
+            <span>🪪</span> My VIP Pass
+          </button>
+        ` : '')}
+      </div>
+
+    </div>
+  `;
+}
+
+function renderContributors() {
+  const grid = document.getElementById('contributorsGrid');
+  if (!grid) return;
+
+  const members = (state && Array.isArray(state.members)) ? state.members : [];
+  const payments = (state && Array.isArray(state.payments)) ? state.payments : [];
+
+  const now = new Date();
+  const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const activeMonth = monthNames[now.getMonth()] || 'November';
+  const monthDef = MONTHS.find(([name]) => name.toLowerCase() === activeMonth.toLowerCase()) || ['November', 200];
+  const minAmt = monthDef[1];
+
+  let totalCollected = 0;
+  let vipPassCount = 0;
+  let clearedThisMonthCount = 0;
+
+  const list = members.map(m => {
+    const ps = payments.filter(p => String(p.memberId) === String(m.id));
+    const totalPaid = ps.reduce((s, p) => s + Number(p.amount || 0), 0);
+    totalCollected += totalPaid;
+
+    const idCard = getMemberIdCard(m);
+    const hasVip = !!(idCard && idCard.name && (idCard.photo || idCard.idCode));
+    if (hasVip) vipPassCount++;
+
+    const paidCurrent = ps.filter(p => p.month.toLowerCase() === activeMonth.toLowerCase()).reduce((s, p) => s + Number(p.amount || 0), 0);
+    const isPaidThisMonth = paidCurrent >= minAmt;
+    if (isPaidThisMonth) clearedThisMonthCount++;
+
+    return {
+      member: m,
+      idCard: idCard,
+      payments: ps,
+      totalPaid: totalPaid,
+      hasVip: hasVip,
+      isPaidThisMonth: isPaidThisMonth,
+      paidCurrent: paidCurrent,
+      pendingDue: isPaidThisMonth ? 0 : (minAmt - paidCurrent)
+    };
+  });
+
+  // Update header summary stats
+  const totMemEl = document.getElementById('contribTotalMembers');
+  if (totMemEl) totMemEl.textContent = members.length + ' Devotees';
+
+  const totAmtEl = document.getElementById('contribTotalAmount');
+  if (totAmtEl) totAmtEl.textContent = '₹' + totalCollected.toLocaleString('en-IN');
+
+  const vipCntEl = document.getElementById('contribVipCount');
+  if (vipCntEl) vipCntEl.textContent = vipPassCount + ' Issued';
+
+  const paidCntEl = document.getElementById('contribPaidThisMonth');
+  if (paidCntEl) paidCntEl.textContent = clearedThisMonthCount + ' Cleared';
+
+  // Update nav badge in side drawer
+  const navBadge = document.getElementById('navContribCount');
+  if (navBadge) navBadge.textContent = '👥 ' + members.length;
+
+  // Update chip counts
+  const cAll = document.getElementById('chipCountAll');
+  if (cAll) cAll.textContent = members.length;
+  const cVip = document.getElementById('chipCountVip');
+  if (cVip) cVip.textContent = vipPassCount;
+  const cPaid = document.getElementById('chipCountPaid');
+  if (cPaid) cPaid.textContent = clearedThisMonthCount;
+  const cPending = document.getElementById('chipCountPending');
+  if (cPending) cPending.textContent = Math.max(0, members.length - clearedThisMonthCount);
+
+  // Filter & search
+  const q = (document.getElementById('contribSearchInput')?.value || '').trim().toLowerCase();
+
+  const filtered = list.filter(item => {
+    if (currentContribFilter === 'vip' && !item.hasVip) return false;
+    if (currentContribFilter === 'paid' && !item.isPaidThisMonth) return false;
+    if (currentContribFilter === 'pending' && item.isPaidThisMonth) return false;
+
+    if (q) {
+      const m = item.member;
+      const c = item.idCard;
+      const name = String(m.name || '').toLowerCase();
+      const phone = String(m.phone || '').replace(/\D/g, '');
+      const blood = String(c?.blood || '').toLowerCase();
+      const idCode = String(c?.idCode || '').toLowerCase();
+      const email = String(c?.email || m.email || '').toLowerCase();
+      const matches = name.includes(q) || phone.includes(q) || blood.includes(q) || idCode.includes(q) || email.includes(q);
+      if (!matches) return false;
+    }
+    return true;
+  });
+
+  const emptyState = document.getElementById('contributorsEmptyState');
+  if (!filtered.length) {
+    grid.innerHTML = '';
+    if (emptyState) emptyState.style.display = 'block';
+    return;
+  }
+  if (emptyState) emptyState.style.display = 'none';
+
+  grid.innerHTML = filtered.map(item => {
+    return renderSingleFaceCard(item.member, item.idCard, item.payments, activeMonth, minAmt);
+  }).join('');
+}
+
+/* ============================================================
    DIGITAL MEMBER ID CARD (ROYAL VIP DEVOTEE PASS)
    ============================================================ */
 window.__tempIdCardPhoto = null;
@@ -3784,6 +4224,7 @@ async function generateCollegeIdCard() {
 
   showGeneratedIdCard(cardData);
   if (typeof updateSelfProfileIdBtn === 'function') updateSelfProfileIdBtn();
+  if (typeof renderContributors === 'function') renderContributors();
 
   // Sync to Google Sheets so it is identical across mobile app, browser and all devices
   try {
